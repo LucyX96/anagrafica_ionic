@@ -1,0 +1,7 @@
+{
+  "name": "anagrafica-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

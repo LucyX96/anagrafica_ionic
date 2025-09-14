@@ -1,0 +1,98 @@
+<div *ngIf="!platform.isMobile" class="form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Registrazione Anagrafica</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-stepper [linear]="isLinear" #stepper>
+        @for (step of stepConfig; track step.label; let i = $index) {
+        <mat-step [stepControl]="stepForms[i]">
+          <ng-template matStepLabel>{{ step.label }}</ng-template>
+          <form [formGroup]="stepForms[i]" class="step-form">
+
+            <!-- Campi distribuiti a coppie -->
+            <div class="form-grid">
+              @for (control of step.controls; track control.name) {
+              <mat-form-field appearance="fill">
+                <mat-label>{{ control.placeholder }}</mat-label>
+                <input matInput [formControlName]="control.name" [placeholder]="control.placeholder" required />
+              </mat-form-field>
+              }
+            </div>
+
+            <div class="mt-3">
+              @if (i > 0) {
+              <button mat-button matStepperPrevious class="mat-btn">Back</button>
+              }
+
+              @if (i < stepConfig.length - 1) { <button mat-button matStepperNext>Next</button>
+                }
+
+                @if (i === stepConfig.length - 1) {
+                <button mat-button class="mat-btn" (click)="resetStepper(stepper)">Reset</button>
+                <button mat-button class="mat-btn" (click)="submitStepper(stepper)">Confirm</button>
+                }
+            </div>
+          </form>
+        </mat-step>
+        }
+      </mat-stepper>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="platform.isMobile" class="form-container">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Registrazione Anagrafica</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-accordion-group>
+        <ng-container *ngFor="let step of stepConfig; let i = index">
+          <!-- Mostra solo l'accordion corrente -->
+          <ion-accordion *ngIf="showStep(i)">
+            <ion-item slot="header">
+              <ion-label>{{ step.label }}</ion-label>
+            </ion-item>
+
+            <div slot="content" class="step-form">
+              <form [formGroup]="stepForms[i]">
+
+                <!-- Campi distribuiti a coppie -->
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let control of step.controls">
+                      <ion-item>
+                        <ion-label position="floating">{{ control.placeholder }}</ion-label>
+                        <ion-input
+                          [formControlName]="control.name"
+                          [placeholder]="control.placeholder"
+                          required>
+                        </ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+
+                <!-- Bottoni di navigazione step -->
+                <div class="mt-3">
+                  <ion-button *ngIf="currentStep > 0" (click)="prevStep()">Back</ion-button>
+                  <ion-button *ngIf="currentStep < stepForms.length - 1" 
+                              (click)="nextStep()" 
+                              [disabled]="!isStepValid(currentStep)">Next</ion-button>
+                  <ion-button *ngIf="currentStep === stepForms.length - 1" (click)="resetStepper(stepConfig)">Reset</ion-button>
+                  <ion-button *ngIf="currentStep === stepForms.length - 1" 
+                              (click)="submitStepper(stepConfig)" 
+                              [disabled]="!isStepValid(currentStep)">Confirm</ion-button>
+                </div>
+
+              </form>
+            </div>
+          </ion-accordion>
+        </ng-container>
+      </ion-accordion-group>
+    </ion-card-content>
+  </ion-card>
+</div>
+

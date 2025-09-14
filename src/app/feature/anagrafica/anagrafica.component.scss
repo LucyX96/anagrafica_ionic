@@ -1,0 +1,30 @@
+.search-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.actions {
+  margin: 16px 0;
+  display: flex;
+  gap: 12px;
+}
+
+.mt-3 {
+  margin-top: 24px;
+  overflow-x: auto;
+}
