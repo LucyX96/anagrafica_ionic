@@ -6,3 +6,4 @@ export interface LoginRequestInterface {
 export interface AuthResponseInterface {
   token: string;
 }
+

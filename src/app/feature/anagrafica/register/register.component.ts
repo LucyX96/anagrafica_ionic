@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { PersonaInterface } from 'src/app/core/model/anagrafica-interface';
 import { StepperConfigInterface } from 'src/app/core/model/stepper-config-interface';
 import { PersonaService } from 'src/app/core/services/persona.service';
 import { PlatformService } from 'src/app/core/services/platform.service';
 import { MaterialModule } from 'src/app/material.module';
-import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonAccordion, IonAccordionGroup, IonItem, IonButton, IonGrid, IonRow, IonCol } from "@ionic/angular/standalone";
-import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  standalone: true,
-  imports: [IonCol, IonRow, IonGrid, IonButton, IonItem, IonAccordionGroup, IonAccordion, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard,
-    MaterialModule, IonicModule
+  imports: [
+    MaterialModule,
+    IonicModule,
+    ReactiveFormsModule
   ]
 })
 export class RegisterComponent implements OnInit {
@@ -74,11 +74,7 @@ export class RegisterComponent implements OnInit {
         { name: 'provincia', placeholder: 'Provincia', validators: [] },
         { name: 'stato', placeholder: 'Stato', validators: [] },
       ],
-    },
-    {
-      label: 'Fine',
-      controls: [],
-    },
+    }
   ];
 
   isLinear = false;
@@ -126,45 +122,20 @@ export class RegisterComponent implements OnInit {
   constructor(private fb: FormBuilder, private personaService: PersonaService, public platform: PlatformService) { }
 
   ngOnInit() {
-    if (!this.platform.isMobile) {
-      this.stepForms = this.stepConfig.map(step => {
-        // Preparo un oggetto con i controlli del form
-        const controlsConfig: any = {};
-
-        step.controls.forEach(control => {
-          let initialValue = '';
-
-          if (step.groupName) {
-            // Caso proprietà annidata (es. persona.indirizzoDto)
-            const groupData = (this.persona as any)[step.groupName] || {};
-            initialValue = groupData[control.name] ?? '';
-          } else {
-            // Caso proprietà top-level (es. persona.nome)
-            initialValue = (this.persona as any)[control.name] ?? '';
-          }
-
-          controlsConfig[control.name] = [initialValue, control.validators];
-        });
-
-        // Ritorno un FormGroup per lo step
-        return this.fb.group(controlsConfig);
+    this.stepForms = this.stepConfig.map(step => {
+      const controlsConfig: any = {};
+      step.controls.forEach(control => {
+        let initialValue = '';
+        if (step.groupName) {
+          const groupData = (this.persona as any)[step.groupName] || {};
+          initialValue = groupData[control.name] ?? '';
+        } else {
+          initialValue = (this.persona as any)[control.name] ?? '';
+        }
+        controlsConfig[control.name] = [initialValue, control.validators];
       });
-    } else {
-      this.stepForms = this.stepConfig.map(step => {
-        const controlsConfig: any = {};
-        step.controls.forEach(control => {
-          let initialValue = '';
-          if (step.groupName) {
-            const groupData = (this.persona as any)[step.groupName] || {};
-            initialValue = groupData[control.name] ?? '';
-          } else {
-            initialValue = (this.persona as any)[control.name] ?? '';
-          }
-          controlsConfig[control.name] = [initialValue, control.validators];
-        });
-        return this.fb.group(controlsConfig);
-      });
-    }
+      return this.fb.group(controlsConfig);
+    });
   }
 
   nextStep() {
@@ -187,8 +158,7 @@ export class RegisterComponent implements OnInit {
     return this.currentStep === index;
   }
 
-  resetStepper(stepper: any) {
-    stepper.reset();
+  resetStepper() {
     this.stepForms.forEach(form => form.reset());
     this.currentStep = 0;
   }
@@ -197,7 +167,7 @@ export class RegisterComponent implements OnInit {
     // ricostruisce PersonaInterface a partire dai form
     const persona: PersonaInterface = {
       ...this.stepForms[0].value, // dati personali base
-      ...this.stepForms[1].value, // altri dati personali
+      ...this.stepForms[1].value, // dati personali seconda parte
       documentoDto: this.stepForms[2].value,
       indirizzoDto: this.stepForms[3].value,
       luogoDto: this.stepForms[4].value
@@ -206,7 +176,7 @@ export class RegisterComponent implements OnInit {
     this.personaService.registerPersona(persona).subscribe({
       next: res => {
         console.log('Registrazione completata', res);
-        this.resetStepper(stepper);
+        this.resetStepper();
       },
       error: err => {
         console.error('Errore registrazione', err);

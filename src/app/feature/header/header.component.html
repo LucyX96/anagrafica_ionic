@@ -1,11 +1,13 @@
 <div>
 
   <div class="container">
-    <div class="logo">
-      Anagrafica Digitale
+    <div class="logo" (click)="navigateTo('/home')">
+      Home
     </div>
     <div class="actions">
       <ion-button shape="round" (click)="navigateTo('/userLogin')">Login
+      </ion-button>
+      <ion-button shape="round" (click)="logout()">Logout
       </ion-button>
     </div>
   </div>

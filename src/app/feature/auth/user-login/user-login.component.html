@@ -2,20 +2,20 @@
   <ion-card>
     <h2>Login</h2>
 
-    <form (ngSubmit)="login(loginForm)">
+    <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
       <ion-list>
         <ion-item>
-          <ion-input label="Email input" type="email" placeholder="email@domain.com"></ion-input>
+          <ion-input label="Email:" type="email" placeholder="email@domain.com"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Password input" type="password" value=""></ion-input>
+          <ion-input label="Password:" type="password" value=""></ion-input>
         </ion-item>
 
         <ion-button shape="round" type="submit">Login
         </ion-button>
 
-        <ion-button shape="round" type="submit" (click)="navigateTo('/userRegister')">Register
+        <ion-button shape="round" (click)="navigateTo('/userRegister')">Register
         </ion-button>
       </ion-list>
     </form>

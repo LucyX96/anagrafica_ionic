@@ -1,61 +1,17 @@
-/* Angular version */
 
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 40px 16px;
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: #0a00d2;
 }
 
-mat-card {
-    width: 100%;
-    max-width: 800px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-radius: 12px;
-}
-
-/* Griglia con 2 colonne (coppie di campi) */
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-bottom: 16px;
-}
-
-mat-form-field {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* Responsive: 1 colonna su mobile */
-@media (max-width: 600px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Bottoni */
-.mt-3 {
-    margin-top: 24px;
-    display: flex;
-    gap: 12px;
-}
-
-button.mat-btn,
-button.mat-btn.mdc-button {
-    min-width: 100px;
-    flex-shrink: 0;
-}
-
-@media (max-width: 600px) {
-    .mt-3 {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    button.mat-btn,
-    button.mat-btn.mdc-button {
-        width: 100%;
-        min-width: auto;
-    }
+.auth-container ion-accordion-group {
+  padding: 2rem;
+  width: 400px;
+  border-radius: 12px;
+  background-color: rgb(113, 18, 18);
+  box-shadow: 0 6px 18px rgba(142, 136, 136, 0.1);
 }

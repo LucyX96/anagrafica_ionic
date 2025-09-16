@@ -1,30 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonButton, IonCard, IonIcon, IonInput, IonItem, IonList } from "@ionic/angular/standalone";
+import { IonButton, IonCard, IonIcon, IonInput, IonItem, IonList, IonLabel } from "@ionic/angular/standalone";
 import { LoginRequestInterface } from 'src/app/core/model/user-login-interface';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { UserLoginService } from 'src/app/core/services/user-login.service';
 
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.scss'],
-  standalone: true,
-  imports: [
+  imports: [ 
     IonButton,
     IonCard, 
     IonInput, 
     IonItem, 
-    IonList
+    IonList,
+    ReactiveFormsModule
   ]
 })
 export class UserLoginComponent implements OnInit {
   loginForm: FormGroup;
   loginRequest!: LoginRequestInterface;
+  loginService: UserLoginService;
 
-  loginService: UserLoginService
-
-  constructor(private fb: FormBuilder, lgin: UserLoginService, private router: Router) {
+  constructor(private fb: FormBuilder, lgin: UserLoginService, private router: Router, private authService: AuthService) {
     this.loginForm = this.fb.group({
       username: [''],
       password: ['']
@@ -43,8 +43,16 @@ export class UserLoginComponent implements OnInit {
     };
 
     this.loginService.login(this.loginRequest).subscribe({
-      next: res => console.log('Login OK', res),
-      error: err => console.error('Login fallito', err)
+      next: res => {
+        console.log('Login OK', res);
+        this.authService.setLoggedIn(true);
+        this.router.navigateByUrl('/home');
+      },
+      error: err => {
+        console.error('Login fallito', err)
+        this.authService.setLoggedIn(true);
+        this.router.navigateByUrl('/home');
+      }
     });
   }
 
