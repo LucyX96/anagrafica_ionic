@@ -3,8 +3,18 @@
 # APK finale: android/app/build/outputs/apk/debug/ionic-anagrafica-test.apk
 
 # 0. Prerequisiti
-npx cap add android  || { echo "Failed to force add Capacitor Android platform"; exit 1; }
-
+if [ -d "android" ]; then
+    read -p "La cartella 'android' esiste già. Vuoi aggiornarla cancellando la vecchia cartella e ricreandola? (s/n): " scelta
+    if [[ "$scelta" =~ ^[sS]$ ]]; then
+        echo "Rimozione della vecchia cartella android..."
+        rm -rf android || { echo "Impossibile rimuovere la cartella android"; exit 1; }
+        npx cap add android || { echo "Failed to add Capacitor Android platform"; exit 1; }
+    else
+        echo "Procedo senza modificare la cartella android."
+    fi
+else
+    npx cap add android || { echo "Failed to add Capacitor Android platform"; exit 1; }
+fi
 
 # 1. Build Angular/Ionic
 echo "Building Angular/Ionic project..."
