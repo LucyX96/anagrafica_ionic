@@ -78,15 +78,3 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
-body.web {
-  /* Angular/Web theme */
-  --ion-background-color: #f0f0f0;
-  --ion-text-color: #000;
-}
-
-body.mobile {
-  /* Ionic/App theme */
-  --ion-background-color: #fff;
-  --ion-text-color: #222;
-}

@@ -1,16 +1,16 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { IonApp, IonRouterOutlet, Platform, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, NavController } from '@ionic/angular/standalone';
-import { StatusBar, Style } from '@capacitor/status-bar';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { HeaderComponent } from "./feature/header/header.component";
-import { FooterComponent } from "./feature/footer/footer.component";
 import { CommonModule } from '@angular/common';
+import { Component, OnInit, Renderer2 } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterOutlet } from '@angular/router';
+import { IonApp, IonContent, IonFooter, IonHeader, IonTitle, IonToolbar, NavController } from '@ionic/angular/standalone';
 import { PlatformService } from './core/services/platform.service';
+import { FooterComponent } from "./feature/footer/footer.component";
+import { HeaderComponent } from "./feature/header/header.component";
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
+  standalone: true,
   imports: [IonApp, IonHeader, IonToolbar, IonTitle, IonContent, RouterOutlet, MatToolbarModule, IonFooter, HeaderComponent, FooterComponent, CommonModule],
 })
 export class AppComponent implements OnInit {
@@ -28,13 +28,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    // this.isMobile = this.platform.is('capacitor') || this.platform.is('android') || this.platform.is('ios');
-
-    // if (this.isMobile) {
-    //   // Configura status bar
-    //   StatusBar.setStyle({ style: Style.Light });
-    //   StatusBar.setBackgroundColor({ color: '#1976d2' }); // colore toolbar
-    // }
+    
   }
 
   navigateTo(path: string) {

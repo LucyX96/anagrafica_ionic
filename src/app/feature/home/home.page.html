@@ -1,24 +1,3 @@
-<!-- <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content> -->
-
 <div>
   <section class="hero">
     <div class="hero-bg"></div>
@@ -26,17 +5,20 @@
       <h1>Benvenuto nell’Anagrafica Digitale</h1>
       <p>Gestisci le persone in modo semplice, rapido e moderno.</p>
       <div class="buttons">
-        <button mat-raised-button color="accent" class="btn-animate" (click)="navigateTo('/addUser')">
-          <mat-icon>person_add</mat-icon>
+        <ion-button shape="round" color="accent" class="btn-animate" (click)="navigateTo('/addUser')">
+          <ion-icon>person_add</ion-icon>
           Aggiungi Anagrafica
-        </button>
-        <button mat-raised-button color="accent" class="btn-animate" (click)="navigateTo('/searchUser')">
-          <mat-icon>search</mat-icon>
+        </ion-button>
+        <ion-button shape="round" color="accent" class="btn-animate" (click)="navigateTo('/searchUser')">
+          <ion-icon>search</ion-icon>
           Ricerca Anagrafica
-        </button>
+        </ion-button>
       </div>
       <div class="wave"></div>
     </div>
   </section>
 </div>
 
+
+<ion-button shape="round">Login
+</ion-button>

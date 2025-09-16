@@ -4,12 +4,13 @@ import { PersonaSearchInterface } from 'src/app/core/model/anagrafica-interface'
 import { PersonaService } from 'src/app/core/services/persona.service';
 import { MaterialModule } from 'src/app/material.module';
 import { SearchComponent } from './search/search.component';
+import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonItem } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-anagrafica',
   templateUrl: './anagrafica.component.html',
   styleUrls: ['./anagrafica.component.scss'],
-  imports: [
+  imports: [IonItem, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, 
     MaterialModule,
     SearchComponent
   ],
