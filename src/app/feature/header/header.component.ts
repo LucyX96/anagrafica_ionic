@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonButton, IonIcon } from "@ionic/angular/standalone";
+import { IonButton, IonIcon, IonChip, IonCardSubtitle, IonCard, IonCardContent, IonRow, IonItem } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-header',
