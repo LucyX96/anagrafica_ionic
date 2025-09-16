@@ -3,12 +3,8 @@
 # APK finale: android/app/build/outputs/apk/debug/ionic-anagrafica-test.apk
 
 # 0. Prerequisiti
+npx cap add android  || { echo "Failed to force add Capacitor Android platform"; exit 1; }
 
-if [ -d "android" ]; then
-    npx cap add android --force || { echo "Failed to force add Capacitor Android platform"; exit 1; }
-else
-    npx cap add android || { echo "Failed to add Capacitor Android platform"; exit 1; }
-fi
 
 # 1. Build Angular/Ionic
 echo "Building Angular/Ionic project..."
