@@ -1,5 +1,4 @@
-
-<ion-content class="ion-text-center ion-padding">
+<ion-content>
   <section class="hero">
     <div class="hero-bg"></div>
 
@@ -9,18 +8,23 @@
         <ion-card-title>Registrazione Anagrafica</ion-card-title>
       </ion-card-header>
 
-      <ion-accordion *ngFor="let step of stepConfig; let i = index" [value]="i">
+      @for (step of stepConfig; track step; let i = $index) {
+      <ion-accordion [value]="i">
         <ion-item slot="header" color="light">
           <ion-label>{{ step.label }}</ion-label>
         </ion-item>
         <div class="ion-padding" slot="content">
           <form [formGroup]="stepForms[i]">
-            <ion-item *ngFor="let control of step.controls; let j = index">
-              <ion-input [formControlName]="control.name" [placeholder]="control.placeholder"></ion-input>
+            @for (control of step.controls; track control; let j = $index) {
+            <ion-item>
+              <ion-input [formControlName]="control.name" [placeholder]="control.placeholder">
+              </ion-input>
             </ion-item>
+            }
           </form>
         </div>
       </ion-accordion>
+      }
 
       <ion-grid>
         <ion-row class="ion-justify-content-center ion-align-items-center" style="gap: 1rem;">
@@ -44,3 +48,35 @@
 
 
 </ion-content>
+
+<!-- <ion-content>
+
+    <ion-accordion-group (ionChange)="accordionGroupChange($event)">
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>First Accordion</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">First Content</div>
+      </ion-accordion>
+      <ion-accordion value="second">
+        <ion-item slot="header" color="light">
+          <ion-label>Second Accordion</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">Second Content</div>
+      </ion-accordion>
+      <ion-accordion value="third">
+        <ion-item slot="header" color="light">
+          <ion-label>Third Accordion</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">Third Content</div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+
+    <div class="wave"></div>
+
+
+
+
+
+</ion-content> -->

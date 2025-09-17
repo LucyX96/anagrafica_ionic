@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { PersonaInterface } from 'src/app/core/model/anagrafica-interface';
 import { StepperConfigInterface } from 'src/app/core/model/stepper-config-interface';
 import { PersonaService } from 'src/app/core/services/persona.service';
 import { PlatformService } from 'src/app/core/services/platform.service';
-import { MaterialModule } from 'src/app/material.module';
+import { IonAccordion, IonAccordionGroup, IonCardHeader, IonCardTitle, IonContent, IonItem, IonLabel } from '@ionic/angular/standalone';
+import { IonButton, IonCol, IonGrid, IonInput, IonRow } from '@ionic/angular/standalone';
+
+
 
 
 @Component({
@@ -13,14 +15,24 @@ import { MaterialModule } from 'src/app/material.module';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   imports: [
-    MaterialModule,
-    ReactiveFormsModule,
-    IonicModule
-]
+    IonCardTitle, 
+    IonCardHeader,
+    IonContent,
+    IonAccordion,
+    IonAccordionGroup,
+    IonItem,
+    IonLabel,
+    IonButton,
+    IonCol,
+    IonGrid,
+    IonInput,
+    IonRow,
+    ReactiveFormsModule
+  ]
 })
 export class RegisterComponent implements OnInit {
 
-  currentAccordion: number | null = null; 
+  currentAccordion: number | null = null;
 
   stepConfig: StepperConfigInterface[] = [
     {
@@ -121,7 +133,6 @@ export class RegisterComponent implements OnInit {
     }
   };
 
-
   constructor(private fb: FormBuilder, private personaService: PersonaService, public platform: PlatformService) { }
 
   ngOnInit() {
@@ -141,25 +152,34 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  nextStep() {
-    if (this.isStepValid(this.currentStep) && this.currentStep < this.stepForms.length - 1) {
-      this.currentStep++;
-    }
-  }
+  // accordionGroupChange = (event: CustomEvent) => {
+  //   const collapsedItems = this.values.filter((value) => value !== event.detail.value);
+  //   const selectedValue = event.detail.value;
 
-  prevStep() {
-    if (this.currentStep > 0) {
-      this.currentStep--;
-    }
-  }
+  //   console.log(
+  //     `Expanded: ${selectedValue === undefined ? 'None' : event.detail.value} | Collapsed: ${collapsedItems.join(', ')}`
+  //   );
+  // }
 
-  isStepValid(index: number): boolean {
-    return this.stepForms[index].valid;
-  }
+  // nextStep() {
+  //   if (this.isStepValid(this.currentStep) && this.currentStep < this.stepForms.length - 1) {
+  //     this.currentStep++;
+  //   }
+  // }
 
-  showStep(index: number): boolean {
-    return this.currentStep === index;
-  }
+  // prevStep() {
+  //   if (this.currentStep > 0) {
+  //     this.currentStep--;
+  //   }
+  // }
+
+  // isStepValid(index: number): boolean {
+  //   return this.stepForms[index].valid;
+  // }
+
+  // showStep(index: number): boolean {
+  //   return this.currentStep === index;
+  // }
 
   resetStepper() {
     this.stepForms.forEach(form => form.reset());

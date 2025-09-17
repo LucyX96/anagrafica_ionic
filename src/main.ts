@@ -6,6 +6,14 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
 import 'hammerjs';
+import { addIcons } from 'ionicons';
+import { remove, reorderThree, menu } from 'ionicons/icons';
+
+addIcons({
+  reorderThree,
+  remove,
+  menu
+});
 
 bootstrapApplication(AppComponent, {
   providers: [

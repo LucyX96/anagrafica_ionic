@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonButton, IonFooter, IonToolbar } from "@ionic/angular/standalone";
+import { IonButton, IonFooter, IonToolbar, IonIcon, IonText } from "@ionic/angular/standalone";
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -8,12 +8,15 @@ import { AuthService } from 'src/app/core/services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [
+  imports: [IonText, IonIcon, 
     IonButton
   ]
 })
 
 export class HeaderComponent implements OnInit {
+toggleMenu() {
+throw new Error('Method not implemented.');
+}
 
   loggedIn = false;
 
