@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
 
   <div class="container">
     <div class="logo" (click)="navigateTo('/home')">
@@ -12,4 +12,16 @@
     </div>
   </div>
 
+</div> -->
+
+<div class="header-container">
+  <div class="header-content">
+    <div class="logo" (click)="navigateTo('/home')">
+      <p>Home</p>
+    </div>
+    <div class="actions">
+      <ion-button shape="round" (click)="navigateTo('/userLogin')">Login</ion-button>
+      <ion-button shape="round" (click)="logout()">Logout</ion-button>
+    </div>
+  </div>
 </div>

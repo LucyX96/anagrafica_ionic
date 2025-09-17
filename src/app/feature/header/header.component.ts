@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonButton } from "@ionic/angular/standalone";
+import { IonButton, IonFooter, IonToolbar } from "@ionic/angular/standalone";
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({

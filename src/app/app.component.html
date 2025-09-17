@@ -1,25 +1,7 @@
-<!-- DESKTOP
-<div *ngIf="!isMobile" class="app-wrapper">
-  <header class="header">
-    <mat-toolbar color="primary">
-      <app-header></app-header>
-    </mat-toolbar>
-  </header>
-
-  <main class="content">
-    <router-outlet></router-outlet>
-  </main>
-
-  <footer class="footer">
-    <app-footer></app-footer>
-  </footer>
-</div> -->
-
-<!-- MOBILE -->
 <ion-app>
   <ion-header>
-    <ion-toolbar>
-      <ion-title>
+    <ion-toolbar class="header-container">
+      <ion-title class="header-container">
         <app-header></app-header>
       </ion-title>
     </ion-toolbar>
@@ -35,3 +17,22 @@
     </ion-toolbar>
   </ion-footer>
 </ion-app>
+
+<!-- 
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <app-header></app-header>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <router-outlet></router-outlet>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <app-footer></app-footer>
+  </ion-toolbar>
+</ion-footer> -->

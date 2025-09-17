@@ -78,3 +78,132 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+// temi ricorrenti in più pagine
+//HEADER
+
+.header-container {
+  background-color: #5c6b73;
+}
+
+// ion-toolbar.toolbar-background {
+//   --background: var(--ion-color-secondary); // usa un colore a tua scelta
+// }
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+
+//BODY
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #5C6B73, #C2DFE3);
+  animation: bgShift 30s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+.glass-container {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  padding: 2.5rem;
+  border-radius: 20px;
+
+  background: rgba(157, 180, 192, 0.3);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(224, 251, 252, 0.07);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  animation: fadeIn 1.2s ease forwards;
+}
+
+/* Keyframes */
+@keyframes bgShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes waveAnim {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  padding: 3rem;
+  backdrop-filter: blur(12px);
+  background: rgba(224, 251, 252, 0.3);
+
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(92, 107, 115, 0.15);
+  animation: fadeIn 1.2s ease forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #9DB4C0, #e0fbfc);
+  animation: bgShift 30s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+.btn-animate {
+  transition: transform 0.3s ease;
+}
+.btn-animate:hover {
+  transform: translateY(-5px) scale(1.05);
+}
+.btn-animate:active {
+  transform: scale(0.97);
+}
+
+ion-button {
+  --background: #c2dfe3;
+  --color: #5c6b73;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+}
+
+//FOOTER
+
+.footer-container {
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #5c6b73;
+  color: white;
+}
+// fine temi personalizzati

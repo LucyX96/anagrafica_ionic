@@ -1,44 +1,19 @@
-/* contenuto centrale */
-.content {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-   flex: 1 0 auto;
-  overflow-y: auto;
-}
 
-.app-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
 
-.header {
-  height: 64px;
-}
+// ion-app {
+//   --background: #ffffff;
+// }
 
-.footer {
-  margin-top: auto;
-  background: #000;
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
-}
+// ion-content {
+//   --background: #f5f5f5;
+// }
 
-ion-app {
-  --background: #ffffff;
-}
+// ion-toolbar {
+//   --background: #4393e3;
+//   color: #4393e3;
+// }
 
-ion-content {
-  --background: #f5f5f5;
-}
-
-ion-toolbar {
-  --background: #1976d2;
-  color: #ffffff;
-}
-
-ion-footer ion-toolbar {
-  --background: #000000;
-  color: #ffffff;
-}
+// ion-footer ion-toolbar {
+//   --background: #4393e3;
+//   color: #4393e3;
+// }

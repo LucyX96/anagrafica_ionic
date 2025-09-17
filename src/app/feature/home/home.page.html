@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="content">
@@ -17,4 +17,41 @@
       <div class="wave"></div>
     </div>
   </section>
-</div>
+</div> -->
+
+<ion-content class="ion-text-center">
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <ion-card class="content">
+      <ion-card-header class="ion-header-text">
+        <ion-card-title>Benvenuto nell’Anagrafica Digitale</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="ion-content-text">
+        <p>Gestisci le persone in modo semplice, rapido e moderno.</p>
+
+        <ion-grid>
+          <ion-row class="ion-justify-content-center ion-margin-top">
+            <ion-col size="12" sizeMd="6">
+              <ion-button expand="block" shape="round" color="primary" class="btn-animate"
+                          (click)="navigateTo('/addUser')">
+                <ion-icon slot="start" name="person-add"></ion-icon>
+                Aggiungi Anagrafica
+              </ion-button>
+            </ion-col>
+            <ion-col size="12" sizeMd="6">
+              <ion-button expand="block" shape="round" class="btn-animate"
+                          (click)="navigateTo('/searchUser')">
+                <ion-icon slot="start" name="search"></ion-icon>
+                Ricerca Anagrafica
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="wave"></div>
+  </section>
+</ion-content>
+

@@ -1,28 +1,56 @@
-<div class="auth-container">
-  <ion-accordion-group #accordionGroup background-color="white" expand="compact" mode="md">
+<!-- <div class="hero-bg">
+  <ion-accordion-group class="glass-container" #accordionGroup [value]="currentAccordion" (ionChange)="currentAccordion = $event.detail.value">
     <ion-card-header>
       <ion-card-title>Registrazione Anagrafica</ion-card-title>
     </ion-card-header>
-    <ng-container *ngFor="let step of stepConfig; let i = index">
-      <ion-accordion [value]="i">
-        <ion-item slot="header">
+      <ion-accordion *ngFor="let step of stepConfig; let i = index" [value]="i">
+        <ion-item slot="header" color="light">
           <ion-label>{{ step.label }}</ion-label>
         </ion-item>
-
         <div class="ion-padding" slot="content">
           <form [formGroup]="stepForms[i]">
-            <ng-container *ngFor="let control of step.controls; let j = index">
-              <ion-item>
+              <ion-item *ngFor="let control of step.controls; let j = index"> 
                 <ion-input [formControlName]="control.name" [placeholder]="control.placeholder"></ion-input>
               </ion-item>
-            </ng-container>
           </form>
         </div>
       </ion-accordion>
-    </ng-container>
   </ion-accordion-group>
 
-</div>
+</div> -->
+
+
+<ion-content class="ion-text-center ion-padding">
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <ion-accordion-group class="glass-container" 
+                         [value]="currentAccordion" 
+                         (ionChange)="currentAccordion = $event.detail.value"
+                         #accordionGroup
+                         expand="compact"
+                         mode="md">
+      <ion-card-header>
+        <ion-card-title>Registrazione Anagrafica</ion-card-title>
+      </ion-card-header>
+
+      <ion-accordion *ngFor="let step of stepConfig; let i = index" [value]="i">
+        <ion-item slot="header" color="light">
+          <ion-label>{{ step.label }}</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <form [formGroup]="stepForms[i]">
+            <ion-item *ngFor="let control of step.controls; let j = index">
+              <ion-input [formControlName]="control.name" [placeholder]="control.placeholder"></ion-input>
+            </ion-item>
+          </form>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <div class="wave"></div>
+  </section>
+</ion-content>
 
 <ion-button shape="round" (click)="resetStepper()">Reset</ion-button>
 <ion-button shape="round" (click)="submitStepper(this.stepForms)">Submit</ion-button>

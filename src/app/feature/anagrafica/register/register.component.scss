@@ -1,17 +1,25 @@
 
 
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  background: #0a00d2;
-}
+// .auth-container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   min-height: 80vh;
+//   background: #d2d0ff;
+// }
 
-.auth-container ion-accordion-group {
-  padding: 2rem;
-  width: 400px;
-  border-radius: 12px;
-  background-color: rgb(113, 18, 18);
-  box-shadow: 0 6px 18px rgba(142, 136, 136, 0.1);
+// .auth-container > ion-accordion-group {
+//   padding: 2rem;
+//   max-width: 400px; 
+//   //width: 400px;
+//   border-radius: 12px;
+//   // background-color: rgb(113, 18, 18);
+//   --background: rgb(113, 18, 18, 1);
+//   box-shadow: 0 6px 18px rgba(142, 136, 136, 0.1);
+// }
+
+ion-card-title {
+  color: black;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
