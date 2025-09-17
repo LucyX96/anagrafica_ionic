@@ -1,0 +1,3 @@
+sdkmanager "platform-tools" "platforms;android-34" "emulator" "system-images;android-34;google_apis;x86_64"
+
+

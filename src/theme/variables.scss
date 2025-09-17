@@ -51,10 +51,10 @@
 }
 
 :root {
-  --ion-statusbar-padding: env(safe-area-inset-top);
+  // --ion-statusbar-padding: env(safe-area-inset-top);
 }
 
 .header-container {
-  padding-top: var(--ion-statusbar-padding);
+  // padding-top: var(--ion-statusbar-padding);
   background-color: var(--ion-color-primary);
 }
