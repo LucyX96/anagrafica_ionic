@@ -1,6 +1,23 @@
 <div class="auth-container">
   <ion-card>
-    <h2>Login</h2>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div>
+            <ion-icon name="person-add-sharp" (click)="navigateTo('/userRegister')"></ion-icon>
+          </div>
+          <div>
+            Register
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            <h2>Login</h2>
+          </div>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+    </ion-grid>
 
     <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
       <ion-list>

@@ -1,18 +1,24 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { PreloadAllModules, RouteReuseStrategy, provideRouter, withPreloading } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 
-import { routes } from './app/app.routes';
-import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
 import 'hammerjs';
 import { addIcons } from 'ionicons';
-import { remove, reorderThree, menu } from 'ionicons/icons';
+import { logInSharp, logOutSharp, menu, personAddSharp, personCircleSharp, personRemoveSharp, personSharp, remove, reorderThree } from 'ionicons/icons';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
 
 addIcons({
   reorderThree,
   remove,
-  menu
+  menu,
+  personSharp,
+  personAddSharp,
+  personRemoveSharp,
+  personCircleSharp,
+  logInSharp,
+  logOutSharp
 });
 
 bootstrapApplication(AppComponent, {

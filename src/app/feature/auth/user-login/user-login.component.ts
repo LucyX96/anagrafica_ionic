@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonButton, IonCard, IonIcon, IonInput, IonItem, IonList, IonLabel } from "@ionic/angular/standalone";
+import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonList, IonRow } from "@ionic/angular/standalone";
 import { LoginRequestInterface } from 'src/app/core/model/user-login-interface';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserLoginService } from 'src/app/core/services/user-login.service';
@@ -10,12 +10,13 @@ import { UserLoginService } from 'src/app/core/services/user-login.service';
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.scss'],
-  imports: [ 
+  imports: [IonCol, IonRow, IonGrid,  
     IonButton,
     IonCard, 
     IonInput, 
     IonItem, 
     IonList,
+    IonIcon,
     ReactiveFormsModule
   ]
 })

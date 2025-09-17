@@ -1,19 +1,37 @@
 <div class="header-container">
   <div class="header-content">
+
+       
     <div class="menu-icon" md="menu-sharp" size="large" (click)="toggleMenu()">
       <ion-icon name="menu"></ion-icon>
     </div>
-    <div class="logo" (click)="navigateTo('/home')">
-      <p>Home</p>
+    <div class="home-container" (click)="navigateTo('/home')">
+      <div class="home">
+        Home
+      </div>
     </div>
 
     <div class="actions">
       @if (!this.authService.isLoggedIn()) {
-      <ion-button shape="round" (click)="navigateTo('/userLogin')">Login</ion-button>
-      <ion-button shape="round" (click)="navigateTo('/userRegister')">Register</ion-button>
+        <div class="login-div">
+          <div class="login-icon">
+            <ion-icon name="log-in-sharp" (click)="navigateTo('/userLogin')"></ion-icon>
+          </div>
+          <div class="login-text">
+            LogIn
+          </div>
+        </div>
       } @else {
-      <ion-button shape="round" (click)="navigateTo('/profile')">Profile</ion-button>
-      <ion-button shape="round" (click)="logout()">Logout</ion-button>
+      <div class="logout-div">
+          <div class="logout-icon">
+            <ion-icon name="log-out-sharp" (click)="logout()"></ion-icon>
+          </div>
+          <div class="logout-text">
+            LogOut
+          </div>
+        </div>
+      <!-- <ion-button shape="round" (click)="navigateTo('/profile')">Profile</ion-button> -->
+      <!-- <ion-button shape="round" (click)="logout()">Logout</ion-button> -->
       }
     </div>
   </div>
@@ -23,8 +41,10 @@
     </div>
   </div>
   <div>
+    @if (this.authService.isLoggedIn()) {
     <div>
-      <ion-text>Ciao</ion-text>
+      <ion-text>Ciao Utente</ion-text>
     </div>
+    }
   </div>
 </div>
