@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonActionSheet, IonAlert, IonApp, IonAvatar, IonBackButton, IonBackdrop, IonBadge, IonBreadcrumb, IonBreadcrumbs, IonButtons, IonCardContent, IonCardSubtitle, IonCheckbox, IonChip, IonCol, IonContent, IonDatetime, IonDatetimeButton, IonFab, IonFabButton, IonFabList, IonFooter, IonGrid, IonHeader, IonicModule, IonIcon, IonImg, IonInfiniteScroll, IonInfiniteScrollContent, IonInput, IonInputOtp, IonInputPasswordToggle, IonItemDivider, IonItemGroup, IonItemOption, IonItemOptions, IonItemSliding, IonList, IonListHeader, IonLoading, IonMenu, IonMenuButton, IonMenuToggle, IonModal, IonNav, IonNavLink, IonNote, IonPicker, IonPickerColumn, IonPickerColumnOption, IonPickerLegacy, IonPopover, IonProgressBar, IonRadio, IonRadioGroup, IonRange, IonRefresher, IonRefresherContent, IonReorder, IonReorderGroup, IonRippleEffect, IonRouterOutlet, IonRow, IonSearchbar, IonSegment, IonSegmentButton, IonSegmentContent, IonSegmentView, IonSelect, IonSelectModal, IonSelectOption, IonSkeletonText, IonSpinner, IonSplitPane, IonTab, IonTabBar, IonTabButton, IonTabs, IonText, IonTextarea, IonThumbnail, IonTitle, IonToast, IonToggle, IonToolbar } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { PersonaInterface } from 'src/app/core/model/anagrafica-interface';
 import { StepperConfigInterface } from 'src/app/core/model/stepper-config-interface';
 import { PersonaService } from 'src/app/core/services/persona.service';
 import { PlatformService } from 'src/app/core/services/platform.service';
 import { MaterialModule } from 'src/app/material.module';
-import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton } from '@ionic/angular/standalone';
-import { IonCard, IonCardHeader, IonCardTitle } from '@ionic/angular/standalone';
 
 
 @Component({

@@ -12,11 +12,15 @@
           <ion-input label="Password:" type="password" value=""></ion-input>
         </ion-item>
 
-        <ion-button shape="round" type="submit">Login
-        </ion-button>
+        <div>
+          <div [align]="'center'">
+            <ion-button shape="round" type="submit">Login
+            </ion-button>
+          </div>
+        </div>
 
-        <ion-button shape="round" (click)="navigateTo('/userRegister')">Register
-        </ion-button>
+        <!-- <ion-button shape="round" (click)="navigateTo('/userRegister')">Register
+        </ion-button> -->
       </ion-list>
     </form>
 
