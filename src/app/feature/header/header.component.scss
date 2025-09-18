@@ -1,65 +1,82 @@
 .home {
   color: black;
   font-weight: bold;
-}
-
-.home-container {
   cursor: pointer;
-  margin-left: 2vh;
 }
 
-.menu-icon {
-  cursor: pointer;
-  justify-content: start;
+// .home-container {
+//   cursor: pointer;
+//   margin-left: 2vh;
+// }
 
-}
-.menu-icon > ion-icon {
-  color: black;
-  font-size: 32px;
-  cursor: pointer;  
+// .menu-icon > ion-icon {
+//   color: black;
+//   font-size: 32px;
+//   cursor: pointer;  
 
-}
+// }
 
 .header-separator {
   height: 8px;
   background: #593B95;
-  background-size: 1600% 1600%;
-  animation: bgShift 30s ease infinite;
+  // background-size: 1600% 1600%;
+  // animation: bgShift 30s ease infinite;
   border-radius: 20px;
-  margin-top: 0.5vh;
-  margin-bottom: 1vh;
-  margin-left: 16vh;
-  margin-right: 16vh;
+  // margin-top: 0.5vh;
+  // margin-bottom: 1vh;
+  // margin-left: 16vh;
+  // margin-right: 16vh;
 }
 
-.login-icon > ion-icon {
+// .login-icon > ion-icon {
+//   color: black;
+//   font-size: 24px;
+//   cursor: pointer;
+//   margin-left: 1vh;
+//   margin-top: 0.5vh;
+// }
+
+// .login-text {
+//   color: black;
+//   font-size: 14px;
+//   cursor: pointer;
+//   margin-left: 1vh;
+//   margin-top: 0.5vh;
+// }
+
+// .logout-icon > ion-icon {
+//   color: black;
+//   font-size: 24px;
+//   cursor: pointer;
+//   margin-left: 1vh;
+//   margin-top: 0.5vh;
+// }
+
+// .logout-text {
+//   color: black;
+//   font-size: 14px;
+//   cursor: pointer;
+//   margin-left: 1vh;
+//   margin-top: 0.5vh;
+// }
+
+.menu-icon {
+  font-size: 32px;
   color: black;
+  cursor: pointer;
+}
+
+.login-icon, .logout-icon {
   font-size: 24px;
+  color: black;
   cursor: pointer;
-  margin-left: 1vh;
-  margin-top: 0.5vh;
+  margin-right: 0.5vh;
 }
 
-.login-text {
-  color: black;
+.login-text, .logout-text {
   font-size: 14px;
-  cursor: pointer;
-  margin-left: 1vh;
-  margin-top: 0.5vh;
-}
-
-.logout-icon > ion-icon {
   color: black;
-  font-size: 24px;
   cursor: pointer;
-  margin-left: 1vh;
-  margin-top: 0.5vh;
-}
-
-.logout-text {
-  color: black;
-  font-size: 14px;
-  cursor: pointer;
-  margin-left: 1vh;
-  margin-top: 0.5vh;
+  align-self: right;
+  justify-content: right;
 }

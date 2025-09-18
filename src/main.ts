@@ -5,9 +5,11 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { provideHttpClient } from '@angular/common/http';
 import 'hammerjs';
 import { addIcons } from 'ionicons';
-import { logInSharp, logOutSharp, menu, personAddSharp, personCircleSharp, personRemoveSharp, personSharp, remove, reorderThree } from 'ionicons/icons';
+import { homeSharp, logInSharp, logOutSharp, menu, personAddSharp, personCircleSharp, personRemoveSharp, personSharp, reloadSharp, remove, reorderThree } from 'ionicons/icons';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
+import { importProvidersFrom } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 
 addIcons({
   reorderThree,
@@ -18,12 +20,15 @@ addIcons({
   personRemoveSharp,
   personCircleSharp,
   logInSharp,
-  logOutSharp
+  logOutSharp,
+  reloadSharp,
+  homeSharp
 });
 
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    importProvidersFrom(IonicModule.forRoot({innerHTMLTemplatesEnabled: true})),
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(),

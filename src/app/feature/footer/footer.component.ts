@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IonButton, IonIcon } from "@ionic/angular/standalone";
+import { Router } from '@angular/router';
+import { IonButton, IonIcon, IonGrid, IonRow, IonCol, IonRippleEffect } from "@ionic/angular/standalone";
 
 
 @Component({
@@ -7,15 +8,22 @@ import { IonButton, IonIcon } from "@ionic/angular/standalone";
   templateUrl: './footer.component.html',
   standalone: true,
   styleUrls: ['./footer.component.scss'],
-  imports: [IonButton, IonIcon]
+  imports: [IonRippleEffect, IonCol, IonRow, IonGrid, IonIcon]
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { 
-    
+  constructor(private router: Router) {
+
   }
 
   ngOnInit() {
   }
 
+  isActive(path: string): boolean {
+    return this.router.url === path;
+  }
+
+  navigateTo(path: string) {
+    this.router.navigateByUrl(path);
+  }
 }

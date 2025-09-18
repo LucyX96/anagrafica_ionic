@@ -1,0 +1,24 @@
+.ripple-parent {
+    position: relative;
+    overflow: hidden;
+    //   background-color: rgba(0, 150, 255, 0.2);
+}
+
+.rounded-rectangle {
+    // width: 185px;
+    height: 40px;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.ripple-parent.active {
+    /* evidenziazione permanente */
+    background-color: #625B71;
+}
+
+ion-icon {
+    font-size: 20px;
+    color: black;
+}

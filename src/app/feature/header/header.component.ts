@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonIcon, IonText } from "@ionic/angular/standalone";
+import { IonIcon, IonText, IonCol, IonRow, IonGrid, IonToolbar, IonHeader } from "@ionic/angular/standalone";
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [IonText, IonIcon]
+  imports: [IonGrid, IonRow, IonCol, IonText, IonIcon]
 })
 
 export class HeaderComponent implements OnInit {

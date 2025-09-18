@@ -1,50 +1,70 @@
-<div class="header-container">
-  <div class="header-content">
 
-       
-    <div class="menu-icon" md="menu-sharp" size="large" (click)="toggleMenu()">
-      <ion-icon name="menu"></ion-icon>
-    </div>
-    <div class="home-container" (click)="navigateTo('/home')">
-      <div class="home">
-        Home
-      </div>
-    </div>
+<ion-grid>
+  <ion-row class="ion-align-items-center">
+    <!-- Menu -->
+    <ion-col size="3" class="ion-text-start">
+      <ion-icon name="menu" class="menu-icon" (click)="toggleMenu()"></ion-icon>
+    </ion-col>
 
-    <div class="actions">
+    <!-- Spazio -->
+    <ion-col size="1"></ion-col>
+
+    <!-- Home -->
+    <ion-col size="4" class="ion-text-center">
+      <div class="home" (click)="navigateTo('/home')">Home</div>
+    </ion-col>
+
+    <!-- Spazio -->
+    <ion-col size="1"></ion-col>
+
+    <!-- Login / Logout -->
+    <ion-col size="3" class="ion-text-end">
       @if (!this.authService.isLoggedIn()) {
-        <div class="login-div">
-          <div class="login-icon">
-            <ion-icon name="log-in-sharp" (click)="navigateTo('/userLogin')"></ion-icon>
-          </div>
-          <div class="login-text">
-            LogIn
-          </div>
-        </div>
+      <div class="login-div">
+        <ion-icon name="log-in-sharp" class="login-icon" (click)="navigateTo('/userLogin')"></ion-icon>
+      </div>
       } @else {
       <div class="logout-div">
-          <div class="logout-icon">
-            <ion-icon name="log-out-sharp" (click)="logout()"></ion-icon>
-          </div>
-          <div class="logout-text">
-            LogOut
-          </div>
-        </div>
-      <!-- <ion-button shape="round" (click)="navigateTo('/profile')">Profile</ion-button> -->
-      <!-- <ion-button shape="round" (click)="logout()">Logout</ion-button> -->
+        <ion-icon name="log-out-sharp" class="logout-icon" (click)="logout()"></ion-icon>
+      </div>
       }
-    </div>
-  </div>
-  <div class="header-separator">
-    <div class="header-separator-line">
-      <ion-icon></ion-icon>
-    </div>
-  </div>
-  <div>
-    @if (this.authService.isLoggedIn()) {
-    <div>
-      <ion-text>Ciao Utente</ion-text>
-    </div>
-    }
-  </div>
-</div>
+    </ion-col>
+  </ion-row>
+
+  @if (this.authService.isLoggedIn()) {
+  <ion-row class="ion-align-items-center">
+    <!-- Placeholder di benvenuto -->
+    <ion-col size="3" class="ion-text-start">
+      <ion-text>Ciao {{this.authService.userName}}</ion-text>
+    </ion-col>
+
+    <!-- Spazio -->
+    <ion-col size="1" class="ion-text-start">
+    </ion-col>
+
+    <!-- Spazio -->
+    <ion-col size="4"></ion-col>
+
+    <!-- Spazio -->
+    <ion-col size="1" class="ion-text-start">
+    </ion-col>
+
+    <!-- Login / Logout -->
+    <ion-col size="3" class="ion-text-end">
+      <div class="logout-div">
+        <span class="logout-text">LogOut</span>
+      </div>
+    </ion-col>
+  </ion-row>
+  }
+
+  <ion-row>
+    <ion-col size="2"></ion-col>
+
+    <ion-col size="8" class="ion-text-center">
+      <ion-icon class="header-separator" size="large"></ion-icon>
+    </ion-col>
+
+    <ion-col size="2"></ion-col>
+  </ion-row>
+</ion-grid>

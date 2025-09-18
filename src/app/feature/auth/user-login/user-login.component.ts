@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonList, IonRow } from "@ionic/angular/standalone";
+import { AlertController, IonicModule } from '@ionic/angular';
+import { IonAlert, IonButton, IonCard, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonList, IonRow, IonInputPasswordToggle } from "@ionic/angular/standalone";
+import { finalize } from 'rxjs';
 import { LoginRequestInterface } from 'src/app/core/model/user-login-interface';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserLoginService } from 'src/app/core/services/user-login.service';
@@ -10,14 +12,18 @@ import { UserLoginService } from 'src/app/core/services/user-login.service';
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.scss'],
-  imports: [IonCol, IonRow, IonGrid,  
+  imports: [
     IonButton,
-    IonCard, 
-    IonInput, 
-    IonItem, 
+    IonCard,
+    IonInput,
+    IonItem,
     IonList,
+    ReactiveFormsModule,
+    IonGrid,
+    IonCol,
+    IonRow,
     IonIcon,
-    ReactiveFormsModule
+    IonInputPasswordToggle,
   ]
 })
 export class UserLoginComponent implements OnInit {
@@ -25,7 +31,19 @@ export class UserLoginComponent implements OnInit {
   loginRequest!: LoginRequestInterface;
   loginService: UserLoginService;
 
-  constructor(private fb: FormBuilder, lgin: UserLoginService, private router: Router, private authService: AuthService) {
+  // isAlertOpen = false;
+  // alertHeader = '';
+  // alertMessage = '';
+  // alertButtons = [
+  //   {
+  //     text: 'OK',
+  //     handler: () => {
+  //       this.navigateAfterAlert();
+  //     }
+  //   }
+  // ];
+
+  constructor(private fb: FormBuilder, lgin: UserLoginService, private router: Router, public authService: AuthService, private alertController: AlertController) {
     this.loginForm = this.fb.group({
       username: [''],
       password: ['']
@@ -34,7 +52,7 @@ export class UserLoginComponent implements OnInit {
     this.loginService = lgin;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   login(form: FormGroup) {
@@ -45,22 +63,50 @@ export class UserLoginComponent implements OnInit {
 
     this.loginService.login(this.loginRequest).subscribe({
       next: res => {
-        console.log('Login OK', res);
         this.authService.setLoggedIn(true);
-        this.router.navigateByUrl('/home');
+        this.alertAdvice(true);
       },
       error: err => {
-        console.error('Login fallito', err)
+        console.error('Login fallito', err);
         this.authService.setLoggedIn(true);
-        this.router.navigateByUrl('/home');
+        this.alertAdvice(true);
       }
     });
+  }
+
+
+  alertAdvice(isSuccess: boolean) {
+    if (isSuccess) {
+      this.presentAlert('Login Successful', 'Welcome back!');
+    } else {
+      this.presentAlert('Login Failed', 'Please retry.');
+    }
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.navigateAfterAlert();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  navigateAfterAlert() {
+    const pathLogged = this.authService.isLoggedIn() ? '/home' : '/userLogin';
+    this.router.navigateByUrl(pathLogged);
   }
 
   navigateTo(path: string) {
     this.router.navigateByUrl(path);
   }
-
-
-
 }
+

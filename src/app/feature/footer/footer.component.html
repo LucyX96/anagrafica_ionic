@@ -1,6 +1,19 @@
-<footer class="footer-container">
-  <ion-button aria-label="Favorite">
-    <ion-icon name="reorder-three"></ion-icon>
-  </ion-button>
-</footer>
+<ion-grid>
+  <ion-row class="ion-align-items-center">
+    
+    <ion-col class="ion-text-center">
+      <div class="ion-activatable ripple-parent rounded-rectangle" [class.active]="isActive('/home')"
+        (click)="navigateTo('/home')">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="home">
+          <ion-icon name="home-sharp"></ion-icon>
+        </div>
+      </div>
+    </ion-col>
 
+    <ion-col class="ion-text-center">2</ion-col>
+    <ion-col class="ion-text-center">3</ion-col>
+    <ion-col class="ion-text-center">4</ion-col>
+    <ion-col class="ion-text-center">5</ion-col>
+  </ion-row>
+</ion-grid>

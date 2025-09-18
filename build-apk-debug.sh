@@ -54,6 +54,9 @@ else
     exit 1
 fi
 
+# Recupera il package name da capacitor.config.ts o da AndroidManifest.xml
+PACKAGE_NAME="io.ionic.starter"
+
 # Funzione per installare APK con retry
 install_apk() {
     APK_PATH="$1"
@@ -63,7 +66,12 @@ install_apk() {
 
     while [ $COUNT -lt $MAX_RETRIES ]; do
         echo "Installazione APK (tentativo $((COUNT+1)))..."
-        adb install -r "$APK_PATH" && { echo "APK installato correttamente!"; return 0; }
+        adb install -r "$APK_PATH" && { 
+            echo "APK installato correttamente!"; 
+            echo "Avvio dell'app $PACKAGE_NAME..."
+            adb shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1
+            return 0;
+            }
         echo "Installazione fallita, riprovo tra $RETRY_DELAY secondi..."
         sleep $RETRY_DELAY
         COUNT=$((COUNT+1))

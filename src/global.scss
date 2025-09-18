@@ -82,21 +82,22 @@ body {
 // temi ricorrenti in più pagine
 
 // HEADER
-.header-container {
-  background-color: var(--ion-color-primary);
-  padding-top: 0.5vh
-}
+// .header-container {
+//   background-color: var(--ion-color-primary);
+//   padding-top: 0.5vh
+// }
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+// .header-content {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// }
 
-.home {
-  cursor: pointer;
-  color: var(--ion-color-primary-contrast);
-}
+// .home {
+//   cursor: pointer;
+//   color: var(--ion-color-primary-contrast);
+// }
+
 
 ion-header {
   --background: var(--ion-color-primary);
@@ -117,6 +118,8 @@ ion-toolbar {
       var(--ion-color-secondary-container));
   animation: bgShift 30s ease-in-out infinite alternate;
   z-index: 0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 .glass-container {
@@ -140,30 +143,30 @@ ion-toolbar {
   animation: fadeIn 1.2s ease forwards;
 }
 
-.content {
-  position: relative;
-  z-index: 1;
-  max-width: 500px;
-  padding: 3rem;
-  backdrop-filter: blur(12px);
-  background: rgba(var(--ion-color-primary-container-rgb, 224, 251, 252), 0.3);
+// .content {
+//   position: relative;
+//   z-index: 1;
+//   max-width: 500px;
+//   padding: 3rem;
+//   backdrop-filter: blur(12px);
+//   background: rgba(var(--ion-color-primary-container-rgb, 224, 251, 252), 0.3);
 
-  border-radius: 20px;
-  box-shadow: 0 12px 32px rgba(92, 107, 115, 0.15);
-  animation: fadeIn 1.2s ease forwards;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+  // border-radius: 20px;
+//   box-shadow: 0 12px 32px rgba(92, 107, 115, 0.15);
+//   animation: fadeIn 1.2s ease forwards;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1.5rem;
+// }
 
-.hero {
-  position: relative;
-  min-height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+// .hero {
+//   position: relative;
+//   min-height: 100dvh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   text-align: center;
+// }
 
 .btn-animate {
   transition: transform 0.3s ease;
@@ -190,7 +193,8 @@ ion-button {
   font-size: 0.9rem;
   text-align: center;
   padding: 0.9vh;
-  background-color: var(--ion-color-primary-container);
+  // background-color: var(--ion-color-primary-container);
+  --background: var(--ion-color-primary);
   color: var(--ion-color-on-primary-container);
 }
 
