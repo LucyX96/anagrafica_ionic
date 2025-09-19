@@ -12,8 +12,8 @@ export class UserLoginService {
 
   constructor(private http: HttpClient) { }
 
-  login(request: LoginRequestInterface): Observable<AuthResponseInterface> {
-    return this.http.post<AuthResponseInterface>(this.apiUrl + "/api/auth/login", request);
+  login(request: LoginRequestInterface): Observable<string> {
+    return this.http.post(this.apiUrl + "/api/auth/login", request, { responseType: 'text' });
   }
 
   saveToken(token: string): void {

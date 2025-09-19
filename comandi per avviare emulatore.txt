@@ -1,3 +1,29 @@
 sdkmanager "platform-tools" "platforms;android-34" "emulator" "system-images;android-34;google_apis;x86_64"
 
 
+avdmanager create avd -n Pixel_6_API_34 -k "system-images;android-34;google_apis;x86_64" --device "pixel"
+o
+avdmanager create avd -n Pixel_8_API_34 -k "system-images;android-34;google_apis;x86_64" --device "pixel"
+o
+avdmanager create avd -n Pixel_8_API_35 -k "system-images;android-35;google_apis;x86_64" --device "pixel"
+o
+avdmanager create avd -n Pixel_8_API_36 -k "system-images;android-36;google_apis;x86_64" --device "pixel"
+
+
+
+
+emulator -avd Pixel_6_API_34
+o 
+emulator -avd Pixel_8_API_34
+o
+emulator -avd Pixel_8_API_35
+o
+emulator -avd Pixel_8_API_36
+
+adb install "C:\Users\L.Bellusi-cons\Desktop\anagrafica_ionic\android\app\build\outputs\apk\debug\ionic-anagrafica-test.apk"
+
+o 
+
+adb install -r "C:\Users\L.Bellusi-cons\Desktop\anagrafica_ionic\android\app\build\outputs\apk\debug\ionic-anagrafica-test.apk"
+
+
