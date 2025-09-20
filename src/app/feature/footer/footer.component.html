@@ -1,6 +1,6 @@
 <ion-grid>
   <ion-row class="ion-align-items-center">
-    
+
     <ion-col class="ion-text-center">
       <div class="ion-activatable ripple-parent rounded-rectangle" [class.active]="isActive('/home')"
         (click)="navigateTo('/home')">
@@ -9,11 +9,130 @@
           <ion-icon name="home-sharp"></ion-icon>
         </div>
       </div>
+      <ion-text>Home</ion-text>
     </ion-col>
 
-    <ion-col class="ion-text-center">2</ion-col>
-    <ion-col class="ion-text-center">3</ion-col>
-    <ion-col class="ion-text-center">4</ion-col>
-    <ion-col class="ion-text-center">5</ion-col>
+    <ion-col class="ion-text-center">
+      <div class="ion-activatable ripple-parent rounded-rectangle" [class.active]="isActive('/statistics')"
+        (click)="navigateTo('/statistics')">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="statistics">
+          <ion-icon name="stats-chart-sharp"></ion-icon>
+        </div>
+      </div>
+      <ion-text>Statistic</ion-text>
+    </ion-col>
+
+    <ion-col class="ion-text-center">
+      <div class="ion-activatable ripple-parent rounded-rectangle" [class.active]="isActive('/history')"
+        (click)="navigateTo('/history')">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="history">
+          <mat-icon>history-sharp</mat-icon>
+        </div>
+      </div>
+      <ion-text>History</ion-text>
+    </ion-col>
+
+    <ion-col class="ion-text-center">
+      <div class="ion-activatable ripple-parent rounded-rectangle" [class.active]="isActive('/body')"
+        (click)="navigateTo('/body')">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="body">
+          <ion-icon name="body-sharp"></ion-icon>
+        </div>
+      </div>
+      <ion-text>Body</ion-text>
+    </ion-col>
+
+    <ion-col class="ion-text-center">
+      <div class="ion-activatable ripple-parent rounded-rectangle" id="open-modal" expand="block"
+        [class.active]="isActive('/menu')">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="menu">
+          <ion-icon name="menu" class="menu-icon"></ion-icon>
+        </div>
+      </div>
+      <ion-text>Menu</ion-text>
+    </ion-col>
+
   </ion-row>
+  
 </ion-grid>
+
+<ion-content class="ion-padding">
+  <ion-modal [keepContentsMounted]="true" trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]" [handle]="false">
+    <ng-template>
+      <div class="block">
+
+        <ion-grid>
+          <ion-row class="row">
+            <!-- 1 colonna -->
+            <ion-col size="12" class="ion-align-items-center col1">
+              <div class="ion-activatable ripple-parent rounded-rectangle">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="2" size-md="4" size-lg="2">
+                      <div>
+                        <ion-icon name="trophy-sharp"></ion-icon>
+                      </div>
+                    </ion-col>
+                    <ion-col size="10" size-md="4" size-lg="2">
+                      <div class="trophy-text">
+                        Record
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+            </ion-col>
+
+            <!-- 2 colonna -->
+            <ion-col size="12" class="ion-align-items-center" col2>
+              <div class="ion-activatable ripple-parent rounded-rectangle">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="2" size-md="4" size-lg="2">
+                      <div>
+                        <ion-icon name="trophy-sharp"></ion-icon>
+                      </div>
+                    </ion-col>
+                    <ion-col size="10" size-md="4" size-lg="2">
+                      <div class="trophy-text">
+                        Record
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+            </ion-col>
+
+            <!-- 3 colonna -->
+            <ion-col size="12" class="ion-align-items-center" col3>
+              <div class="ion-activatable ripple-parent rounded-rectangle">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="2" size-md="4" size-lg="2">
+                      <div>
+                        <ion-icon name="trophy-sharp"></ion-icon>
+                      </div>
+                    </ion-col>
+                    <ion-col size="10" size-md="4" size-lg="2">
+                      <div class="trophy-text">
+                        Record
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

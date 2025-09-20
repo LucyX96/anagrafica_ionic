@@ -31,18 +31,6 @@ export class UserLoginComponent implements OnInit {
   loginRequest!: LoginRequestInterface;
   loginService: UserLoginService;
 
-  // isAlertOpen = false;
-  // alertHeader = '';
-  // alertMessage = '';
-  // alertButtons = [
-  //   {
-  //     text: 'OK',
-  //     handler: () => {
-  //       this.navigateAfterAlert();
-  //     }
-  //   }
-  // ];
-
   constructor(private fb: FormBuilder, lgin: UserLoginService, private router: Router, public authService: AuthService, private alertController: AlertController) {
     this.loginForm = this.fb.group({
       username: [''],

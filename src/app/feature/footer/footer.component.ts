@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { IonButton, IonIcon, IonGrid, IonRow, IonCol, IonRippleEffect } from "@ionic/angular/standalone";
+import { IonCol, IonContent, IonGrid, IonIcon, IonModal, IonRippleEffect, IonRow, IonText } from "@ionic/angular/standalone";
 
 
 @Component({
@@ -8,7 +9,7 @@ import { IonButton, IonIcon, IonGrid, IonRow, IonCol, IonRippleEffect } from "@i
   templateUrl: './footer.component.html',
   standalone: true,
   styleUrls: ['./footer.component.scss'],
-  imports: [IonRippleEffect, IonCol, IonRow, IonGrid, IonIcon]
+  imports: [IonText, IonRippleEffect, IonCol, IonRow, IonGrid, IonIcon, MatIcon, IonContent, IonModal]
 })
 export class FooterComponent implements OnInit {
 

@@ -15,14 +15,14 @@ export const routes: Routes = [
   {
     path: 'addUser',
     loadComponent: () =>
-      import('./feature/anagrafica/register/register.component')
+      import('./feature/components/anagrafica/register/register.component')
         .then(m => m.RegisterComponent),
     canActivate: [AuthGuard]
   },
   {
     path: 'searchUser',
     loadComponent: () =>
-      import('./feature/anagrafica/anagrafica.component').then(
+      import('./feature/components/anagrafica/anagrafica.component').then(
         m => m.AnagraficaComponent
       ),
     canActivate: [AuthGuard]
@@ -32,14 +32,38 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./feature/auth/user-login/user-login.component').then(
         m => m.UserLoginComponent
-      ),
+      )
   },
   {
     path: 'userRegister',
     loadComponent: () =>
       import('./feature/auth/user-register/user-register.component').then(
         m => m.UserRegisterComponent
+      )
+  },
+  {
+    path: 'statistics',
+    loadComponent: () => 
+      import('./feature/components/statistics/statistics.component').then(
+        m => m.StatisticsComponent
       ),
+      canActivate: [AuthGuard]
+  },
+  {
+    path: 'history',
+    loadComponent: () => 
+      import('./feature/components/history/history.component').then(
+        m => m.HistoryComponent
+      ),
+      canActivate: [AuthGuard]
+  },
+  {
+    path: 'body',
+    loadComponent: () => 
+      import('./feature/components/body/body.component').then(
+        m => m.BodyComponent
+      ),
+      canActivate: [AuthGuard]
   }
   
 

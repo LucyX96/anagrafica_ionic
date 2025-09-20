@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  // forceMobile: false // test per android
+  apiUrl: 'http://localhost:8081'
+
 };
 
 /*
