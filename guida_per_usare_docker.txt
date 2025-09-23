@@ -1,0 +1,21 @@
+// Docker: Creare e avviare il container
+
+// Crea un file Dockerfile con il seguente contenuto:
+
+FROM openjdk:17-jdk-slim
+COPY target/backend.jar /app/backend.jar
+WORKDIR /app
+CMD ["java", "-jar", "backend.jar"]
+
+
+// Costruisci l'immagine Docker in cmd:
+
+docker build -t backend-image .
+
+
+// Esegui il container in cmd:
+
+docker run -d -p 8081:8081 --name backend-container backend-image
+
+
+Nota: Assicurati che la porta 8081 sia aperta nel tuo firewall e che l'IP 192.168.1.77 sia raggiungibile dal dispositivo Android.

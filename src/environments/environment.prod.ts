@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://anagraficabe-production.up.railway.app'
+  apiUrl: 'https://192.168.1.77:8081'
 };
