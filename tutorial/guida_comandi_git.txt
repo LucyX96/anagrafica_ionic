@@ -1,0 +1,71 @@
+Guida base ai comandi Git
+1️⃣ Configurazione iniziale
+git config --global user.name "Nome Cognome"   # Imposta il tuo nome
+git config --global user.email "email@example.com"  # Imposta la tua email
+git config --global core.editor "vim"  # Imposta l'editor di default
+
+
+Verifica la configurazione:
+
+git config --list
+
+2️⃣ Creare e clonare repository
+git init              # Inizializza un repository Git locale
+git clone <url>       # Clona un repository remoto
+
+3️⃣ Controllare lo stato e la storia
+git status            # Mostra lo stato dei file (modificati, staged, non tracciati)
+git log               # Mostra la cronologia dei commit
+git log --oneline     # Cronologia compatta
+git diff              # Mostra le differenze dei file modificati
+
+4️⃣ Gestire file e commit
+git add <file>        # Aggiunge file specifici allo staging
+git add .             # Aggiunge tutti i file modificati allo staging
+git commit -m "Messaggio del commit"  # Salva le modifiche nello storico
+git commit -am "Messaggio"  # Aggiunge e committa i file già tracciati
+
+5️⃣ Lavorare con branch
+git branch                  # Elenca i branch locali
+git branch <nome-branch>    # Crea un nuovo branch
+git checkout <nome-branch>  # Passa a un branch esistente
+git switch <nome-branch>    # Alternativa moderna a checkout
+git checkout -b <nome-branch>  # Crea e passa subito a un nuovo branch
+
+6️⃣ Unire branch (merge e rebase)
+git merge <branch>          # Unisce un branch nel branch corrente
+git rebase <branch>         # Applica i commit del branch corrente sopra un altro branch
+
+
+Risolvi i conflitti manualmente se Git te li segnala, poi:
+
+git add <file-risolto>
+git commit                  # Completa il merge o il rebase
+
+7️⃣ Lavorare con repository remoti
+git remote -v               # Mostra i remote configurati
+git remote add origin <url> # Aggiunge un nuovo remoto
+git fetch                   # Scarica aggiornamenti dai remote senza unirli
+git pull origin main        # Scarica e unisce aggiornamenti dal remoto
+git push origin main        # Pusha i commit locali sul remoto
+git push --set-upstream origin <branch>  # Imposta upstream per un branch nuovo
+
+8️⃣ Gestire branch locali e remoti
+git branch -d <branch>      # Elimina un branch locale (solo se mergeato)
+git branch -D <branch>      # Forza l'eliminazione del branch locale
+git push origin --delete <branch>  # Elimina un branch remoto
+
+9️⃣ Ripristinare modifiche
+git checkout -- <file>      # Ripristina un file modificato allo stato dell'ultimo commit
+git reset <file>            # Rimuove un file dallo staging
+git reset --hard            # Ripristina tutto il branch all'ultimo commit (PERICOLO: perde modifiche)
+
+🔹 Suggerimenti pratici
+
+Prima di fare merge o push, usa sempre git status e git log per capire la situazione.
+
+Mantieni i branch puliti: elimina quelli completati.
+
+Usa messaggi di commit chiari e descrittivi.
+
+Quando lavori con più persone, fai spesso git pull per evitare conflitti.
