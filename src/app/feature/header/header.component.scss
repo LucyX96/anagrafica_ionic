@@ -4,61 +4,11 @@
   cursor: pointer;
 }
 
-// .home-container {
-//   cursor: pointer;
-//   margin-left: 2vh;
-// }
-
-// .menu-icon > ion-icon {
-//   color: black;
-//   font-size: 32px;
-//   cursor: pointer;  
-
-// }
-
 .header-separator {
   height: 8px;
   background: #593B95;
-  // background-size: 1600% 1600%;
-  // animation: bgShift 30s ease infinite;
   border-radius: 20px;
-  // margin-top: 0.5vh;
-  // margin-bottom: 1vh;
-  // margin-left: 16vh;
-  // margin-right: 16vh;
 }
-
-// .login-icon > ion-icon {
-//   color: black;
-//   font-size: 24px;
-//   cursor: pointer;
-//   margin-left: 1vh;
-//   margin-top: 0.5vh;
-// }
-
-// .login-text {
-//   color: black;
-//   font-size: 14px;
-//   cursor: pointer;
-//   margin-left: 1vh;
-//   margin-top: 0.5vh;
-// }
-
-// .logout-icon > ion-icon {
-//   color: black;
-//   font-size: 24px;
-//   cursor: pointer;
-//   margin-left: 1vh;
-//   margin-top: 0.5vh;
-// }
-
-// .logout-text {
-//   color: black;
-//   font-size: 14px;
-//   cursor: pointer;
-//   margin-left: 1vh;
-//   margin-top: 0.5vh;
-// }
 
 .menu-icon {
   font-size: 32px;
@@ -79,4 +29,14 @@
   cursor: pointer;
   align-self: right;
   justify-content: right;
+}
+
+ion-icon {
+    font-size: 20px;
+    color: black;
+}
+
+ion-title {
+    font-size: 20;
+    color: black;
 }

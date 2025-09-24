@@ -47,7 +47,7 @@ export const routes: Routes = [
       import('./feature/components/statistics/statistics.component').then(
         m => m.StatisticsComponent
       ),
-      canActivate: [AuthGuard]
+      // canActivate: [AuthGuard]
   },
   {
     path: 'history',
@@ -55,7 +55,7 @@ export const routes: Routes = [
       import('./feature/components/history/history.component').then(
         m => m.HistoryComponent
       ),
-      canActivate: [AuthGuard]
+      // canActivate: [AuthGuard]
   },
   {
     path: 'body',
@@ -63,7 +63,7 @@ export const routes: Routes = [
       import('./feature/components/body/body.component').then(
         m => m.BodyComponent
       ),
-      canActivate: [AuthGuard]
+      // canActivate: [AuthGuard]
   }
   
 

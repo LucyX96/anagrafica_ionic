@@ -9,7 +9,7 @@
           <ion-icon name="home-sharp"></ion-icon>
         </div>
       </div>
-      <ion-text>Home</ion-text>
+      <ion-label>Home</ion-label>
     </ion-col>
 
     <ion-col class="ion-text-center">
@@ -20,7 +20,7 @@
           <ion-icon name="stats-chart-sharp"></ion-icon>
         </div>
       </div>
-      <ion-text>Statistic</ion-text>
+      <ion-label>Statistic</ion-label>
     </ion-col>
 
     <ion-col class="ion-text-center">
@@ -31,7 +31,7 @@
           <mat-icon>history-sharp</mat-icon>
         </div>
       </div>
-      <ion-text>History</ion-text>
+      <ion-label>History</ion-label>
     </ion-col>
 
     <ion-col class="ion-text-center">
@@ -42,7 +42,7 @@
           <ion-icon name="body-sharp"></ion-icon>
         </div>
       </div>
-      <ion-text>Body</ion-text>
+      <ion-label>Body</ion-label>
     </ion-col>
 
     <ion-col class="ion-text-center">
@@ -53,7 +53,7 @@
           <ion-icon name="menu" class="menu-icon"></ion-icon>
         </div>
       </div>
-      <ion-text>Menu</ion-text>
+      <ion-label>Menu</ion-label>
     </ion-col>
 
   </ion-row>
@@ -61,13 +61,17 @@
 </ion-grid>
 
 <ion-content class="ion-padding">
-  <ion-modal [keepContentsMounted]="true" trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]" [handle]="false">
+  <ion-modal
+    [keepContentsMounted]="true"
+    trigger="open-modal"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    [handle]="false"
+  >
     <ng-template>
       <div class="block">
-
         <ion-grid>
           <ion-row class="row">
-            <!-- 1 colonna -->
             <ion-col size="12" class="ion-align-items-center col1">
               <div class="ion-activatable ripple-parent rounded-rectangle">
                 <ion-ripple-effect></ion-ripple-effect>
@@ -79,16 +83,13 @@
                       </div>
                     </ion-col>
                     <ion-col size="10" size-md="4" size-lg="2">
-                      <div class="trophy-text">
-                        Record
-                      </div>
+                      <div class="trophy-text">Record</div>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
               </div>
             </ion-col>
 
-            <!-- 2 colonna -->
             <ion-col size="12" class="ion-align-items-center" col2>
               <div class="ion-activatable ripple-parent rounded-rectangle">
                 <ion-ripple-effect></ion-ripple-effect>
@@ -100,16 +101,13 @@
                       </div>
                     </ion-col>
                     <ion-col size="10" size-md="4" size-lg="2">
-                      <div class="trophy-text">
-                        Record
-                      </div>
+                      <div class="trophy-text">Record</div>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
               </div>
             </ion-col>
 
-            <!-- 3 colonna -->
             <ion-col size="12" class="ion-align-items-center" col3>
               <div class="ion-activatable ripple-parent rounded-rectangle">
                 <ion-ripple-effect></ion-ripple-effect>
@@ -121,9 +119,7 @@
                       </div>
                     </ion-col>
                     <ion-col size="10" size-md="4" size-lg="2">
-                      <div class="trophy-text">
-                        Record
-                      </div>
+                      <div class="trophy-text">Record</div>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
@@ -131,8 +127,63 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-        
       </div>
     </ng-template>
   </ion-modal>
 </ion-content>
+
+<!-- <ion-tab-bar color="primary">
+  <ion-tab-button
+    tab="1"
+    [class.active]="isActive('/home')"
+    (click)="navigateTo('/home')"
+  >
+    <ion-icon name="home-sharp"></ion-icon>
+    <ion-label>Home</ion-label>
+    <ion-badge color="danger"></ion-badge>
+  </ion-tab-button>
+
+  <ion-tab-button
+    tab="2"
+    [class.active]="isActive('/statistics')"
+    (click)="navigateTo('/statistics')"
+  >
+    <ion-icon name="stats-chart-sharp"></ion-icon>
+    <ion-label>Statistic</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button
+    tab="3"
+    [class.active]="isActive('/history')"
+    (click)="navigateTo('/history')"
+  >
+    <div class="history">
+      <mat-icon>history-sharp</mat-icon>
+    </div>
+    <ion-label>History</ion-label>
+    <ion-badge color="danger">47</ion-badge>
+  </ion-tab-button>
+
+  <ion-tab-button
+    tab="4"
+    [class.active]="isActive('/body')"
+    (click)="navigateTo('/body')"
+  >
+    <ion-icon name="body-sharp"></ion-icon>
+    <ion-label>Body</ion-label>
+    <ion-badge color="danger">47</ion-badge>
+  </ion-tab-button>
+
+  <ion-ripple-effect></ion-ripple-effect>
+  <ion-tab-button
+    tab="5"
+    id="open-modal"
+    expand="block"
+    [class.active]="isActive('/menu')"
+    (click)="navigateTo('/menu')"
+  >
+    <ion-icon name="menu" class="menu-icon"></ion-icon>
+    <ion-badge color="danger">47</ion-badge>
+    <ion-label>Menu</ion-label>
+  </ion-tab-button>
+</ion-tab-bar> -->

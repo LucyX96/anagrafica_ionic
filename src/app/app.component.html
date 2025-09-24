@@ -1,14 +1,15 @@
 <ion-app>
   <ion-header>
     <ion-toolbar>
-      <ion-title >
+      <ion-title>
         <app-header></app-header>
       </ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
-      <router-outlet swipeBack></router-outlet>
+    <router-outlet swipeBack (activate)="onActivate($event)"></router-outlet>
+    <!-- <router-outlet swipeBack></router-outlet> -->
   </ion-content>
 
   <ion-footer>
@@ -16,5 +17,4 @@
       <app-footer></app-footer>
     </ion-toolbar>
   </ion-footer>
-  
 </ion-app>

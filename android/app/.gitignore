@@ -1,0 +1,7 @@
+/build/*
+!/build/.npmkeep
+androidTest
+java
+build.gradle
+capacitor.build.gradle
+proguard-rules.pro
