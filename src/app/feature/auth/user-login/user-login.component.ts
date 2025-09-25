@@ -55,11 +55,9 @@ export class UserLoginComponent implements OnInit {
         this.alertAdvice(true);
       },
       error: err => {
-        // console.error('Login fallito', err);
-        // this.authService.setLoggedIn(false);
-        // this.alertAdvice(false);
-        this.authService.setLoggedIn(true);
-        this.alertAdvice(true);
+        console.error('Login fallito', err);
+        this.authService.setLoggedIn(false);
+        this.alertAdvice(false);
       }
     });
   }
