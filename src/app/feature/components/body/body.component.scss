@@ -1,0 +1,36 @@
+// ion-datetime {
+//   display: block;
+//   width: 100vw;
+//   height: 100vh;
+//   max-width: 100%;
+//   max-height: 100%;
+//   --background: transparent;
+//   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+// }
+
+// ion-datetime .datetime-picker {
+//   height: calc(100% - var(--header-height));
+//   width: 100%;
+// }
+
+// ion-accordion {
+//   display: block;
+//   position: relative;
+// }
+
+// /* 1. Posiziona l'accordion in modo assoluto in fondo a ion-content */
+// ion-accordion-group {
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   width: 100%;
+//   z-index: 10; /* Assicura che stia sopra il datetime */
+// }
+
+// /* 2. Stile della barra (opzionale, se vuoi ancora lo sfondo nero) */
+// ion-accordion ion-item[slot="header"] {
+//   --background: var(--ion-color-primary);
+//   --border-color: transparent;
+//   --inner-border-width: 0;
+// }
+

@@ -1,4 +1,3 @@
-<!-- impostazione aggiunta alla riga 7 per configurare lan locale -->
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -41,3 +40,5 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
+
+<!-- impostazione aggiunta alla riga 7 per configurare lan locale -->

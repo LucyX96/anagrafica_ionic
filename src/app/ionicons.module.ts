@@ -1,5 +1,5 @@
 
-import { arrowBackSharp, bodySharp, homeSharp, logInSharp, logOutSharp, menu, personAddSharp, personCircleSharp, personRemoveSharp, personSharp, reloadSharp, remove, reorderThree, statsChartSharp, trophySharp } from 'ionicons/icons';
+import { arrowBackSharp, bodySharp, chevronUpSharp, ellipsisVerticalSharp, homeSharp, logInSharp, logOutSharp, menu, pencilSharp, personAddSharp, personCircleSharp, personRemoveSharp, personSharp, reloadSharp, remove, reorderThree, shareSocialSharp, statsChartSharp, trophySharp } from 'ionicons/icons';
 
 export const appIcons = {
   reorderThree,
@@ -16,5 +16,9 @@ export const appIcons = {
   statsChartSharp,
   bodySharp,
   trophySharp,
-  arrowBackSharp
+  arrowBackSharp,
+  ellipsisVerticalSharp,
+  shareSocialSharp,
+  pencilSharp,
+  chevronUpSharp
 };

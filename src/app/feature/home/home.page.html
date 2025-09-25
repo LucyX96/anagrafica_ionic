@@ -1,5 +1,4 @@
-<ion-content class="ion-text-center">
-  <!-- <section class="hero"> -->
+<!-- <ion-content class="ion-text-center">
     <div class="hero-bg"></div>
 
     <ion-card class="content">
@@ -31,6 +30,50 @@
     </ion-card>
 
     <div class="wave"></div>
-  <!-- </section> -->
+</ion-content>
+ -->
+
+
+ <!-- <ion-content [scrollY]="false">
+  <ion-datetime [showDefaultTitle]="true"></ion-datetime>
+  @if(accordionGroup.value==='first') {
+  <app-inline-modal
+    (draggedDown)="closeAccordion()"
+    [class.modal-open]="accordionGroup.value === 'first'"
+  ></app-inline-modal>
+  }
 </ion-content>
 
+<ion-accordion-group #accordionGroup>
+  @if (accordionGroup.value===undefined) {
+  <ion-accordion value="first" (click)="openAccordion()">
+    <ion-item slot="header" color="light"> </ion-item>
+  </ion-accordion>
+  }
+</ion-accordion-group> -->
+
+<ion-content [scrollY]="false">
+  <div>
+    <ion-datetime #datetime [showDefaultTitle]="true" presentation="date" [highlightedDates]="highlightedDates"></ion-datetime>
+  </div>
+
+  @if(accordionGroup.value==='first') {
+  <app-inline-modal
+    (draggedDown)="closeAccordion()"
+    (dragProgress)="onDragUpdate($event)"
+    [class.modal-open]="accordionGroup.value === 'first'"
+  ></app-inline-modal>
+  }
+
+  <ion-accordion-group #accordionGroup>
+    @if (accordionGroup.value===undefined) { 
+    <ion-accordion
+      value="first"
+      toggleIcon="caret-down-circle"
+      toggleIconSlot="end" (click)="openAccordion()"
+    >
+      <ion-item class="header-icon" slot="header"></ion-item>
+    </ion-accordion>
+    }
+  </ion-accordion-group>
+</ion-content>

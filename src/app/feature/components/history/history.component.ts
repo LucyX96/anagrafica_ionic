@@ -9,7 +9,6 @@ import { TitleEmitterDirective } from 'src/app/core/directive/title-emitter';
   imports: [IonContent, IonList, IonItem, IonAvatar, IonImg, IonLabel]
 })
 export class HistoryComponent extends TitleEmitterDirective implements OnInit  {
-
   
   override title: string = 'History';
 

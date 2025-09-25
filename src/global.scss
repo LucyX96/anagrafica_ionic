@@ -100,13 +100,21 @@ body {
 
 
 ion-header {
-  --background: var(--ion-color-primary);
-
+  --border-width: 0 !important;     
+  --box-shadow: none !important;    
+  border: none !important;          
+  box-shadow: none !important;
 }
 
 ion-toolbar {
-  --background: var(--ion-color-primary);
+  --background: var(--ion-color-primary);   /* colore header */
   --color: var(--ion-color-primary-contrast);
+  --border-width: 0;
+  --box-shadow: none;
+}
+
+:root {
+  --header-height: 56px; /* Altezza del tuo header */
 }
 
 // BODY
@@ -187,6 +195,15 @@ ion-button {
   text-align: center;
   align-items: center;
 }
+
+ion-content {
+  --offset-top: 0;        /* rimuove lo spazio lasciato per l’header */
+  --offset-bottom: 0;     /* rimuove lo spazio lasciato per il footer */
+  --background: transparent; /* se vuoi lo stesso colore dell’header */
+  padding-top: 0 !important; 
+  margin-top: 0 !important;
+}
+
 
 // FOOTER
 .footer-container {

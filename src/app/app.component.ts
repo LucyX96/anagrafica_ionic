@@ -51,6 +51,7 @@ export class AppComponent implements OnInit {
   @ViewChild(HeaderComponent) appHeader!: HeaderComponent;
 
   private childTitleSub?: Subscription;
+  private shareTextSub?: Subscription;
 
   constructor(
     private router2: NavController,
@@ -65,6 +66,8 @@ export class AppComponent implements OnInit {
     this.appHeader.onChildTitleChange(null);
     this.childTitleSub?.unsubscribe();
     this.childTitleSub = undefined;
+    this.shareTextSub?.unsubscribe();
+    this.shareTextSub = undefined;
 
     if (
       componentRef &&
@@ -76,11 +79,26 @@ export class AppComponent implements OnInit {
           this.appHeader.onChildTitleChange(title);
         }
       );
-    }
-    else if (componentRef && componentRef.pageTitle) {
+    } else if (componentRef && componentRef.pageTitle) {
       this.appHeader.onChildTitleChange(componentRef.pageTitle);
     } else {
       this.appHeader.onChildTitleChange(null);
+    }
+
+    if (
+      componentRef &&
+      componentRef.shareTextChange &&
+      typeof componentRef.shareTextChange.subscribe === 'function'
+    ) {
+      this.shareTextSub = componentRef.shareTextChange.subscribe(
+        (text: string | null) => {
+          this.appHeader.onChildShareTextChange(text);
+        }
+      );
+    } else if (componentRef && componentRef.pageShareText) {
+      this.appHeader.onChildShareTextChange(componentRef.pageShareText);
+    } else {
+      this.appHeader.onChildShareTextChange(null);
     }
   }
 

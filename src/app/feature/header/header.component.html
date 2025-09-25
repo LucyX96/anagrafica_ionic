@@ -63,10 +63,27 @@
       <ion-col size="1" class="ion-text-center">
         <ion-icon name="arrow-back-sharp" (click)="goBack()"></ion-icon>
       </ion-col>
-      <ion-col size="10" class="ion-text-start">
+      <ion-col size="7" class="ion-text-start">
         <ion-title>{{ childTitle }}</ion-title>
       </ion-col>
-      <ion-col size="1"></ion-col>
+
+      @if (childTitle==='Statistics') {
+        <ion-col size="2"></ion-col>
+      }
+
+      <ion-col size="2" class="ion-text-end share-social">
+        @if (childTitle!='Body') {
+          <ion-icon name="share-social-sharp"></ion-icon>
+        } @else {
+          <ion-icon name="pencil-sharp"></ion-icon>
+        }
+      </ion-col>
+
+      @if (childTitle!='Statistics') {
+        <ion-col size="2" class="ion-text-end">
+          <ion-icon name="ellipsis-vertical-sharp"></ion-icon>
+        </ion-col>
+      }
     </ion-row>
   }
 

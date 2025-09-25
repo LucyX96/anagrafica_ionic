@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonIcon, IonText, IonCol, IonRow, IonGrid, IonToolbar, IonHeader, IonTitle } from '@ionic/angular/standalone';
+import {
+  IonIcon,
+  IonText,
+  IonCol,
+  IonRow,
+  IonGrid,
+  IonToolbar,
+  IonHeader,
+  IonTitle,
+} from '@ionic/angular/standalone';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { StatisticsComponent } from "../components/statistics/statistics.component";
+import { StatisticsComponent } from '../components/statistics/statistics.component';
 
 @Component({
   selector: 'app-header',
@@ -15,11 +24,10 @@ export class HeaderComponent implements OnInit {
   loggedIn = false;
 
   childTitle: string | null = null;
+  shareText: string | null = null;
 
-  constructor(private router: Router, public authService: AuthService) {
-    
-  }
-  
+  constructor(private router: Router, public authService: AuthService) {}
+
   ngOnInit() {
     if (
       this.authService.loggedIn$.subscribe((value) => (this.loggedIn = value))
@@ -27,9 +35,14 @@ export class HeaderComponent implements OnInit {
       this.router.navigateByUrl('/home');
     }
   }
-  
+
   onChildTitleChange(title: string | null) {
     this.childTitle = title;
+  }
+
+  onChildShareTextChange(sharedText: string | null) {
+    this.shareText = sharedText;
+    console.log(this.shareText);
   }
 
   goBack() {
