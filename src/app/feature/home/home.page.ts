@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   IonAccordion,
   IonAccordionGroup,
@@ -29,15 +29,18 @@ export class HomePage extends TitleEmitterDirective implements OnInit {
   accordionGroup!: IonAccordionGroup;
   @ViewChild('datetime', { read: ElementRef }) datetimeEl!: ElementRef;
 
+  @ViewChild(InlineModalComponent) inlineModal!: InlineModalComponent;
+
   override title: string = 'Home';
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     super();
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
     this.openAccordion();
+    this.accordionGroup.value = 'first';
   }
 
   override ngOnDestroy(): void {
@@ -46,12 +49,23 @@ export class HomePage extends TitleEmitterDirective implements OnInit {
 
   openAccordion() {
     this.accordionGroup.value = 'first';
+    this.onDragUpdate(0);
+    this.cdr.detectChanges();
   }
 
   closeAccordion() {
     this.accordionGroup.value = undefined;
     // resetta l'animazione del datetime quando si chiude
     this.onDragUpdate(0);
+    if (this.inlineModal) {
+      this.inlineModal.resetPosition();
+    }
+    this.cdr.detectChanges();
+  }
+
+  accordionStateChanged(event: any) {
+    const isOpen = event.detail.value === 'first';
+    const progress = isOpen ? 1 : 0;
   }
 
   // NUOVO: Funzione che gestisce l'animazione del datetime

@@ -1,79 +1,19 @@
-<!-- <ion-content class="ion-text-center">
-    <div class="hero-bg"></div>
-
-    <ion-card class="content">
-      <ion-card-header class="ion-header-text">
-        <ion-card-title>Benvenuto nell’Anagrafica Digitale</ion-card-title>
-      </ion-card-header>
-      <ion-card-content class="ion-content-text">
-        <p>Gestisci le persone in modo semplice, rapido e moderno.</p>
-
-        <ion-grid>
-          <ion-row class="ion-justify-content-center ion-margin-top">
-            <ion-col size="12" sizeMd="6">
-              <ion-button expand="block" shape="round" class="btn-animate"
-                          (click)="navigateTo('/addUser')">
-                <ion-icon slot="start" name="person-add"></ion-icon>
-                Aggiungi Anagrafica
-              </ion-button>
-            </ion-col>
-            <ion-col size="12" sizeMd="6">
-              <ion-button expand="block" shape="round" class="btn-animate"
-                          (click)="navigateTo('/searchUser')">
-                <ion-icon slot="start" name="search"></ion-icon>
-                Ricerca Anagrafica
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-
-    <div class="wave"></div>
-</ion-content>
- -->
-
-
- <!-- <ion-content [scrollY]="false">
-  <ion-datetime [showDefaultTitle]="true"></ion-datetime>
-  @if(accordionGroup.value==='first') {
-  <app-inline-modal
-    (draggedDown)="closeAccordion()"
-    [class.modal-open]="accordionGroup.value === 'first'"
-  ></app-inline-modal>
-  }
-</ion-content>
-
-<ion-accordion-group #accordionGroup>
-  @if (accordionGroup.value===undefined) {
-  <ion-accordion value="first" (click)="openAccordion()">
-    <ion-item slot="header" color="light"> </ion-item>
-  </ion-accordion>
-  }
-</ion-accordion-group> -->
-
 <ion-content [scrollY]="false">
   <div>
     <ion-datetime #datetime [showDefaultTitle]="true" presentation="date" [highlightedDates]="highlightedDates"></ion-datetime>
   </div>
 
-  @if(accordionGroup.value==='first') {
   <app-inline-modal
-    (draggedDown)="closeAccordion()"
-    (dragProgress)="onDragUpdate($event)"
-    [class.modal-open]="accordionGroup.value === 'first'"
-  ></app-inline-modal>
-  }
+  (draggedDown)="closeAccordion()"
+  (dragProgress)="onDragUpdate($any($event).detail)"
+  [class.is-open]="accordionGroup.value === 'first'" 
+></app-inline-modal>
 
-  <ion-accordion-group #accordionGroup>
-    @if (accordionGroup.value===undefined) { 
-    <ion-accordion
-      value="first"
-      toggleIcon="caret-down-circle"
-      toggleIconSlot="end" (click)="openAccordion()"
-    >
+  <ion-accordion-group #accordionGroup (ionChange)="accordionStateChanged($event)">
+    @if (accordionGroup.value === undefined) {
+    <ion-accordion value="first" (click)="openAccordion()">
       <ion-item class="header-icon" slot="header"></ion-item>
-    </ion-accordion>
-    }
+    </ion-accordion> 
+  }
   </ion-accordion-group>
 </ion-content>

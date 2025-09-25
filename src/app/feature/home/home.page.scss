@@ -1,43 +1,4 @@
 
-// .ion-content-text > p {
-//   color: black;
-// }
-
-// .ion-header-text > ion-card-title {
-//   color: black;
-// }
-
-// .counter__section {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-// }
-
-// .modal-bottom-sheet .modal-wrapper {
-//   top: var(--header-height);
-//   bottom: var(--footer-height);
-//   border-top-left-radius: 16px;
-//   border-top-right-radius: 16px;
-//   height: auto;
-// }
-
-// .modal-bottom-sheet.no-radius .modal-wrapper {
-//   border-top-left-radius: 0;
-//   border-top-right-radius: 0;
-// }
-
-/* Nel tuo file .scss */
-// ion-datetime {
-//   /* Cambia lo sfondo dell'intero componente */
-//   --background: #f4f4f4;
-
-//   /* Cambia il colore del titolo in alto */
-//   --title-color: var(--ion-color-primary);
-  
-//   /* Stile per la rotella (picker) */
-//   --wheel-highlight-background: rgba(0, 122, 255, 0.1);
-// }
-
 ion-datetime {
   display: block;
   width: 100vw;
@@ -58,16 +19,14 @@ ion-accordion {
   position: relative;
 }
 
-/* 1. Posiziona l'accordion in modo assoluto in fondo a ion-content */
 ion-accordion-group {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 10; /* Assicura che stia sopra il datetime */
+  z-index: 10; 
 }
 
-/* 2. Stile della barra (opzionale, se vuoi ancora lo sfondo nero) */
 ion-accordion ion-item[slot="header"] {
   --background: var(--ion-color-primary);
   --border-color: transparent;

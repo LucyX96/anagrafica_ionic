@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  IonIcon,
-  IonText,
   IonCol,
-  IonRow,
   IonGrid,
-  IonToolbar,
-  IonHeader,
-  IonTitle,
+  IonIcon,
+  IonRow,
+  IonText,
+  IonTitle
 } from '@ionic/angular/standalone';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { StatisticsComponent } from '../components/statistics/statistics.component';
 
 @Component({
   selector: 'app-header',
@@ -46,7 +43,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/home']); // o la route che vuoi
+    this.router.navigate(['/home']); 
   }
 
   navigateTo(path: string) {

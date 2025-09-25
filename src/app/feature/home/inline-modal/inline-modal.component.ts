@@ -1,11 +1,14 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   OnInit,
   Output,
+  Renderer2,
+  ViewChild,
 } from '@angular/core';
-import { IonContent, IonFab, IonFabButton, IonList, IonItem, IonAvatar, IonLabel, InfiniteScrollCustomEvent, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/angular/standalone';
+import { IonContent, IonFab, IonFabButton, IonList, IonItem, IonAvatar, IonLabel, InfiniteScrollCustomEvent, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, Gesture, GestureController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
 
@@ -26,24 +29,77 @@ import { add } from 'ionicons/icons';
     IonInfiniteScrollContent
 ],
 })
-export class InlineModalComponent implements OnInit {
-  items: string[] = [];
+export class InlineModalComponent implements OnInit, AfterViewInit {
+  @ViewChild('header', { read: ElementRef }) headerEl!: ElementRef;
   @Output() draggedDown = new EventEmitter<void>();
-
-  // NUOVO: Emettiamo il progresso del drag (da 0.0 a 1.0)
   @Output() dragProgress = new EventEmitter<number>();
 
-  private startY = 0;
-  private currentY = 0;
-  private dragging = false;
-  private closeThreshold = 0; // Per ottimizzazione, la calcoliamo una volta sola
+  items: string[] = [];
 
-  constructor(private elRef: ElementRef) {
+  private gesture!: Gesture;
+  private initialStep: number = 0;
+  private isDragging = false;
+
+  constructor(
+    private gestureCtrl: GestureController,
+    private elRef: ElementRef,
+    private renderer: Renderer2
+  ) {
     addIcons({ add });
   }
 
   ngOnInit() {
     this.generateItems();
+  }
+
+  ngAfterViewInit() {
+    this.createGesture();
+  }
+
+  private createGesture() {
+    const closeThreshold = this.elRef.nativeElement.offsetHeight * 0.5;
+
+    this.gesture = this.gestureCtrl.create({
+      el: this.headerEl.nativeElement,
+      gestureName: 'panel-drag',
+      direction: 'y',
+      threshold: 0,
+      onStart: () => {
+        this.renderer.setStyle(this.elRef.nativeElement, 'transition', 'none');
+        this.isDragging = true;
+      },
+      onMove: (ev) => {
+      const newY = this.initialStep + ev.deltaY;
+
+      if (newY >= 0) {
+        this.renderer.setStyle(this.elRef.nativeElement, 'transform', `translateY(${newY}px)`);
+
+        const progress = Math.min(1, newY / closeThreshold);
+        this.dragProgress.emit(progress);
+      }
+    },
+      onEnd: (ev) => {
+      this.renderer.setStyle(this.elRef.nativeElement, 'transition', 'transform 0.3s ease-out');
+      this.isDragging = false;
+      
+      if (ev.deltaY > closeThreshold) {
+        this.dragProgress.emit(1); 
+        this.renderer.setStyle(this.elRef.nativeElement, 'transform', 'translateY(100%)');
+        this.draggedDown.emit();
+      } else {
+        this.dragProgress.emit(0); 
+        this.renderer.setStyle(this.elRef.nativeElement, 'transform', 'translateY(0px)');
+      }
+    },
+  });
+
+    this.gesture.enable();
+  }
+
+  ngOnDestroy() {
+    if (this.gesture) {
+      this.gesture.destroy();
+    }
   }
 
   private generateItems() {
@@ -60,54 +116,8 @@ export class InlineModalComponent implements OnInit {
     }, 500);
   }
 
-  startDrag(event: MouseEvent | TouchEvent) {
-    this.dragging = true;
-    this.startY = this.getY(event);
-    document.body.style.overflow = 'hidden';
-
-    // Calcoliamo la soglia qui, all'inizio del trascinamento
-    this.closeThreshold = this.elRef.nativeElement.offsetHeight * 0.25;
-
-    document.addEventListener('mousemove', this.onDrag);
-    document.addEventListener('mouseup', this.endDrag);
-    document.addEventListener('touchmove', this.onDrag, { passive: false });
-    document.addEventListener('touchend', this.endDrag);
-  }
-
-  onDrag = (event: MouseEvent | TouchEvent) => {
-    if (!this.dragging) return;
-    event.preventDefault();
-    this.currentY = this.getY(event) - this.startY;
-
-    if (this.currentY >= 0) {
-      this.elRef.nativeElement.style.transform = `translateY(${this.currentY}px)`;
-
-      // NUOVO: Calcoliamo e emettiamo il progresso in tempo reale
-      const progress = Math.min(1, this.currentY / this.closeThreshold);
-      this.dragProgress.emit(progress);
-    }
-  };
-
-  endDrag = () => {
-    document.body.style.overflow = ''; // Riabilita lo scroll
-    if (this.currentY > this.closeThreshold) {
-      this.dragProgress.emit(1); // Stato finale: 100% (chiuso)
-      this.draggedDown.emit();
-    } else {
-      this.dragProgress.emit(0); // Stato finale: 0% (aperto/resettato)
-      this.elRef.nativeElement.style.transform = '';
-    }
-
-    this.dragging = false;
-    this.currentY = 0;
-    document.removeEventListener('mousemove', this.onDrag);
-    document.removeEventListener('mouseup', this.endDrag);
-    document.removeEventListener('touchmove', this.onDrag);
-    document.removeEventListener('touchend', this.endDrag);
-  };
-
-  private getY(event: MouseEvent | TouchEvent): number {
-    if (event instanceof TouchEvent) return event.touches[0].clientY;
-    return event.clientY;
+   public resetPosition() {
+    // Rimuove lo stile 'transform' in linea, permettendo alle classi CSS di comandare
+    this.renderer.setStyle(this.elRef.nativeElement, 'transform', '');
   }
 }

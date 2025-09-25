@@ -11,7 +11,7 @@
 
     <!-- Home -->
     <ion-col size="4" class="ion-text-center">
-      <div class="home" (click)="navigateTo('/home')">Home</div>
+      <ion-text>Ciao {{this.authService.userName}}</ion-text>
     </ion-col>
 
     <!-- Spazio -->
@@ -35,7 +35,7 @@
   <ion-row class="ion-align-items-center">
     <!-- Placeholder di benvenuto -->
     <ion-col size="3" class="ion-text-start">
-      <ion-text>Ciao {{this.authService.userName}}</ion-text>
+      <!-- <ion-text>Ciao {{this.authService.userName}}</ion-text> -->
     </ion-col>
 
     <!-- Spazio -->
