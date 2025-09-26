@@ -16,7 +16,8 @@ fi
 
 # 1. Build Angular/Ionic
 echo "Building Angular/Ionic project..."
-ionic build --prod --configuration=mock || { echo "Build failed"; exit 1; }
+ionic build --prod || { echo "Build failed"; exit 1; }
+# per buildare con mock bisogna scrivere ionic build --configuration=production-mock
 
 # 2. Sincronizza Capacitor
 echo "Syncing Capacitor Android platform..."

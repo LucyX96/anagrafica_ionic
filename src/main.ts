@@ -12,7 +12,8 @@ import { routes } from './app/app.routes';
 import { appIcons } from './app/ionicons.module';
 import { UserLoginService } from './app/core/services/user-login.service';
 import { MockUserLoginService } from './app/core/services/mock-user-service';
-import { environment } from './environments/environment.mock';
+import { environment } from './environments/environment';
+
 
 addIcons({
   ...appIcons
