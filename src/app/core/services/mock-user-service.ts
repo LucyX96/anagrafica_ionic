@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { LoginRequestInterface } from '../model/user-login-interface';
+import { AuthResponseInterface, LoginRequestInterface } from '../model/user-login-interface';
 import { UserLoginService } from './user-login.service';
 
 @Injectable({
@@ -15,14 +15,21 @@ export class MockUserLoginService extends UserLoginService {
   }
 
   // Sovrascriviamo il metodo di login
-  override login(request: LoginRequestInterface): Observable<string> {
+  override login(request: LoginRequestInterface): Observable<AuthResponseInterface> {
     console.log('%c MOCK LOGIN ATTIVO ', 'background: #E63946; color: #F1FAEE; font-weight: bold; padding: 4px;');
     console.log('Dati ricevuti:', request);
 
     // Simuliamo un utente e password validi per la demo
     if (request.username === 'demo' && request.password === 'demo') {
+
       // Simuliamo una risposta di successo dal server dopo 1 secondo
-      return of('fake-jwt-token-for-demo-user').pipe(delay(1000));
+      const mockResponse: AuthResponseInterface = {
+      token: 'fake-jwt-token-for-demo-user',
+      name: 'test'
+    };
+
+    // 2. Restituisci un Observable di QUESTO OGGETTO
+    return of(mockResponse).pipe(delay(1000));
     } else {
       // Simuliamo un errore per credenziali errate
       return throwError(() => new Error('Invalid credentials (mock error)')).pipe(delay(1000));

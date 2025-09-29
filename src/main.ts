@@ -2,7 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { PreloadAllModules, RouteReuseStrategy, provideRouter, withPreloading } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import 'hammerjs';
@@ -13,6 +13,7 @@ import { appIcons } from './app/ionicons.module';
 import { UserLoginService } from './app/core/services/user-login.service';
 import { MockUserLoginService } from './app/core/services/mock-user-service';
 import { environment } from './environments/environment';
+import { JwtInterceptor } from './app/core/interceptors/jwt-interceptor';
 
 
 addIcons({
@@ -25,13 +26,22 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(IonicModule.forRoot({innerHTMLTemplatesEnabled: true})),
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
-    provideHttpClient(),
+    provideHttpClient(withInterceptorsFromDi()),
     {
       provide: UserLoginService,
       useFactory: (http: HttpClient) => {
         return environment.mock ? new MockUserLoginService() : new UserLoginService(http);
       },
       deps: [HttpClient]
+    },
+
+    // Provider per l'Interceptor JWT
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
     }
+
+    
   ],
 });

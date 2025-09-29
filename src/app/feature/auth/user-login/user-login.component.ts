@@ -51,6 +51,8 @@ export class UserLoginComponent implements OnInit {
 
     this.loginService.login(this.loginRequest).subscribe({
       next: res => {
+        this.loginService.saveToken(res.token);
+        this.loginService.saveName(res.name);
         this.authService.setLoggedIn(true);
         this.alertAdvice(true);
       },

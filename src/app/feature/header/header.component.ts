@@ -9,6 +9,7 @@ import {
   IonTitle
 } from '@ionic/angular/standalone';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { UserLoginService } from 'src/app/core/services/user-login.service';
 
 @Component({
   selector: 'app-header',
@@ -22,14 +23,16 @@ export class HeaderComponent implements OnInit {
 
   childTitle: string | null = null;
   shareText: string | null = null;
+  name: string | null = null;
 
-  constructor(private router: Router, public authService: AuthService) {}
+  constructor(private router: Router, public authService: AuthService, public userLoginService: UserLoginService) {}
 
   ngOnInit() {
     if (
       this.authService.loggedIn$.subscribe((value) => (this.loggedIn = value))
     ) {
       this.router.navigateByUrl('/home');
+      this.name = this.userLoginService.getName();
     }
   }
 

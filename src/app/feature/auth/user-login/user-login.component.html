@@ -22,12 +22,12 @@
     <form [formGroup]="loginForm">
       <ion-list>
         <ion-item>
-          <ion-input label="Email:" type="email" placeholder="email@domain.com" formControlName="username"></ion-input>
+          <ion-input label="Username:" type="username" placeholder="Username" formControlName="username"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-input label="Password:" type="password" value="" formControlName="password">
-            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+            <ion-input-password-toggle></ion-input-password-toggle>
           </ion-input>
         </ion-item>
 

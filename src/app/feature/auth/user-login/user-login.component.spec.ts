@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { UserLoginService } from 'src/app/core/services/user-login.service';
 
 import { UserLoginComponent } from './user-login.component';
+import { AuthResponseInterface } from 'src/app/core/model/user-login-interface';
 
 describe('UserLoginComponent', () => {
   let component: UserLoginComponent;
@@ -57,7 +58,14 @@ describe('UserLoginComponent', () => {
   describe('Login Success', () => {
     beforeEach(() => {
       // Arrange: Simuliamo un login di successo
-      mockUserLoginService.login.and.returnValue(of('fake-jwt-token'));
+
+      const mockAuthResponse: AuthResponseInterface = {
+      token: 'mock-jwt-token-for-testing-12345',
+      name: 'test'
+    };
+
+    
+      mockUserLoginService.login.and.returnValue(of(mockAuthResponse));
       mockAuthService.isLoggedIn.and.returnValue(true);
 
       component.loginForm.setValue({
