@@ -1,0 +1,98 @@
+<ion-grid>
+  <ion-row class="ion-align-items-center">
+    <!-- Checkmark -->
+    <ion-col size="1" class="ion-text-start">
+      <ion-icon name="checkmark-sharp"></ion-icon>
+    </ion-col>
+
+    <!-- Text -->
+    <ion-col size="3">
+      <ion-text>Routine</ion-text>
+    </ion-col>
+
+    <!-- Spazio -->
+    <ion-col size="5" class="ion-text-center"> </ion-col>
+
+    <!-- Clipboard -->
+    <ion-col size="1">
+      <ion-icon name="clipboard-sharp"></ion-icon>
+    </ion-col>
+
+    <!-- Share -->
+    <ion-col size="1">
+      <ion-icon name="share-social-sharp"></ion-icon>
+    </ion-col>
+
+    <!-- Options -->
+    <ion-col size="1" class="ion-text-end">
+      <ion-icon name="ellipsis-vertical-sharp"></ion-icon>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-content>
+  <ion-grid>
+    <!-- Colonne per il nome -->
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-start">
+        <ion-input
+          label="Name"
+          label-placement="stacked"
+          fill="outline"
+          placeholder="Routine name"
+        ></ion-input>
+      </ion-col>
+      <ion-col size="12"></ion-col>
+    </ion-row>
+
+    <!-- Colonna per etichette giornaliere -->
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-start">
+        <ion-label>Etichetta</ion-label>
+      </ion-col>
+
+      @for (item of items; track item.id) {
+      <ion-col size="2.4">
+        <ion-fab-button
+          [style.--background]="item.color"
+          [style.--color]="'#ffffff'"
+          (click)="removeItem(item.id)"
+        >
+          {{ item.label }}
+        </ion-fab-button>
+      </ion-col>
+      }
+
+      <ion-col size="2.4">
+        <ion-fab-button (click)="openAddItemModal()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-col>
+    </ion-row>
+
+    <!-- Colonne per codifica colore -->
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-start">
+        <ion-label>Codifica colore</ion-label>
+      </ion-col>
+
+      @for (colorItem of colorPalette; track colorItem.id) {
+        <ion-col size="2.4">
+          <ion-fab-button [style.--background]="colorItem.color" (click)="removeColorFromPalette(colorItem.id)"></ion-fab-button>
+        </ion-col>
+      }
+
+      <ion-col size="2.4">
+        <ion-fab-button id="open-palette-popover">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+        <ion-popover trigger="open-palette-popover">
+          <ng-template>
+            <app-color-picker (colorSelected)="addColorToPalette($event)"></app-color-picker>
+          </ng-template>
+        </ion-popover>
+      </ion-col>
+      
+    </ion-row>
+  </ion-grid>
+</ion-content>

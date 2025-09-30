@@ -3,14 +3,17 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   OnInit,
   Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { IonContent, IonFab, IonFabButton, IonList, IonItem, IonAvatar, IonLabel, InfiniteScrollCustomEvent, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, Gesture, GestureController } from '@ionic/angular/standalone';
+import { MatIcon } from '@angular/material/icon';
+import { IonContent, IonFab, IonFabButton, IonList, IonItem, IonAvatar, IonLabel, IonIcon, Gesture, GestureController, IonReorderGroup, IonReorder, ReorderEndCustomEvent, IonModal, IonImg } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
+import { RoutineDetailComponent } from "./routine-detail/routine-detail.component";
 
 @Component({
   selector: 'app-inline-modal',
@@ -25,8 +28,11 @@ import { add } from 'ionicons/icons';
     IonItem,
     IonAvatar,
     IonLabel,
-    IonInfiniteScroll,
-    IonInfiniteScrollContent
+    IonReorderGroup,
+    IonReorder,
+    MatIcon,
+    IonModal,
+    RoutineDetailComponent
 ],
 })
 export class InlineModalComponent implements OnInit, AfterViewInit {
@@ -43,13 +49,14 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
   constructor(
     private gestureCtrl: GestureController,
     private elRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {
     addIcons({ add });
+    
   }
 
   ngOnInit() {
-    this.generateItems();
+    // this.generateItems();
   }
 
   ngAfterViewInit() {
@@ -109,15 +116,16 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onIonInfinite(event: InfiniteScrollCustomEvent) {
-    this.generateItems();
-    setTimeout(() => {
-      event.target.complete();
-    }, 500);
+  handleReorderEnd(event: ReorderEndCustomEvent) {
+    console.log('Dragged from index', event.detail.from, 'to', event.detail.to);
+    event.detail.complete();
   }
 
    public resetPosition() {
-    // Rimuove lo stile 'transform' in linea, permettendo alle classi CSS di comandare
     this.renderer.setStyle(this.elRef.nativeElement, 'transform', '');
+  }
+
+  addItem() {
+      this.items.push('Item');
   }
 }

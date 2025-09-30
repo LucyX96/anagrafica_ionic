@@ -1,0 +1,29 @@
+.block {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-icon {
+    font-size: 20px;
+    color: black;
+}
+
+ion-title {
+    font-size: 20px;
+    color: black;
+}
+
+ion-text {
+  font-size: 20px;
+  color: black;
+}
+
+ion-fab-button {
+  --background: #b7f399;
+  --background-activated: #87d361;
+  --background-hover: #a3e681;
+  --color: black;
+}

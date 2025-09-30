@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Annulla</ion-button>
+    </ion-buttons>
+    <ion-title>Nuova Etichetta</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Crea</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <ion-input
+        label="Nome etichetta"
+        labelPlacement="stacked"
+        placeholder="Es. Giorno 1"
+        [(ngModel)]="label"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+       <ion-label>Scegli un colore</ion-label>
+    </ion-item>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; padding-top: 10px;">
+        @for(colorItem of availableColors; track colorItem.id) {
+          <button 
+            class="color-swatch"
+            [style.background]="colorItem.color"
+            (click)="selectColor(colorItem.color)"
+            [class.selected]="colorItem.color === selectedColor">
+          </button>
+        }
+    </div>
+  </ion-list>
+</ion-content>
