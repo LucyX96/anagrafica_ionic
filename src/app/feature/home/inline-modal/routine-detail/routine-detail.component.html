@@ -64,7 +64,7 @@
       }
 
       <ion-col size="2.4">
-        <ion-fab-button (click)="openAddItemModal()">
+        <ion-fab-button>
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-col>
@@ -77,22 +77,25 @@
       </ion-col>
 
       @for (colorItem of colorPalette; track colorItem.id) {
-        <ion-col size="2.4">
-          <ion-fab-button [style.--background]="colorItem.color" (click)="removeColorFromPalette(colorItem.id)"></ion-fab-button>
-        </ion-col>
+      <ion-col size="2.4">
+        <ion-fab-button
+          [style.--background]="colorItem.color"
+          (click)="selectNewColorForRoutine(colorItem.color)"
+        ></ion-fab-button>
+      </ion-col>
       }
 
       <ion-col size="2.4">
         <ion-fab-button id="open-palette-popover">
-          <ion-icon name="add"></ion-icon>
+          <ion-icon name="add" (click)="saveAndClose()"></ion-icon>
         </ion-fab-button>
         <ion-popover trigger="open-palette-popover">
           <ng-template>
-            <app-color-picker (colorSelected)="addColorToPalette($event)"></app-color-picker>
+            <app-new-color-picker (colorSelected)="addColorToPalette($event)">
+            </app-new-color-picker>
           </ng-template>
         </ion-popover>
       </ion-col>
-      
     </ion-row>
   </ion-grid>
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   IonIcon,
   IonGrid,
@@ -13,18 +13,18 @@ import {
   IonPopover,
 } from '@ionic/angular/standalone';
 import { MaterialModule } from 'src/app/material.module';
-import { ColorPickerComponent } from './color-picker/color-picker.component';
 import { AddItemModalComponent } from './add-item-modal/add-item-modal.component';
+import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
 
 export interface DayItem {
   id: number;
   label: string;
-  color: string;
+  color: any;
 }
 
 export interface ColorPaletteItem {
   id: number;
-  color: string;
+  color: any;
 }
 
 @Component({
@@ -43,17 +43,23 @@ export interface ColorPaletteItem {
     IonInput,
     IonLabel,
     IonPopover,
-    ColorPickerComponent,
+    NewColorPickerComponent,
   ],
 })
 export class RoutineDetailComponent implements OnInit {
+  @Input() colors: ColorPaletteItem[] = [];
+  @Input() currentItem!: DayItem;
+  @Output() itemUpdated = new EventEmitter<DayItem>();
+
   items: DayItem[] = [];
 
   colorPalette: ColorPaletteItem[] = [];
 
   constructor(private modalCtrl: ModalController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.colorPalette = this.colors
+  }
 
   ngAfterViewInit() {}
 
@@ -63,24 +69,20 @@ export class RoutineDetailComponent implements OnInit {
     const modal = await this.modalCtrl.create({
       component: AddItemModalComponent,
       componentProps: {
-        // Passiamo la nostra tavolozza di colori al modale
         availableColors: this.colorPalette,
       },
     });
 
     await modal.present();
 
-    // Aspetta i dati che il modale restituirà alla chiusura
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      // Se l'utente ha confermato, crea la nuova etichetta con i dati ricevuti
       this.addItem(data.label, data.color);
     }
   }
 
-  // Aggiunge un nuovo item alla lista principale
-  private addItem(label: string, hexColor: string) {
+  private addItem(label: string, hexColor: any) {
     const newId = Date.now();
     this.items.push({
       id: newId,
@@ -89,22 +91,42 @@ export class RoutineDetailComponent implements OnInit {
     });
   }
 
-  // Rimuove un item dalla lista principale
   removeItem(idToRemove: number) {
-    this.items = this.items.filter(item => item.id !== idToRemove);
+    this.items = this.items.filter((item) => item.id !== idToRemove);
   }
 
-  // Aggiunge un nuovo colore alla TAVOLOZZA
   addColorToPalette(hexColor: string) {
-    if (!this.colorPalette.some((c) => c.color === hexColor)) {
+    console.log('Colore ricevuto dal figlio:', hexColor);
+
+    const colorExists = this.colorPalette.some(
+      (item) => item.color === hexColor
+    );
+
+    if (hexColor && !colorExists) {
       const newId = Date.now();
-      this.colorPalette.push({ id: newId, color: hexColor });
+
+      const newColorItem: ColorPaletteItem = {
+        id: newId,
+        color: hexColor,
+      };
+
+      this.colorPalette.push(newColorItem);
     }
   }
 
-  // Rimuove un colore dalla TAVOLOZZA
+  selectNewColorForRoutine(newColor: string) {
+    if (this.currentItem) {
+      this.currentItem.color = newColor;
+      console.log('Nuovo colore selezionato per l\'item:', this.currentItem);
+    }
+  }
+
+  saveAndClose() {
+    this.itemUpdated.emit(this.currentItem);
+    this.modalCtrl.dismiss();
+  }
+
   removeColorFromPalette(idToRemove: number) {
-    // Impedisce di rimuovere l'ultimo colore
     if (this.colorPalette.length > 1) {
       this.colorPalette = this.colorPalette.filter((c) => c.id !== idToRemove);
     }

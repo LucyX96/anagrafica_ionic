@@ -11,29 +11,29 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list>
-    <ion-item>
+  <ion-row class="ion-align-items-center">
+    <ion-col size="12" class="ion-text-start">
       <ion-input
         label="Nome etichetta"
         labelPlacement="stacked"
         placeholder="Es. Giorno 1"
         [(ngModel)]="label"
       ></ion-input>
-    </ion-item>
+    </ion-col>
 
-    <ion-item>
-       <ion-label>Scegli un colore</ion-label>
-    </ion-item>
+    <ion-col size="12" class="ion-text-start">
+      <ion-label>Scegli un colore</ion-label>
+    </ion-col>
 
-    <div style="display: flex; flex-wrap: wrap; gap: 10px; padding-top: 10px;">
-        @for(colorItem of availableColors; track colorItem.id) {
-          <button 
-            class="color-swatch"
-            [style.background]="colorItem.color"
-            (click)="selectColor(colorItem.color)"
-            [class.selected]="colorItem.color === selectedColor">
-          </button>
-        }
-    </div>
-  </ion-list>
+    @for(colorItem of availableColors; track colorItem.id) {
+    <ion-col size="2.4">
+      <button
+        class="color-swatch"
+        [style.background]="colorItem.color"
+        (click)="selectColor(colorItem.color)"
+        [class.selected]="colorItem.color === selectedColor"
+      ></button>
+    </ion-col>
+    }
+  </ion-row>
 </ion-content>

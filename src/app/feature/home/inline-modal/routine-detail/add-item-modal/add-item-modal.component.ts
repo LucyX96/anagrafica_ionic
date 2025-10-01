@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonItem, IonInput, IonLabel, IonList } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonItem, IonInput, IonLabel, IonList, IonRow, IonCol, IonFabButton } from '@ionic/angular/standalone';
 import { ColorPaletteItem } from '../routine-detail.component';
 
 @Component({
@@ -9,7 +9,19 @@ import { ColorPaletteItem } from '../routine-detail.component';
   templateUrl: './add-item-modal.component.html',
   styleUrls: ['./add-item-modal.component.scss'],
   standalone: true,
-  imports: [ FormsModule, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonItem, IonInput, IonLabel, IonList ],
+  imports: [
+    FormsModule, 
+    IonHeader, 
+    IonToolbar, 
+    IonTitle, 
+    IonButtons, 
+    IonButton, 
+    IonContent, 
+    IonInput, 
+    IonLabel, 
+    IonRow, 
+    IonCol
+  ],
 })
 export class AddItemModalComponent {
   @Input() availableColors: ColorPaletteItem[] = [];

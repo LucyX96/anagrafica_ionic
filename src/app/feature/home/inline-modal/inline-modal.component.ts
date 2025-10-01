@@ -3,17 +3,45 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   OnInit,
   Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { IonContent, IonFab, IonFabButton, IonList, IonItem, IonAvatar, IonLabel, IonIcon, Gesture, GestureController, IonReorderGroup, IonReorder, ReorderEndCustomEvent, IonModal, IonImg } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonList,
+  IonItem,
+  IonAvatar,
+  IonLabel,
+  IonIcon,
+  Gesture,
+  GestureController,
+  IonReorderGroup,
+  IonReorder,
+  ReorderEndCustomEvent,
+  IonModal,
+  IonFabList,
+  ModalController,
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
-import { RoutineDetailComponent } from "./routine-detail/routine-detail.component";
+import { add, clipboardSharp } from 'ionicons/icons';
+import { RoutineDetailComponent } from './routine-detail/routine-detail.component';
+import { AddItemModalComponent } from './routine-detail/add-item-modal/add-item-modal.component';
+
+export interface DayItem {
+  id: number;
+  label: string;
+  color: any;
+}
+
+export interface ColorPaletteItem {
+  id: number;
+  color: any;
+}
 
 @Component({
   selector: 'app-inline-modal',
@@ -32,15 +60,22 @@ import { RoutineDetailComponent } from "./routine-detail/routine-detail.componen
     IonReorder,
     MatIcon,
     IonModal,
-    RoutineDetailComponent
-],
+    RoutineDetailComponent,
+    IonFabList,
+  ],
 })
 export class InlineModalComponent implements OnInit, AfterViewInit {
   @ViewChild('header', { read: ElementRef }) headerEl!: ElementRef;
   @Output() draggedDown = new EventEmitter<void>();
   @Output() dragProgress = new EventEmitter<number>();
 
-  items: string[] = [];
+  items: DayItem[] = [];
+  colorPalette: ColorPaletteItem[] = [
+    {
+      id: 1,
+      color: '#f94747ff'
+    }
+  ];
 
   private gesture!: Gesture;
   private initialStep: number = 0;
@@ -50,17 +85,39 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
     private gestureCtrl: GestureController,
     private elRef: ElementRef,
     private renderer: Renderer2,
+    private modalCtrl: ModalController
   ) {
-    addIcons({ add });
-    
+    addIcons({ add, clipboardSharp });
   }
 
   ngOnInit() {
-    // this.generateItems();
   }
 
   ngAfterViewInit() {
     this.createGesture();
+  }
+
+  async openAddItemModal() {
+    if (this.colorPalette!=null) {
+
+    }
+    const modal = await this.modalCtrl.create({
+      component: AddItemModalComponent,
+      componentProps: {
+        // Passiamo la nostra tavolozza di colori al modale
+        availableColors: this.colorPalette,
+      },
+    });
+
+    await modal.present();
+
+    // Aspetta i dati che il modale restituirà alla chiusura
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      // Se l'utente ha confermato, crea la nuova etichetta con i dati ricevuti
+      this.addItem(data.label, data.color);
+    }
   }
 
   private createGesture() {
@@ -76,29 +133,45 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
         this.isDragging = true;
       },
       onMove: (ev) => {
-      const newY = this.initialStep + ev.deltaY;
+        const newY = this.initialStep + ev.deltaY;
 
-      if (newY >= 0) {
-        this.renderer.setStyle(this.elRef.nativeElement, 'transform', `translateY(${newY}px)`);
+        if (newY >= 0) {
+          this.renderer.setStyle(
+            this.elRef.nativeElement,
+            'transform',
+            `translateY(${newY}px)`
+          );
 
-        const progress = Math.min(1, newY / closeThreshold);
-        this.dragProgress.emit(progress);
-      }
-    },
+          const progress = Math.min(1, newY / closeThreshold);
+          this.dragProgress.emit(progress);
+        }
+      },
       onEnd: (ev) => {
-      this.renderer.setStyle(this.elRef.nativeElement, 'transition', 'transform 0.3s ease-out');
-      this.isDragging = false;
-      
-      if (ev.deltaY > closeThreshold) {
-        this.dragProgress.emit(1); 
-        this.renderer.setStyle(this.elRef.nativeElement, 'transform', 'translateY(100%)');
-        this.draggedDown.emit();
-      } else {
-        this.dragProgress.emit(0); 
-        this.renderer.setStyle(this.elRef.nativeElement, 'transform', 'translateY(0px)');
-      }
-    },
-  });
+        this.renderer.setStyle(
+          this.elRef.nativeElement,
+          'transition',
+          'transform 0.3s ease-out'
+        );
+        this.isDragging = false;
+
+        if (ev.deltaY > closeThreshold) {
+          this.dragProgress.emit(1);
+          this.renderer.setStyle(
+            this.elRef.nativeElement,
+            'transform',
+            'translateY(100%)'
+          );
+          this.draggedDown.emit();
+        } else {
+          this.dragProgress.emit(0);
+          this.renderer.setStyle(
+            this.elRef.nativeElement,
+            'transform',
+            'translateY(0px)'
+          );
+        }
+      },
+    });
 
     this.gesture.enable();
   }
@@ -109,23 +182,29 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private generateItems() {
-    const count = this.items.length + 1;
-    for (let i = 0; i < 50; i++) {
-      this.items.push(`Item ${count + i}`);
-    }
-  }
-
   handleReorderEnd(event: ReorderEndCustomEvent) {
     console.log('Dragged from index', event.detail.from, 'to', event.detail.to);
     event.detail.complete();
   }
 
-   public resetPosition() {
+  public resetPosition() {
     this.renderer.setStyle(this.elRef.nativeElement, 'transform', '');
   }
 
-  addItem() {
-      this.items.push('Item');
+  private addItem(label: string, hexColor: any) {
+    const newId = Date.now();
+    this.items.push({
+      id: newId,
+      label: label,
+      color: hexColor,
+    });
+  }
+
+  updateItem(updatedItem: DayItem) {
+    const index = this.items.findIndex(item => item.id === updatedItem.id);
+
+    if (index !== -1) {
+      this.items[index] = updatedItem;
+    }
   }
 }
