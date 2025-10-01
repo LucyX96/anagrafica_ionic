@@ -52,7 +52,6 @@ export class RoutineDetailComponent implements OnInit {
   @Output() itemUpdated = new EventEmitter<DayItem>();
 
   items: DayItem[] = [];
-
   colorPalette: ColorPaletteItem[] = [];
 
   constructor(private modalCtrl: ModalController) {}
@@ -78,16 +77,16 @@ export class RoutineDetailComponent implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this.addItem(data.label, data.color);
+      this.addItem(data.label);
     }
   }
 
-  private addItem(label: string, hexColor: any) {
+  addItem(label: string) {
     const newId = Date.now();
     this.items.push({
       id: newId,
       label: label,
-      color: hexColor,
+      color: '#8a8a8aff',
     });
   }
 
