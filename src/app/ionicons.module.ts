@@ -1,5 +1,5 @@
 
-import { arrowBackSharp, bodySharp, chevronUpSharp, colorPalette, ellipsisVerticalSharp, globe, homeSharp, logInSharp, logOutSharp, menu, pencilSharp, personAddSharp, personCircleSharp, personRemoveSharp, personSharp, reloadSharp, remove, reorderThree, shareSocialSharp, statsChartSharp, trophySharp, document, add, checkmarkSharp, clipboardSharp, ellipsisVerticalCircleSharp } from 'ionicons/icons';
+import { arrowBackSharp, bodySharp, chevronUpSharp, colorPalette, ellipsisVerticalSharp, globe, homeSharp, logInSharp, logOutSharp, menu, pencilSharp, personAddSharp, personCircleSharp, personRemoveSharp, personSharp, reloadSharp, remove, reorderThree, shareSocialSharp, statsChartSharp, trophySharp, document, add, checkmarkSharp, clipboardSharp, ellipsisVerticalCircleSharp, closeCircleSharp } from 'ionicons/icons';
 
 export const appIcons = {
   reorderThree,
@@ -27,5 +27,6 @@ export const appIcons = {
   add, 
   checkmarkSharp, 
   clipboardSharp,
-  ellipsisVerticalCircleSharp
+  ellipsisVerticalCircleSharp,
+  closeCircleSharp
 };

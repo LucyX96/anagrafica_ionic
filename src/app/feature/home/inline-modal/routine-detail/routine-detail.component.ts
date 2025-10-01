@@ -10,7 +10,7 @@ import {
   IonInput,
   IonLabel,
   ModalController,
-  IonPopover,
+  IonModal,
 } from '@ionic/angular/standalone';
 import { MaterialModule } from 'src/app/material.module';
 import { AddItemModalComponent } from './add-item-modal/add-item-modal.component';
@@ -42,9 +42,9 @@ export interface ColorPaletteItem {
     IonFabButton,
     IonInput,
     IonLabel,
-    IonPopover,
     NewColorPickerComponent,
-  ],
+    IonModal
+],
 })
 export class RoutineDetailComponent implements OnInit {
   @Input() colors: ColorPaletteItem[] = [];
@@ -64,22 +64,22 @@ export class RoutineDetailComponent implements OnInit {
 
   ngOnDestroy() {}
 
-  async openAddItemModal() {
-    const modal = await this.modalCtrl.create({
-      component: AddItemModalComponent,
-      componentProps: {
-        availableColors: this.colorPalette,
-      },
-    });
+  // async openAddItemModal() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: AddItemModalComponent,
+  //     componentProps: {
+  //       availableColors: this.colorPalette,
+  //     },
+  //   });
 
-    await modal.present();
+  //   await modal.present();
 
-    const { data, role } = await modal.onWillDismiss();
+  //   const { data, role } = await modal.onWillDismiss();
 
-    if (role === 'confirm') {
-      this.addItem(data.label);
-    }
-  }
+  //   if (role === 'confirm') {
+  //     this.addItem(data.label);
+  //   }
+  // }
 
   addItem(label: string) {
     const newId = Date.now();
@@ -123,6 +123,21 @@ export class RoutineDetailComponent implements OnInit {
   saveAndClose() {
     this.itemUpdated.emit(this.currentItem);
     this.modalCtrl.dismiss();
+  }
+
+  async openColorPickerModal() {
+    const modal = await this.modalCtrl.create({
+      component: NewColorPickerComponent,
+      initialBreakpoint: 0.65,
+      breakpoints: [0, 0.65]
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onDidDismiss();
+    if (role === 'confirm' && data) {
+      this.addColorToPalette(data);
+    }
   }
 
   removeColorFromPalette(idToRemove: number) {

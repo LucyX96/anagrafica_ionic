@@ -1,22 +1,20 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import iro from '@jaames/iro';
-import {
-  IonContent,
-  IonText,
-  IonButton,
-} from '@ionic/angular/standalone';
+import { IonContent, IonText, IonButton, IonTitle, IonGrid, IonRow, IonCol, IonIcon } from '@ionic/angular/standalone';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-new-color-picker',
   templateUrl: './new-color-picker.component.html',
   styleUrls: ['./new-color-picker.component.scss'],
-  imports: [IonContent, IonText, IonButton], 
+  imports: [IonContent, IonGrid, IonRow, IonCol, IonTitle, IonIcon], 
   standalone: true, 
 })
 export class NewColorPickerComponent implements OnInit {
   colorcode: string = '#ffffff'; 
+  previousColor: string = '#ff0000';
   @Output() colorSelected = new EventEmitter<string>(); 
-  constructor() {}
+  constructor(private modalCtrl: ModalController) {}
 
   ngOnInit() {
     let ref = this;
@@ -32,6 +30,11 @@ export class NewColorPickerComponent implements OnInit {
 
   confirmColorSelection() {
     this.colorSelected.emit(this.colorcode);
+    this.modalCtrl.dismiss(this.colorcode, 'confirm');
+  }
+
+  cancel() {
+    this.modalCtrl.dismiss();
   }
 }
 

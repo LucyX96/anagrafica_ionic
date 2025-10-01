@@ -1,7 +1,30 @@
+<div>
+  <ion-grid>
+    <ion-row>
+      <!-- Checkmark -->
+      <ion-col size="1" class="ion-text-start" (click)="cancel()">
+        <ion-icon name="close-circle-sharp"></ion-icon>
+      </ion-col>
+
+      <ion-col size="6" class="ion-text-start">
+        <ion-title>Color code</ion-title>
+      </ion-col>
+
+      <ion-col size="1"> </ion-col>
+
+      <ion-col size="1"> </ion-col>
+
+      <ion-col size="2"> </ion-col>
+
+      <ion-col size="1" class="ion-text-end" (click)="confirmColorSelection()">
+        <ion-icon name="checkmark-sharp"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
 
 <ion-content class="ion-padding">
-  
-  <div id="picker"></div>
+  <!-- <div id="picker"></div>
 
   <ion-text>
     <p class="ion-text-center">Colore: {{ colorcode }}</p>
@@ -9,6 +32,20 @@
 
   <ion-button (click)="confirmColorSelection()" expand="block" shape="round">
     Seleziona
-  </ion-button>
+  </ion-button> -->
 
+  <div id="picker"></div>
+
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-padding-top">
+      <ion-col size="auto">
+        <div class="color-swatch-label">Attuale</div>
+        <div class="color-swatch" [style.background]="colorcode"></div>
+      </ion-col>
+      <ion-col size="auto">
+        <div class="color-swatch-label">Precedente</div>
+        <div class="color-swatch" [style.background]="previousColor"></div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
