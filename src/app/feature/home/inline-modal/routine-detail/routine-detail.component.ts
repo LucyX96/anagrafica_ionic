@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { IonIcon, IonGrid, IonRow, IonCol, IonText, IonContent, IonFabButton, IonInput, IonLabel, ModalController, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { MaterialModule } from 'src/app/material.module';
 import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
@@ -30,7 +30,9 @@ export interface ColorPaletteItem {
     IonFabButton,
     IonInput,
     IonLabel
-],
+  ],
+  // Aggiungo esplicitamente la strategia per chiarezza
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoutineDetailComponent implements OnInit {
   @Input() colors: ColorPaletteItem[] = [];
@@ -42,10 +44,15 @@ export class RoutineDetailComponent implements OnInit {
   
   private pickerColor: string = '#1A65EB';
 
-  constructor(private modalCtrl: ModalController) {}
+  // MODIFICA 1: Iniezione del ChangeDetectorRef per il controllo manuale
+  constructor(
+    private modalCtrl: ModalController,
+    private cdr: ChangeDetectorRef 
+  ) {}
 
   ngOnInit() {
     this.colorPalette = this.colors;
+    console.log('Componente inizializzato. Palette iniziale:', this.colorPalette);
   }
 
   async openColorPicker() {
@@ -64,15 +71,12 @@ export class RoutineDetailComponent implements OnInit {
     
     if (role === 'confirm' && data) {
       this.addColorToPalette(data);
-      this.pickerColor = data; // Aggiorna il colore per la prossima apertura
+      this.pickerColor = data;
     }
   }
 
-  /**
-   * Aggiunge un nuovo colore alla palette creando un nuovo array (immutabilità).
-   * @param hexColor - Il colore in formato esadecimale da aggiungere.
-   */
   addColorToPalette(hexColor: string) {
+
     const colorExists = this.colorPalette.some(item => item.color === hexColor);
 
     if (hexColor && !colorExists) {
@@ -81,9 +85,14 @@ export class RoutineDetailComponent implements OnInit {
         color: hexColor,
       };
 
-      // Invece di this.colorPalette.push(newColorItem);
-      // Creo un nuovo array con il vecchio contenuto più il nuovo elemento.
+      // La logica di immutabilità è corretta
       this.colorPalette = [...this.colorPalette, newColorItem];
+      
+
+      // MODIFICA 2: Diciamo ad Angular di aggiornare la vista
+      // Questa è la riga che dovrebbe risolvere il problema definitivamente.
+      this.cdr.markForCheck();
+
     }
   }
 
@@ -99,17 +108,21 @@ export class RoutineDetailComponent implements OnInit {
   }
   
   addItem(label: string) {
-    this.items.push({ id: Date.now(), label: label, color: '#8a8a8aff' });
+    // Per coerenza, applico l'immutabilità anche qui
+    this.items = [...this.items, { id: Date.now(), label: label, color: '#8a8a8aff' }];
+    this.cdr.markForCheck();
   }
 
   removeItem(idToRemove: number) {
     this.items = this.items.filter((item) => item.id !== idToRemove);
+    this.cdr.markForCheck();
   }
 
   removeColorFromPalette(idToRemove: number) {
     if (this.colorPalette.length > 1) {
-      // Anche qui, uso un approccio immutabile per la rimozione
       this.colorPalette = this.colorPalette.filter((c) => c.id !== idToRemove);
+      this.cdr.markForCheck();
     }
   }
 }
+
