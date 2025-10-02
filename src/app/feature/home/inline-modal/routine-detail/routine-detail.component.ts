@@ -52,7 +52,7 @@ export class RoutineDetailComponent implements OnInit {
 
   ngOnInit() {
     this.colorPalette = this.colors;
-    console.log('Componente inizializzato. Palette iniziale:', this.colorPalette);
+    this.loadPaletteFromStorage();
   }
 
   async openColorPicker() {
@@ -93,6 +93,8 @@ export class RoutineDetailComponent implements OnInit {
       // Questa è la riga che dovrebbe risolvere il problema definitivamente.
       this.cdr.markForCheck();
 
+      this.savePaletteToStorage();
+
     }
   }
 
@@ -122,6 +124,24 @@ export class RoutineDetailComponent implements OnInit {
     if (this.colorPalette.length > 1) {
       this.colorPalette = this.colorPalette.filter((c) => c.id !== idToRemove);
       this.cdr.markForCheck();
+    }
+
+    this.savePaletteToStorage();
+  }
+
+  private savePaletteToStorage() {
+    // localStorage può salvare solo stringhe, quindi convertiamo l'array in JSON
+    localStorage.setItem('userColorPalette', JSON.stringify(this.colorPalette));
+  }
+
+  private loadPaletteFromStorage() {
+    const savedPalette = localStorage.getItem('userColorPalette');
+    if (savedPalette) {
+      // Se troviamo una palette salvata, la carichiamo
+      this.colorPalette = JSON.parse(savedPalette);
+    } else {
+      // Altrimenti, puoi inizializzare con colori di default
+      this.colorPalette = this.colors; // o un array vuoto []
     }
   }
 }
