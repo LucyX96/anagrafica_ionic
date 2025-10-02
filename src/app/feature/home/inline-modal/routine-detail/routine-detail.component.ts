@@ -18,6 +18,7 @@ export interface ColorPaletteItem {
   selector: 'app-routine-detail',
   templateUrl: './routine-detail.component.html',
   styleUrls: ['./routine-detail.component.scss'],
+  standalone: true,
   imports: [
     MaterialModule,
     IonGrid,
@@ -28,10 +29,7 @@ export interface ColorPaletteItem {
     IonContent,
     IonFabButton,
     IonInput,
-    IonLabel,
-    IonHeader,
-    IonToolbar,
-    IonTitle
+    IonLabel
 ],
 })
 export class RoutineDetailComponent implements OnInit {
@@ -41,33 +39,20 @@ export class RoutineDetailComponent implements OnInit {
 
   items: DayItem[] = [];
   colorPalette: ColorPaletteItem[] = [];
-
-  // //test
-  public currentColor: string = '#1A65EB';
-
-  // onColorChange(color: string) {
-  //   console.log('Nuovo colore selezionato:', color);
-  //   this.currentColor = color;
-  // }
-
-  // //fine test
+  
+  private pickerColor: string = '#1A65EB';
 
   constructor(private modalCtrl: ModalController) {}
 
   ngOnInit() {
-    this.colorPalette = this.colors
+    this.colorPalette = this.colors;
   }
 
-  ngAfterViewInit() {}
-
-  ngOnDestroy() {}
-
-  //test
   async openColorPicker() {
     const modal = await this.modalCtrl.create({
       component: NewColorPickerComponent,
       componentProps: {
-        color: this.currentColor // Passa il colore corrente alla modale
+        color: this.pickerColor 
       },
       initialBreakpoint: 0.65,
       breakpoints: [0, 0.65]
@@ -76,49 +61,35 @@ export class RoutineDetailComponent implements OnInit {
     await modal.present();
 
     const { data, role } = await modal.onWillDismiss();
+    
     if (role === 'confirm' && data) {
       this.addColorToPalette(data);
+      this.pickerColor = data; // Aggiorna il colore per la prossima apertura
     }
-
-  }
-  //fine test
-
-  addItem(label: string) {
-    const newId = Date.now();
-    this.items.push({
-      id: newId,
-      label: label,
-      color: '#8a8a8aff',
-    });
   }
 
-  removeItem(idToRemove: number) {
-    this.items = this.items.filter((item) => item.id !== idToRemove);
-  }
-
+  /**
+   * Aggiunge un nuovo colore alla palette creando un nuovo array (immutabilità).
+   * @param hexColor - Il colore in formato esadecimale da aggiungere.
+   */
   addColorToPalette(hexColor: string) {
-    console.log('Colore ricevuto dal figlio:', hexColor);
-
-    const colorExists = this.colorPalette.some(
-      (item) => item.color === hexColor
-    );
+    const colorExists = this.colorPalette.some(item => item.color === hexColor);
 
     if (hexColor && !colorExists) {
-      const newId = Date.now();
-
       const newColorItem: ColorPaletteItem = {
-        id: newId,
+        id: Date.now(),
         color: hexColor,
       };
 
-      this.colorPalette.push(newColorItem);
+      // Invece di this.colorPalette.push(newColorItem);
+      // Creo un nuovo array con il vecchio contenuto più il nuovo elemento.
+      this.colorPalette = [...this.colorPalette, newColorItem];
     }
   }
 
   selectNewColorForRoutine(newColor: string) {
     if (this.currentItem) {
       this.currentItem.color = newColor;
-      console.log('Nuovo colore selezionato per l\'item:', this.currentItem);
     }
   }
 
@@ -126,9 +97,18 @@ export class RoutineDetailComponent implements OnInit {
     this.itemUpdated.emit(this.currentItem);
     this.modalCtrl.dismiss();
   }
+  
+  addItem(label: string) {
+    this.items.push({ id: Date.now(), label: label, color: '#8a8a8aff' });
+  }
+
+  removeItem(idToRemove: number) {
+    this.items = this.items.filter((item) => item.id !== idToRemove);
+  }
 
   removeColorFromPalette(idToRemove: number) {
     if (this.colorPalette.length > 1) {
+      // Anche qui, uso un approccio immutabile per la rimozione
       this.colorPalette = this.colorPalette.filter((c) => c.id !== idToRemove);
     }
   }

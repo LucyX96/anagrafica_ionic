@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import iro from '@jaames/iro';
-import { IonContent, IonText, IonButton, IonTitle, IonGrid, IonRow, IonCol, IonIcon } from '@ionic/angular/standalone';
+import { Component, Input, OnInit } from '@angular/core';
+import { IonContent, IonGrid, IonRow, IonCol, IonIcon, IonTitle } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
-import { ColorPickerComponent } from "./color-picker/color-picker.component";
-import { ColorPaletteItem, DayItem } from '../routine-detail.component';
+import { ColorPickerComponent } from './color-picker/color-picker.component';
 
 @Component({
   selector: 'app-new-color-picker',
@@ -13,103 +11,38 @@ import { ColorPaletteItem, DayItem } from '../routine-detail.component';
   standalone: true, 
 })
 export class NewColorPickerComponent implements OnInit {
-  colorcode: string = '#ffffff'; 
-  previousColor: string = '#ff0000';
-  @Output() colorSelected = new EventEmitter<string>(); 
-  @Input() colors: ColorPaletteItem[] = [];
-  @Input() currentItem!: DayItem;
-  @Output() itemUpdated = new EventEmitter<DayItem>();
+  // Riceve il colore iniziale dal componente che apre il modale
+  @Input() color: string = '#ff0000';
 
-  items: DayItem[] = [];
-  colorPalette: ColorPaletteItem[] = [];
-
+  // Proprietà interna per gestire il colore selezionato nel picker
+  public currentColor: string = '';
 
   constructor(private modalCtrl: ModalController) {}
 
   ngOnInit() {
-    let ref = this;
-    var colorPicker = iro.ColorPicker('#picker', {
-      width: 160,
-      color: this.colorcode,
-    });
-
-    colorPicker.on('color:change', function (color: { hexString: string }) {
-      ref.colorcode = color.hexString;
-    });
+    // Inizializza il colore del picker con quello ricevuto in input
+    this.currentColor = this.color;
   }
 
-   //test
-  public currentColor: string = '#1A65EB';
-
+  /**
+   * Aggiorna il colore corrente quando l'utente interagisce con app-color-picker.
+   * @param color - Il nuovo colore selezionato.
+   */
   onColorChange(color: string) {
-    console.log('Nuovo colore selezionato:', color);
     this.currentColor = color;
   }
 
-  //fine test
-
-  //test
-  // async openColorPicker() {
-  //   const modal = await this.modalCtrl.create({
-  //     component: NewColorPickerComponent,
-  //     componentProps: {
-  //       color: this.currentColor // Passa il colore corrente alla modale
-  //     },
-  //     initialBreakpoint: 0.65,
-  //     breakpoints: [0, 0.65]
-  //   });
-    
-  //   await modal.present();
-
-  //   const { data, role } = await modal.onWillDismiss();
-  //   if (role === 'confirm' && data) {
-  //     this.addColorToPalette(data);
-  //   }
-
-  // }
-
-  addColorToPalette(hexColor: string) {
-      console.log('Colore ricevuto dal figlio:', hexColor);
-  
-      const colorExists = this.colorPalette.some(
-        (item) => item.color === hexColor
-      );
-  
-      if (hexColor && !colorExists) {
-        const newId = Date.now();
-  
-        const newColorItem: ColorPaletteItem = {
-          id: newId,
-          color: hexColor,
-        };
-  
-        this.colorPalette.push(newColorItem);
-      }
-    }
-
-    selectNewColorForRoutine(newColor: string) {
-    if (this.currentItem) {
-      this.currentItem.color = newColor;
-      console.log('Nuovo colore selezionato per l\'item:', this.currentItem);
-    }
-  }
-
-  saveAndClose() {
-    this.itemUpdated.emit(this.currentItem);
-    this.modalCtrl.dismiss();
-  }
-
-  
-  //fine test
-
+  /**
+   * Chiude il modale e restituisce il colore selezionato al componente padre.
+   */
   confirmColorSelection() {
-    this.colorSelected.emit(this.colorcode);
-    this.modalCtrl.dismiss(this.colorcode, 'confirm');
+    this.modalCtrl.dismiss(this.currentColor, 'confirm');
   }
 
+  /**
+   * Chiude il modale senza restituire dati.
+   */
   cancel() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 }
-
-
