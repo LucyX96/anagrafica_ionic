@@ -24,28 +24,15 @@
 </div>
 
 <ion-content class="ion-padding">
-  <!-- <div id="picker"></div>
+  <div class="picker-container">
+    <app-color-picker
+      [(color)]="currentColor"
+      (colorChange)="onColorChange($event)"
+    >
+    </app-color-picker>
+  </div>
 
-  <ion-text>
-    <p class="ion-text-center">Colore: {{ colorcode }}</p>
-  </ion-text>
-
-  <ion-button (click)="confirmColorSelection()" expand="block" shape="round">
-    Seleziona
-  </ion-button> -->
-
-  <div id="picker"></div>
-
-  <ion-grid>
-    <ion-row class="ion-justify-content-center ion-padding-top">
-      <ion-col size="auto">
-        <div class="color-swatch-label">Attuale</div>
-        <div class="color-swatch" [style.background]="colorcode"></div>
-      </ion-col>
-      <ion-col size="auto">
-        <div class="color-swatch-label">Precedente</div>
-        <div class="color-swatch" [style.background]="previousColor"></div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="color-preview" [style.background-color]="currentColor">
+    Colore corrente: {{ currentColor }}
+  </div>
 </ion-content>

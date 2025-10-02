@@ -1,29 +1,23 @@
 <ion-grid>
   <ion-row class="ion-align-items-center">
-    <!-- Checkmark -->
     <ion-col size="1" class="ion-text-start">
       <ion-icon name="checkmark-sharp"></ion-icon>
     </ion-col>
 
-    <!-- Text -->
     <ion-col size="3">
       <ion-text>Routine</ion-text>
     </ion-col>
 
-    <!-- Spazio -->
     <ion-col size="5" class="ion-text-center"> </ion-col>
 
-    <!-- Clipboard -->
     <ion-col size="1">
       <ion-icon name="clipboard-sharp"></ion-icon>
     </ion-col>
 
-    <!-- Share -->
     <ion-col size="1">
       <ion-icon name="share-social-sharp"></ion-icon>
     </ion-col>
 
-    <!-- Options -->
     <ion-col size="1" class="ion-text-end">
       <ion-icon name="ellipsis-vertical-sharp"></ion-icon>
     </ion-col>
@@ -32,7 +26,6 @@
 
 <ion-content>
   <ion-grid>
-    <!-- Colonne per il nome -->
     <ion-row class="ion-align-items-center">
       <ion-col size="12" class="ion-text-start">
         <ion-input
@@ -45,7 +38,6 @@
       <ion-col size="12"></ion-col>
     </ion-row>
 
-    <!-- Colonna per etichette giornaliere -->
     <ion-row class="ion-align-items-center">
       <ion-col size="12" class="ion-text-start">
         <ion-label>Etichetta</ion-label>
@@ -70,7 +62,6 @@
       </ion-col>
     </ion-row>
 
-    <!-- Colonne per codifica colore -->
     <ion-row class="ion-align-items-center">
       <ion-col size="12" class="ion-text-start">
         <ion-label>Codifica colore</ion-label>
@@ -86,33 +77,17 @@
       }
 
       <ion-col size="2.4">
-        <ion-fab-button id="open-modal" (click)="openColorPickerModal()">
+        <ion-fab-button (click)="openColorPicker()">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
-        <!-- <ion-popover trigger="open-palette-popover">
-          <ng-template>
-            <app-new-color-picker (colorSelected)="addColorToPalette($event)">
-            </app-new-color-picker>
-          </ng-template>
-        </ion-popover> -->
 
-        <ion-modal
-          trigger="open-modal"
-          [initialBreakpoint]="1"
-          [breakpoints]="[0, 1]"
-        >
-          <ng-template>
-            <ion-content
-              class="ion-padding"
-              fixed-slot-placement="before"
-              [scrollY]="false"
-            >
-              <app-new-color-picker (colorSelected)="addColorToPalette($event)">
-              </app-new-color-picker>
-            </ion-content>
-          </ng-template>
-        </ion-modal>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Color Picker</ion-title>
+  </ion-toolbar>
+</ion-header>

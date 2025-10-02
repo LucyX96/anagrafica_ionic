@@ -40,7 +40,7 @@ declare global {
     IonFooter,
     HeaderComponent,
     FooterComponent,
-    SwipeBackDirective,
+    SwipeBackDirective
   ],
 })
 export class AppComponent implements OnInit {

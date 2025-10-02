@@ -1,19 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  IonIcon,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonText,
-  IonContent,
-  IonFabButton,
-  IonInput,
-  IonLabel,
-  ModalController,
-  IonModal,
-} from '@ionic/angular/standalone';
+import { IonIcon, IonGrid, IonRow, IonCol, IonText, IonContent, IonFabButton, IonInput, IonLabel, ModalController, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { MaterialModule } from 'src/app/material.module';
-import { AddItemModalComponent } from './add-item-modal/add-item-modal.component';
 import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
 
 export interface DayItem {
@@ -42,8 +29,9 @@ export interface ColorPaletteItem {
     IonFabButton,
     IonInput,
     IonLabel,
-    NewColorPickerComponent,
-    IonModal
+    IonHeader,
+    IonToolbar,
+    IonTitle
 ],
 })
 export class RoutineDetailComponent implements OnInit {
@@ -53,6 +41,16 @@ export class RoutineDetailComponent implements OnInit {
 
   items: DayItem[] = [];
   colorPalette: ColorPaletteItem[] = [];
+
+  // //test
+  public currentColor: string = '#1A65EB';
+
+  // onColorChange(color: string) {
+  //   console.log('Nuovo colore selezionato:', color);
+  //   this.currentColor = color;
+  // }
+
+  // //fine test
 
   constructor(private modalCtrl: ModalController) {}
 
@@ -64,22 +62,26 @@ export class RoutineDetailComponent implements OnInit {
 
   ngOnDestroy() {}
 
-  // async openAddItemModal() {
-  //   const modal = await this.modalCtrl.create({
-  //     component: AddItemModalComponent,
-  //     componentProps: {
-  //       availableColors: this.colorPalette,
-  //     },
-  //   });
+  //test
+  async openColorPicker() {
+    const modal = await this.modalCtrl.create({
+      component: NewColorPickerComponent,
+      componentProps: {
+        color: this.currentColor // Passa il colore corrente alla modale
+      },
+      initialBreakpoint: 0.65,
+      breakpoints: [0, 0.65]
+    });
+    
+    await modal.present();
 
-  //   await modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm' && data) {
+      this.addColorToPalette(data);
+    }
 
-  //   const { data, role } = await modal.onWillDismiss();
-
-  //   if (role === 'confirm') {
-  //     this.addItem(data.label);
-  //   }
-  // }
+  }
+  //fine test
 
   addItem(label: string) {
     const newId = Date.now();
@@ -123,21 +125,6 @@ export class RoutineDetailComponent implements OnInit {
   saveAndClose() {
     this.itemUpdated.emit(this.currentItem);
     this.modalCtrl.dismiss();
-  }
-
-  async openColorPickerModal() {
-    const modal = await this.modalCtrl.create({
-      component: NewColorPickerComponent,
-      initialBreakpoint: 0.65,
-      breakpoints: [0, 0.65]
-    });
-
-    await modal.present();
-
-    const { data, role } = await modal.onDidDismiss();
-    if (role === 'confirm' && data) {
-      this.addColorToPalette(data);
-    }
   }
 
   removeColorFromPalette(idToRemove: number) {
