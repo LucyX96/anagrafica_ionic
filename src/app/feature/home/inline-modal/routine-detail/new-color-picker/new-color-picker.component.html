@@ -1,29 +1,24 @@
-<div>
-  <ion-grid>
-    <ion-row>
-      <!-- Checkmark -->
-      <ion-col size="1" class="ion-text-start" (click)="cancel()">
-        <ion-icon name="close-circle-sharp"></ion-icon>
-      </ion-col>
+<div class="contenitore-pagina" (touchmove)="$event.stopPropagation()">
 
-      <ion-col size="6" class="ion-text-start">
-        <ion-title>Color code</ion-title>
-      </ion-col>
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="1" class="ion-text-start" (click)="cancel()">
+          <ion-icon name="close-circle-sharp"></ion-icon>
+        </ion-col>
+        <ion-col size="6" class="ion-text-start">
+          <ion-title>Color code</ion-title>
+        </ion-col>
+        <ion-col size="1"> </ion-col>
+        <ion-col size="1"> </ion-col>
+        <ion-col size="2"> </ion-col>
+        <ion-col size="1" class="ion-text-end" (click)="confirmColorSelection()">
+          <ion-icon name="checkmark-sharp"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
-      <ion-col size="1"> </ion-col>
-
-      <ion-col size="1"> </ion-col>
-
-      <ion-col size="2"> </ion-col>
-
-      <ion-col size="1" class="ion-text-end" (click)="confirmColorSelection()">
-        <ion-icon name="checkmark-sharp"></ion-icon>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
-
-<ion-content class="ion-padding">
   <div class="picker-container">
     <app-color-picker
       [(color)]="currentColor"
@@ -32,7 +27,10 @@
     </app-color-picker>
   </div>
 
-  <div class="color-preview" [style.background-color]="currentColor">
-    Colore corrente: {{ currentColor }}
+  <div>
   </div>
-</ion-content>
+  <div class="color-preview" [style.background-color]="currentColor">
+    {{ currentColor }}
+  </div>
+
+</div>

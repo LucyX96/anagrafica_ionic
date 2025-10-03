@@ -252,5 +252,12 @@ ion-content {
   }
 }
 
+//test
+ion-modal.color-picker-modal {
+  --height: 65%;
+  --border-radius: 12px;
+  pointer-events: auto; /* garantisce click all’interno */
+}
+
 
 // fine temi personalizzati

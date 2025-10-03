@@ -16,8 +16,11 @@
       <ion-input
         label="Nome etichetta"
         labelPlacement="stacked"
+        fill="outline"
         placeholder="Es. Giorno 1"
-        [(ngModel)]="label"
+        [value]="label"
+        (ionInput)="onInput($event)"
+        #ionInputEl
       ></ion-input>
     </ion-col>
 

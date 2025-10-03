@@ -1,6 +1,6 @@
 <ion-grid>
   <ion-row class="ion-align-items-center">
-    <ion-col size="1" class="ion-text-start">
+    <ion-col size="1" class="ion-text-start" (click)="saveAndClose()">
       <ion-icon name="checkmark-sharp"></ion-icon>
     </ion-col>
     <ion-col size="3">
@@ -28,6 +28,9 @@
           label-placement="stacked"
           fill="outline"
           placeholder="Routine name"
+          [value]="inputModel"
+          (ionInput)="onInput($event)"
+          #ionInputEl
         ></ion-input>
       </ion-col>
     </ion-row>
@@ -37,15 +40,15 @@
         <ion-label>Etichetta</ion-label>
       </ion-col>
       @for (item of items; track item.id) {
-        <ion-col size="2.4">
-          <ion-fab-button
-            [style.--background]="item.color"
-            [style.--color]="'#ffffff'"
-            (click)="removeItem(item.id)"
-          >
-            {{ item.label }}
-          </ion-fab-button>
-        </ion-col>
+      <ion-col size="2.4">
+        <ion-fab-button
+          [style.--background]="item.color"
+          [style.--color]="'#ffffff'"
+          (click)="removeItem(item.id)"
+        >
+          {{ item.label }}
+        </ion-fab-button>
+      </ion-col>
       }
       <ion-col size="2.4">
         <ion-fab-button (click)="addItem('lun')">
@@ -59,12 +62,12 @@
         <ion-label>Codifica colore</ion-label>
       </ion-col>
       @for (colorItem of colorPalette; track colorItem.id) {
-        <ion-col size="2.4">
-          <ion-fab-button
-            [style.--background]="colorItem.color"
-            (click)="selectNewColorForRoutine(colorItem.color)"
-          ></ion-fab-button>
-        </ion-col>
+      <ion-col size="2.4">
+        <ion-fab-button
+          [style.--background]="colorItem.color"
+          (click)="selectNewColorForRoutine(colorItem.color)"
+        ></ion-fab-button>
+      </ion-col>
       }
       <ion-col size="2.4">
         <ion-fab-button (click)="openColorPicker()">

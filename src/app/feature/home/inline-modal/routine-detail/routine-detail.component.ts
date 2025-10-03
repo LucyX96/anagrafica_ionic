@@ -1,5 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { IonIcon, IonGrid, IonRow, IonCol, IonText, IonContent, IonFabButton, IonInput, IonLabel, ModalController, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  ViewChild,
+} from '@angular/core';
+import {
+  IonIcon,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonText,
+  IonContent,
+  IonFabButton,
+  IonInput,
+  IonLabel,
+  ModalController,
+} from '@ionic/angular/standalone';
 import { MaterialModule } from 'src/app/material.module';
 import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
 
@@ -29,46 +47,69 @@ export interface ColorPaletteItem {
     IonContent,
     IonFabButton,
     IonInput,
-    IonLabel
+    IonLabel,
   ],
-  // Aggiungo esplicitamente la strategia per chiarezza
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoutineDetailComponent implements OnInit {
   @Input() colors: ColorPaletteItem[] = [];
   @Input() currentItem!: DayItem;
-  @Output() itemUpdated = new EventEmitter<DayItem>();
 
+  itemLabel: string = '';
   items: DayItem[] = [];
   colorPalette: ColorPaletteItem[] = [];
-  
-  private pickerColor: string = '#1A65EB';
+  pickerColor: string = '#1A65EB';
 
-  // MODIFICA 1: Iniezione del ChangeDetectorRef per il controllo manuale
+  inputModel = '';
+
+  @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
+
   constructor(
     private modalCtrl: ModalController,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.colorPalette = this.colors;
+    this.inputModel = this.currentItem.label;
+    // this.colorPalette = this.colors;
     this.loadPaletteFromStorage();
   }
 
-  async openColorPicker() {
+  // async openColorPicker() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: NewColorPickerComponent,
+  //     componentProps: {
+  //       color: this.pickerColor,
+  //     },
+  //     initialBreakpoint: 0.65,
+  //     breakpoints: [0.65],
+  //     handle: false
+  //   });
+
+  //   await modal.present();
+
+  //   const { data, role } = await modal.onWillDismiss();
+
+  //   if (role === 'confirm' && data) {
+  //     this.addColorToPalette(data);
+  //     this.pickerColor = data;
+  //   }
+  // }
+
+    async openColorPicker() {
     const modal = await this.modalCtrl.create({
       component: NewColorPickerComponent,
-      componentProps: {
-        color: this.pickerColor 
-      },
+      componentProps: { color: this.pickerColor },
       initialBreakpoint: 0.65,
-      breakpoints: [0, 0.65]
+      breakpoints: [0.65],
+      handle: false,
+      backdropDismiss: true,
+      cssClass: 'color-picker-modal'
     });
-    
+
     await modal.present();
 
     const { data, role } = await modal.onWillDismiss();
-    
     if (role === 'confirm' && data) {
       this.addColorToPalette(data);
       this.pickerColor = data;
@@ -76,8 +117,9 @@ export class RoutineDetailComponent implements OnInit {
   }
 
   addColorToPalette(hexColor: string) {
-
-    const colorExists = this.colorPalette.some(item => item.color === hexColor);
+    const colorExists = this.colorPalette.some(
+      (item) => item.color === hexColor
+    );
 
     if (hexColor && !colorExists) {
       const newColorItem: ColorPaletteItem = {
@@ -87,14 +129,12 @@ export class RoutineDetailComponent implements OnInit {
 
       // La logica di immutabilità è corretta
       this.colorPalette = [...this.colorPalette, newColorItem];
-      
 
       // MODIFICA 2: Diciamo ad Angular di aggiornare la vista
       // Questa è la riga che dovrebbe risolvere il problema definitivamente.
       this.cdr.markForCheck();
 
       this.savePaletteToStorage();
-
     }
   }
 
@@ -104,14 +144,27 @@ export class RoutineDetailComponent implements OnInit {
     }
   }
 
+  onInput(event: CustomEvent) {
+    const value = (event.target as HTMLIonInputElement).value ?? '';
+
+    const filteredValue = (value as string).replace(/[^a-zA-Z0-9]+/g, '');
+
+    this.ionInputEl.value = this.inputModel = filteredValue;
+
+    this.itemLabel = this.ionInputEl.value;
+  }
+
   saveAndClose() {
-    this.itemUpdated.emit(this.currentItem);
+    this.currentItem.label = this.itemLabel;
     this.modalCtrl.dismiss();
   }
-  
+
   addItem(label: string) {
     // Per coerenza, applico l'immutabilità anche qui
-    this.items = [...this.items, { id: Date.now(), label: label, color: '#8a8a8aff' }];
+    this.items = [
+      ...this.items,
+      { id: Date.now(), label: label, color: '#8a8a8aff' },
+    ];
     this.cdr.markForCheck();
   }
 
@@ -145,4 +198,3 @@ export class RoutineDetailComponent implements OnInit {
     }
   }
 }
-

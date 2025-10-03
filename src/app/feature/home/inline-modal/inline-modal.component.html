@@ -37,13 +37,14 @@
           <ion-modal
             trigger="open-modal-{{ item.id }}"
             [initialBreakpoint]="1"
-            [breakpoints]="[0, 1]"
+            [breakpoints]="[1]"
+            handle="false"
           >
             <ng-template>
-              <ion-content class="ion-padding" fixed-slot-placement="before" [scrollY]="false">
+              <ion-content class="ion-padding" fixed-slot-placement="before" [scrollY]="false" (touchmove)="$event.stopPropagation()">
                 <app-routine-detail [colors]="colorPalette"
               [currentItem]="item"
-              (itemUpdated)="updateItem($event)"></app-routine-detail>
+              ></app-routine-detail>
               </ion-content>
             </ng-template>
           </ion-modal>

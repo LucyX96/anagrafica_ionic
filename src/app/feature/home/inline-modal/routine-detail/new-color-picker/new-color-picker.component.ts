@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IonContent, IonGrid, IonRow, IonCol, IonIcon, IonTitle } from '@ionic/angular/standalone';
+import { IonGrid, IonRow, IonCol, IonIcon, IonTitle } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
 import { ColorPickerComponent } from './color-picker/color-picker.component';
 
@@ -7,7 +7,7 @@ import { ColorPickerComponent } from './color-picker/color-picker.component';
   selector: 'app-new-color-picker',
   templateUrl: './new-color-picker.component.html',
   styleUrls: ['./new-color-picker.component.scss'],
-  imports: [IonContent, IonGrid, IonRow, IonCol, IonTitle, IonIcon, ColorPickerComponent], 
+  imports: [IonGrid, IonRow, IonCol, IonTitle, IonIcon, ColorPickerComponent], 
   standalone: true, 
 })
 export class NewColorPickerComponent implements OnInit {

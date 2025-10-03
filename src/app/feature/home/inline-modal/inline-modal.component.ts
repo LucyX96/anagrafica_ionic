@@ -1,5 +1,7 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -62,7 +64,7 @@ export interface ColorPaletteItem {
     IonModal,
     RoutineDetailComponent,
     IonFabList,
-  ],
+  ]
 })
 export class InlineModalComponent implements OnInit, AfterViewInit {
   @ViewChild('header', { read: ElementRef }) headerEl!: ElementRef;
@@ -91,10 +93,27 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.loadPaletteFromStorage();
   }
 
   ngAfterViewInit() {
     this.createGesture();
+  }
+
+  private savePaletteToStorage() {
+    // localStorage può salvare solo stringhe, quindi convertiamo l'array in JSON
+    localStorage.setItem('userColorPalette', JSON.stringify(this.colorPalette));
+  }
+
+  private loadPaletteFromStorage() {
+    const savedPalette = localStorage.getItem('userColorPalette');
+    if (savedPalette) {
+      // Se troviamo una palette salvata, la carichiamo
+      this.colorPalette = JSON.parse(savedPalette);
+    } else {
+      // Altrimenti, puoi inizializzare con colori di default
+      this.colorPalette; // o un array vuoto []
+    }
   }
 
   async openAddItemModal() {
@@ -103,10 +122,11 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
     }
     const modal = await this.modalCtrl.create({
       component: AddItemModalComponent,
-      componentProps: {
-        // Passiamo la nostra tavolozza di colori al modale
-        availableColors: this.colorPalette,
-      },
+      componentProps: { availableColors: this.colorPalette,},
+      initialBreakpoint: 0.65,
+      breakpoints: [0.65],
+      handle: false
+      
     });
 
     await modal.present();
@@ -200,11 +220,11 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
     });
   }
 
-  updateItem(updatedItem: DayItem) {
-    const index = this.items.findIndex(item => item.id === updatedItem.id);
+  // updateItem(updatedItem: DayItem) {
+  //   const index = this.items.findIndex(item => item.id === updatedItem.id);
 
-    if (index !== -1) {
-      this.items[index] = updatedItem;
-    }
-  }
+  //   if (index !== -1) {
+  //     this.items[index] = updatedItem;
+  //   }
+  // }
 }
