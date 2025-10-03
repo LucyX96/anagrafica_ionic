@@ -1,7 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -33,17 +31,10 @@ import { addIcons } from 'ionicons';
 import { add, clipboardSharp } from 'ionicons/icons';
 import { RoutineDetailComponent } from './routine-detail/routine-detail.component';
 import { AddItemModalComponent } from './routine-detail/add-item-modal/add-item-modal.component';
-
-export interface DayItem {
-  id: number;
-  label: string;
-  color: any;
-}
-
-export interface ColorPaletteItem {
-  id: number;
-  color: any;
-}
+import { Observable, Subscription } from 'rxjs';
+import { PaletteService } from 'src/app/core/services/color-palette.service';
+import { AsyncPipe } from '@angular/common';
+import { ColorPaletteItem, DayItem } from 'src/app/core/model/color-interface';
 
 @Component({
   selector: 'app-inline-modal',
@@ -64,7 +55,8 @@ export interface ColorPaletteItem {
     IonModal,
     RoutineDetailComponent,
     IonFabList,
-  ]
+    AsyncPipe,
+  ],
 })
 export class InlineModalComponent implements OnInit, AfterViewInit {
   @ViewChild('header', { read: ElementRef }) headerEl!: ElementRef;
@@ -72,70 +64,58 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
   @Output() dragProgress = new EventEmitter<number>();
 
   items: DayItem[] = [];
-  colorPalette: ColorPaletteItem[] = [
-    {
-      id: 1,
-      color: '#f94747ff'
-    }
-  ];
 
   private gesture!: Gesture;
   private initialStep: number = 0;
   private isDragging = false;
 
+  public palette$!: Observable<ColorPaletteItem[]>;
+  private paletteSubscription!: Subscription;
+
   constructor(
     private gestureCtrl: GestureController,
     private elRef: ElementRef,
     private renderer: Renderer2,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private paletteService: PaletteService
   ) {
     addIcons({ add, clipboardSharp });
   }
 
   ngOnInit() {
-    this.loadPaletteFromStorage();
+    this.palette$ = this.paletteService.palette$;
+    this.paletteSubscription = this.palette$.subscribe((palette) => {
+      console.log(
+        "📥 [InlineModalComponent] Ricevuta nuova palette dall'Observable:",
+        palette
+      );
+    });
   }
 
   ngAfterViewInit() {
     this.createGesture();
   }
 
-  private savePaletteToStorage() {
-    // localStorage può salvare solo stringhe, quindi convertiamo l'array in JSON
-    localStorage.setItem('userColorPalette', JSON.stringify(this.colorPalette));
-  }
-
-  private loadPaletteFromStorage() {
-    const savedPalette = localStorage.getItem('userColorPalette');
-    if (savedPalette) {
-      // Se troviamo una palette salvata, la carichiamo
-      this.colorPalette = JSON.parse(savedPalette);
-    } else {
-      // Altrimenti, puoi inizializzare con colori di default
-      this.colorPalette; // o un array vuoto []
-    }
+  addNewColor() {
+    this.paletteService.addNewColor('#000000ff');
   }
 
   async openAddItemModal() {
-    if (this.colorPalette!=null) {
+    const availableColors = this.paletteService.getCurrentPalette();
 
-    }
     const modal = await this.modalCtrl.create({
       component: AddItemModalComponent,
-      componentProps: { availableColors: this.colorPalette,},
+      componentProps: { availableColors: availableColors },
       initialBreakpoint: 0.65,
       breakpoints: [0.65],
-      handle: false
-      
+      handle: false,
     });
 
     await modal.present();
 
-    // Aspetta i dati che il modale restituirà alla chiusura
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      // Se l'utente ha confermato, crea la nuova etichetta con i dati ricevuti
       this.addItem(data.label, data.color);
     }
   }
@@ -200,10 +180,13 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
     if (this.gesture) {
       this.gesture.destroy();
     }
+    // NOTA: È fondamentale fare l'unsubscribe per evitare perdite di memoria.
+    if (this.paletteSubscription) {
+      this.paletteSubscription.unsubscribe();
+    }
   }
 
   handleReorderEnd(event: ReorderEndCustomEvent) {
-    console.log('Dragged from index', event.detail.from, 'to', event.detail.to);
     event.detail.complete();
   }
 
@@ -213,18 +196,12 @@ export class InlineModalComponent implements OnInit, AfterViewInit {
 
   private addItem(label: string, hexColor: any) {
     const newId = Date.now();
-    this.items.push({
+    const newItem = {
       id: newId,
       label: label,
       color: hexColor,
-    });
+    };
+
+    this.items.push(newItem);
   }
-
-  // updateItem(updatedItem: DayItem) {
-  //   const index = this.items.findIndex(item => item.id === updatedItem.id);
-
-  //   if (index !== -1) {
-  //     this.items[index] = updatedItem;
-  //   }
-  // }
 }

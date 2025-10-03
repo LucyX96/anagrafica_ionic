@@ -2,9 +2,12 @@ import {
   Component,
   Input,
   OnInit,
+  OnChanges, 
+  SimpleChanges, 
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ViewChild,
+  OnDestroy, 
 } from '@angular/core';
 import {
   IonIcon,
@@ -20,17 +23,8 @@ import {
 } from '@ionic/angular/standalone';
 import { MaterialModule } from 'src/app/material.module';
 import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
-
-export interface DayItem {
-  id: number;
-  label: string;
-  color: any;
-}
-
-export interface ColorPaletteItem {
-  id: number;
-  color: any;
-}
+import { PaletteService} from 'src/app/core/services/color-palette.service';
+import { ColorPaletteItem, DayItem } from 'src/app/core/model/color-interface';
 
 @Component({
   selector: 'app-routine-detail',
@@ -51,91 +45,75 @@ export interface ColorPaletteItem {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoutineDetailComponent implements OnInit {
+export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   @Input() colors: ColorPaletteItem[] = [];
   @Input() currentItem!: DayItem;
 
-  itemLabel: string = '';
-  items: DayItem[] = [];
-  colorPalette: ColorPaletteItem[] = [];
-  pickerColor: string = '#1A65EB';
-
-  inputModel = '';
-
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
+  inputModel = '';
+  itemLabel: string = '';
+  items: DayItem[] = []; 
+  pickerColor: string = '#1A65EB';
 
   constructor(
     private modalCtrl: ModalController,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private paletteService: PaletteService
   ) {}
 
   ngOnInit() {
     this.inputModel = this.currentItem.label;
-    // this.colorPalette = this.colors;
-    this.loadPaletteFromStorage();
   }
 
-  // async openColorPicker() {
-  //   const modal = await this.modalCtrl.create({
-  //     component: NewColorPickerComponent,
-  //     componentProps: {
-  //       color: this.pickerColor,
-  //     },
-  //     initialBreakpoint: 0.65,
-  //     breakpoints: [0.65],
-  //     handle: false
-  //   });
+  ngOnChanges(changes: SimpleChanges) {
+    // Questo blocco di codice verrà eseguito ogni volta che il componente genitore
+    // passa un nuovo array di colori a questo componente.
+    if (changes['colors']) {
+      console.log('➡️ [RoutineDetailComponent] Dati ricevuti via @Input [colors]:', this.colors);
+    }
+  }
 
-  //   await modal.present();
-
-  //   const { data, role } = await modal.onWillDismiss();
-
-  //   if (role === 'confirm' && data) {
-  //     this.addColorToPalette(data);
-  //     this.pickerColor = data;
-  //   }
+  // addNewColor() {
+  //   this.paletteService.addNewColor('#000000ff');
   // }
 
-    async openColorPicker() {
+  async openColorPicker() {
+    console.log('🎨 [RoutineDetailComponent] Apro il Color Picker.');
+    const availableColors = this.paletteService.getCurrentPalette();
+
     const modal = await this.modalCtrl.create({
       component: NewColorPickerComponent,
-      componentProps: { color: this.pickerColor },
+      componentProps: { availableColors: availableColors },
       initialBreakpoint: 0.65,
       breakpoints: [0.65],
       handle: false,
       backdropDismiss: true,
-      cssClass: 'color-picker-modal'
+      cssClass: 'color-picker-modal',
     });
 
     await modal.present();
 
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm' && data) {
+      console.log(`📦 [RoutineDetailComponent] Color Picker ha restituito il colore: ${data}`);
       this.addColorToPalette(data);
       this.pickerColor = data;
     }
   }
 
   addColorToPalette(hexColor: string) {
-    const colorExists = this.colorPalette.some(
-      (item) => item.color === hexColor
-    );
+    const currentPalette = this.paletteService.getCurrentPalette();
+    const colorExists = currentPalette.some((item) => item.color === hexColor);
 
     if (hexColor && !colorExists) {
-      const newColorItem: ColorPaletteItem = {
-        id: Date.now(),
-        color: hexColor,
-      };
-
-      // La logica di immutabilità è corretta
-      this.colorPalette = [...this.colorPalette, newColorItem];
-
-      // MODIFICA 2: Diciamo ad Angular di aggiornare la vista
-      // Questa è la riga che dovrebbe risolvere il problema definitivamente.
-      this.cdr.markForCheck();
-
-      this.savePaletteToStorage();
+      this.paletteService.addNewColor(hexColor);
     }
+  }
+
+  removeColorFromPalette(idToRemove: number) {
+    if (this.colors.length > 1) {
+      this.paletteService.removeColor(idToRemove);
+    } 
   }
 
   selectNewColorForRoutine(newColor: string) {
@@ -146,25 +124,18 @@ export class RoutineDetailComponent implements OnInit {
 
   onInput(event: CustomEvent) {
     const value = (event.target as HTMLIonInputElement).value ?? '';
-
-    const filteredValue = (value as string).replace(/[^a-zA-Z0-9]+/g, '');
-
+    const filteredValue = (value as string).replace(/[^a-zA-Z0-9 ]+/g, '');
     this.ionInputEl.value = this.inputModel = filteredValue;
-
     this.itemLabel = this.ionInputEl.value;
   }
 
   saveAndClose() {
     this.currentItem.label = this.itemLabel;
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss(this.currentItem, 'confirm');
   }
 
   addItem(label: string) {
-    // Per coerenza, applico l'immutabilità anche qui
-    this.items = [
-      ...this.items,
-      { id: Date.now(), label: label, color: '#8a8a8aff' },
-    ];
+    this.items = [...this.items, { id: Date.now(), label: label, color: '#8a8a8aff' }];
     this.cdr.markForCheck();
   }
 
@@ -172,29 +143,8 @@ export class RoutineDetailComponent implements OnInit {
     this.items = this.items.filter((item) => item.id !== idToRemove);
     this.cdr.markForCheck();
   }
-
-  removeColorFromPalette(idToRemove: number) {
-    if (this.colorPalette.length > 1) {
-      this.colorPalette = this.colorPalette.filter((c) => c.id !== idToRemove);
-      this.cdr.markForCheck();
-    }
-
-    this.savePaletteToStorage();
-  }
-
-  private savePaletteToStorage() {
-    // localStorage può salvare solo stringhe, quindi convertiamo l'array in JSON
-    localStorage.setItem('userColorPalette', JSON.stringify(this.colorPalette));
-  }
-
-  private loadPaletteFromStorage() {
-    const savedPalette = localStorage.getItem('userColorPalette');
-    if (savedPalette) {
-      // Se troviamo una palette salvata, la carichiamo
-      this.colorPalette = JSON.parse(savedPalette);
-    } else {
-      // Altrimenti, puoi inizializzare con colori di default
-      this.colorPalette = this.colors; // o un array vuoto []
-    }
+  
+  ngOnDestroy() {
+    console.log('❌ [RoutineDetailComponent] Componente distrutto.');
   }
 }

@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonItem, IonInput, IonLabel, IonList, IonRow, IonCol, IonFabButton } from '@ionic/angular/standalone';
-import { ColorPaletteItem } from '../routine-detail.component';
+import { ColorPaletteItem } from 'src/app/core/model/color-interface';
 
 @Component({
   selector: 'app-add-item-modal',

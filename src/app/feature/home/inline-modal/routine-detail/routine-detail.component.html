@@ -61,7 +61,7 @@
       <ion-col size="12" class="ion-text-start">
         <ion-label>Codifica colore</ion-label>
       </ion-col>
-      @for (colorItem of colorPalette; track colorItem.id) {
+      @for (colorItem of colors; track colorItem.id) {
       <ion-col size="2.4">
         <ion-fab-button
           [style.--background]="colorItem.color"
