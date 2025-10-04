@@ -66,7 +66,7 @@ export class InlineModalComponent implements OnInit, OnDestroy {
   @Output() draggedDown = new EventEmitter<void>();
   @Output() dragProgress = new EventEmitter<number>();
 
-  public routines$ = this.routineService.routines$; // << sostituisce items[]
+  public routines$ = this.routineService.routines$; 
   public palette$!: Observable<ColorPaletteItem[]>;
   private paletteSubscription!: Subscription;
   private gesture!: Gesture;
