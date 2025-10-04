@@ -1,4 +1,14 @@
-<div #header class="panel-header">
+<!-- <div #header class="panel-header">
+  <div class="panel-handle"></div>
+  <div class="header-title">
+    <h6>Routines</h6>
+  </div>
+</div> -->
+
+<div #header class="panel-header" 
+     appDraggablePanel 
+     (draggedDown)="draggedDown.emit()" 
+     (dragProgress)="dragProgress.emit($event)">
   <div class="panel-handle"></div>
   <div class="header-title">
     <h6>Routines</h6>
