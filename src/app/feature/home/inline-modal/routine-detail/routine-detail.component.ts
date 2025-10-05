@@ -24,9 +24,10 @@ import {
 import { MaterialModule } from 'src/app/material.module';
 import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
 import { PaletteService } from 'src/app/core/services/color-palette.service';
-import { ColorPaletteItem, DayItem } from 'src/app/core/model/color-interface';
+import { ColorPaletteItem, DayItem, Exercise } from 'src/app/core/model/color-interface';
 import { ToastController } from '@ionic/angular';
 import { LabelInputModalComponent } from './label-input-modal/label-input-modal.component';
+import { RoutineService } from 'src/app/core/services/routine.service';
 
 @Component({
   selector: 'app-routine-detail',
@@ -52,6 +53,8 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   @Input() currentItem!: DayItem;
 
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
+  @ViewChild('routinesItem', { static: false }) routinesItem?: IonCol;
+
   inputModel = '';
   itemLabel: string = '';
   labelColor: string = '#5b636fff';
@@ -59,29 +62,12 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
 
   pickerColor: string = '#1A65EB';
 
-  items: DayItem[] = [
-    {
-      id: 1,
-      label: 'Lun',
-      color: this.labelColor,
-    },
-    {
-      id: 2,
-      label: 'Mer',
-      color: this.labelColor,
-    },
-    {
-      id: 3,
-      label: 'Ven',
-      color: this.labelColor,
-    },
-  ];
-
   constructor(
     private modalCtrl: ModalController,
     private cdr: ChangeDetectorRef,
     private paletteService: PaletteService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private routineService: RoutineService
   ) {}
 
   ngOnInit() {
@@ -174,12 +160,15 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
 
   async addItem() {
     await this.openLabelModal();
-    
-    if (this.labelInput!='') {
-      this.items = [
-        ...this.items,
+
+    if (this.labelInput != '') {
+      console.log(this.currentItem)
+      this.currentItem.exercise = [
+        ...this.currentItem.exercise,
         { id: Date.now(), label: this.labelInput, color: this.labelColor },
       ];
+
+      
       this.cdr.markForCheck();
     }
   }
@@ -202,9 +191,16 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
     return this.openToast();
   }
 
-  removeItem(idToRemove: number) {
-    this.items = this.items.filter((item) => item.id !== idToRemove);
-    this.cdr.markForCheck();
+  removeItem(event: Event, idToRemove: number) {
+    const col = event.currentTarget as HTMLElement;
+    const id = col.id;
+    if (id === 'routinesItem') {
+      this.routineService.removeRoutine(idToRemove);
+      this.modalCtrl.dismiss(idToRemove, 'confirm');
+    } else {
+      this.currentItem.exercise = this.currentItem.exercise.filter((item) => item.id !== idToRemove);
+      this.cdr.markForCheck();
+    }
   }
 
   ngOnDestroy() {

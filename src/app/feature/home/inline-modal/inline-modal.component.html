@@ -1,8 +1,10 @@
-
-<div #header class="panel-header" 
-     appDraggablePanel 
-     (draggedDown)="draggedDown.emit()" 
-     (dragProgress)="dragProgress.emit($event)">
+<div
+  #header
+  class="panel-header"
+  appDraggablePanel
+  (draggedDown)="draggedDown.emit()"
+  (dragProgress)="dragProgress.emit($event)"
+>
   <div class="panel-handle"></div>
   <div class="header-title">
     <h6>Routines</h6>
@@ -22,8 +24,11 @@
   </ion-fab>
 
   <ion-list>
-  <ion-reorder-group [disabled]="false" (ionReorderEnd)="handleReorderEnd($any($event))">
-    @for (item of routines$ | async; track item; let index = $index) {
+    <ion-reorder-group
+      [disabled]="false"
+      (ionReorderEnd)="handleReorderEnd($any($event))"
+    >
+      @for (item of routines$ | async; track item; let index = $index) {
       <ion-item button>
         <ion-reorder slot="start">
           <mat-icon>drag_indicator</mat-icon>
@@ -35,18 +40,30 @@
             id="open-modal-{{ item.id }}"
             expand="block"
           ></div>
-          <ion-modal trigger="open-modal-{{ item.id }}" [initialBreakpoint]="1" [breakpoints]="[1]" handle="false">
+          <ion-modal
+            trigger="open-modal-{{ item.id }}"
+            [initialBreakpoint]="1"
+            [breakpoints]="[1]"
+            handle="false"
+          >
             <ng-template>
-              <ion-content class="ion-padding" fixed-slot-placement="before" [scrollY]="false" (touchmove)="$event.stopPropagation()">
-                <app-routine-detail [colors]="(palette$ | async)!" [currentItem]="item"></app-routine-detail>
+              <ion-content
+                class="ion-padding"
+                fixed-slot-placement="before"
+                [scrollY]="false"
+                (touchmove)="$event.stopPropagation()"
+              >
+                <app-routine-detail
+                  [colors]="(palette$ | async)!"
+                  [currentItem]="item"
+                ></app-routine-detail>
               </ion-content>
             </ng-template>
           </ion-modal>
         </ion-avatar>
         <ion-label>{{ item.label }}</ion-label>
       </ion-item>
-    }
-  </ion-reorder-group>
-</ion-list>
-
+      }
+    </ion-reorder-group>
+  </ion-list>
 </ion-content>

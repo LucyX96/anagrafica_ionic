@@ -13,7 +13,7 @@
     <ion-col size="1">
       <ion-icon name="share-social-sharp"></ion-icon>
     </ion-col>
-    <ion-col size="1" class="ion-text-end">
+    <ion-col size="1" class="ion-text-end" (click)="removeItem($event,currentItem.id)" #routinesItem id="routinesItem">
       <ion-icon name="ellipsis-vertical-sharp"></ion-icon>
     </ion-col>
   </ion-row>
@@ -39,12 +39,12 @@
       <ion-col size="12" class="ion-text-start">
         <ion-label>Etichetta</ion-label>
       </ion-col>
-      @for (item of items; track item.id) {
+      @for (item of currentItem.exercise; track item.id) {
       <ion-col size="2.4">
         <ion-fab-button
           [style.--background]="item.color"
           [style.--color]="'#ffffff'"
-          (click)="removeItem(item.id)"
+          (click)="removeItem($event, item.id)"
         >
           {{ item.label }}
         </ion-fab-button>
