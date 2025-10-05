@@ -1,16 +1,23 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button color="medium" (click)="cancel()">Annulla</ion-button>
-    </ion-buttons>
-    <ion-title>Nuova Etichetta</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="confirm()" [strong]="true">Crea</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="1" class="ion-text-start" (click)="cancel()">
+        <ion-icon name="close-sharp"></ion-icon>
+      </ion-col>
+      <ion-col size="6" class="ion-text-start">
+        <ion-text>Crea Routine</ion-text>
+      </ion-col>
+      <ion-col size="1"> </ion-col>
+      <ion-col size="1"> </ion-col>
+      <ion-col size="1"> </ion-col>
+      <ion-col size="2" class="ion-text-end" (click)="confirm()">
+        <ion-icon name="checkmark-sharp"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" [scrollY]="false">
   <ion-row class="ion-align-items-center">
     <ion-col size="12" class="ion-text-start">
       <ion-input

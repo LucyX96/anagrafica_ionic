@@ -1,0 +1,21 @@
+.modal-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+h2 {
+  margin-bottom: 10px;
+}
+ion-button {
+  margin: 5px;
+}
+
+::ng-deep .custom-modal {
+  --width: 300px;
+  --height: auto;
+  --border-radius: 12px;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+

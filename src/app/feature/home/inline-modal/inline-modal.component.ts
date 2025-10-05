@@ -77,9 +77,7 @@ export class InlineModalComponent implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private paletteService: PaletteService,
     private routineService: RoutineService
-  ) {
-    addIcons({ add, clipboardSharp });
-  }
+  ) {}
 
   ngOnInit() {
     this.palette$ = this.paletteService.palette$;

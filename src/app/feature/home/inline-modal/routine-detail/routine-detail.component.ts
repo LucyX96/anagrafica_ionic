@@ -2,12 +2,12 @@ import {
   Component,
   Input,
   OnInit,
-  OnChanges, 
-  SimpleChanges, 
+  OnChanges,
+  SimpleChanges,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ViewChild,
-  OnDestroy, 
+  OnDestroy,
 } from '@angular/core';
 import {
   IonIcon,
@@ -23,8 +23,10 @@ import {
 } from '@ionic/angular/standalone';
 import { MaterialModule } from 'src/app/material.module';
 import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
-import { PaletteService} from 'src/app/core/services/color-palette.service';
+import { PaletteService } from 'src/app/core/services/color-palette.service';
 import { ColorPaletteItem, DayItem } from 'src/app/core/model/color-interface';
+import { ToastController } from '@ionic/angular';
+import { LabelInputModalComponent } from './label-input-modal/label-input-modal.component';
 
 @Component({
   selector: 'app-routine-detail',
@@ -52,30 +54,51 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
   inputModel = '';
   itemLabel: string = '';
-  items: DayItem[] = []; 
+  labelColor: string = '#5b636fff';
+  labelInput: string = '';
+
   pickerColor: string = '#1A65EB';
+
+  items: DayItem[] = [
+    {
+      id: 1,
+      label: 'Lun',
+      color: this.labelColor,
+    },
+    {
+      id: 2,
+      label: 'Mer',
+      color: this.labelColor,
+    },
+    {
+      id: 3,
+      label: 'Ven',
+      color: this.labelColor,
+    },
+  ];
 
   constructor(
     private modalCtrl: ModalController,
     private cdr: ChangeDetectorRef,
-    private paletteService: PaletteService
+    private paletteService: PaletteService,
+    private toastController: ToastController
   ) {}
 
   ngOnInit() {
-    this.inputModel = this.currentItem.label;
+    this.itemLabel = this.currentItem.label;
+    this.inputModel = this.itemLabel;
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // Questo blocco di codice verrà eseguito ogni volta che il componente genitore
     // passa un nuovo array di colori a questo componente.
     if (changes['colors']) {
-      console.log('➡️ [RoutineDetailComponent] Dati ricevuti via @Input [colors]:', this.colors);
+      console.log(
+        '➡️ [RoutineDetailComponent] Dati ricevuti via @Input [colors]:',
+        this.colors
+      );
     }
   }
-
-  // addNewColor() {
-  //   this.paletteService.addNewColor('#000000ff');
-  // }
 
   async openColorPicker() {
     console.log('🎨 [RoutineDetailComponent] Apro il Color Picker.');
@@ -95,7 +118,9 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
 
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm' && data) {
-      console.log(`📦 [RoutineDetailComponent] Color Picker ha restituito il colore: ${data}`);
+      console.log(
+        `📦 [RoutineDetailComponent] Color Picker ha restituito il colore: ${data}`
+      );
       this.addColorToPalette(data);
       this.pickerColor = data;
     }
@@ -113,7 +138,7 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   removeColorFromPalette(idToRemove: number) {
     if (this.colors.length > 1) {
       this.paletteService.removeColor(idToRemove);
-    } 
+    }
   }
 
   selectNewColorForRoutine(newColor: string) {
@@ -130,20 +155,58 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   saveAndClose() {
+    if (this.itemLabel === '') {
+      this.openToast();
+      return;
+    }
     this.currentItem.label = this.itemLabel;
-    this.modalCtrl.dismiss(this.currentItem, 'confirm');
+    return this.modalCtrl.dismiss(this.currentItem, 'confirm');
   }
 
-  addItem(label: string) {
-    this.items = [...this.items, { id: Date.now(), label: label, color: '#8a8a8aff' }];
-    this.cdr.markForCheck();
+  async openToast() {
+    const toast = await this.toastController.create({
+      header: 'Error type in Name',
+      duration: 3000,
+    });
+
+    await toast.present();
+  }
+
+  async addItem() {
+    await this.openLabelModal();
+    
+    if (this.labelInput!='') {
+      this.items = [
+        ...this.items,
+        { id: Date.now(), label: this.labelInput, color: this.labelColor },
+      ];
+      this.cdr.markForCheck();
+    }
+  }
+
+  async openLabelModal() {
+    const modal = await this.modalCtrl.create({
+      component: LabelInputModalComponent,
+      componentProps: {},
+      cssClass: 'custom-modal',
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.labelInput = data;
+      return this.modalCtrl.dismiss(data, 'confirm');
+    }
+    return this.openToast();
   }
 
   removeItem(idToRemove: number) {
     this.items = this.items.filter((item) => item.id !== idToRemove);
     this.cdr.markForCheck();
   }
-  
+
   ngOnDestroy() {
     console.log('❌ [RoutineDetailComponent] Componente distrutto.');
   }

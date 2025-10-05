@@ -1,7 +1,18 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonItem, IonInput, IonLabel, IonList, IonRow, IonCol, IonFabButton } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonInput,
+  IonLabel,
+  IonRow,
+  IonCol,
+  IonGrid,
+  IonText,
+  IonIcon,
+  IonHeader,
+  IonToast,
+} from '@ionic/angular/standalone';
 import { ColorPaletteItem } from 'src/app/core/model/color-interface';
 
 @Component({
@@ -10,35 +21,32 @@ import { ColorPaletteItem } from 'src/app/core/model/color-interface';
   styleUrls: ['./add-item-modal.component.scss'],
   standalone: true,
   imports: [
-    FormsModule, 
-    IonHeader, 
-    IonToolbar, 
-    IonTitle, 
-    IonButtons, 
-    IonButton, 
-    IonContent, 
-    IonInput, 
-    IonLabel, 
-    IonRow, 
-    IonCol
-  ],
+    FormsModule,
+    IonContent,
+    IonInput,
+    IonLabel,
+    IonRow,
+    IonCol,
+    IonGrid,
+    IonIcon,
+    IonText,
+    IonHeader
+],
 })
 export class AddItemModalComponent {
   @Input() availableColors: ColorPaletteItem[] = [];
 
   label: string = '';
   selectedColor: string | null = null;
-  
 
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController, private toastController: ToastController) {}
 
   ngOnInit() {
     if (this.availableColors.length > 0) {
       this.selectedColor = this.availableColors[0].color;
     }
-    this.label = 'Day 1';
   }
 
   onInput(event: CustomEvent) {
@@ -53,11 +61,24 @@ export class AddItemModalComponent {
 
   confirm() {
     console.log('click conferma');
-    if (this.label && this.selectedColor) {
-      const data = { label: this.label, color: this.selectedColor };
-      return this.modalCtrl.dismiss(data, 'confirm');
+    if (this.label === '') {
+      this.openToast();
+      return;
     }
-    return;
+
+    if (this.label && this.selectedColor) {
+        const data = { label: this.label, color: this.selectedColor };
+        return this.modalCtrl.dismiss(data, 'confirm');
+      }
+      return;
+  }
+
+  async openToast() {
+    const toast = await this.toastController.create({
+      header: 'Error type in Name',
+      duration: 3000,
+    });
+    await toast.present();
   }
 
   selectColor(color: string) {

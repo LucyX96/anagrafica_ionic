@@ -1,0 +1,15 @@
+<div class="modal-wrapper">
+  <!-- <h2>{{ title }}</h2>
+  <p>{{ message }}</p> -->
+  <ion-input
+    label="Counter input"
+    label-placement="floating"
+    fill="outline"
+    placeholder="Enter label name"
+    [counter]="true"
+    maxlength="3"
+    [(ngModel)]="labelValue"
+  ></ion-input>
+  <ion-button color="medium" (click)="close()">Chiudi</ion-button>
+  <ion-button color="primary" (click)="confirm()">OK</ion-button>
+</div>
