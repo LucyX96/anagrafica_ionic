@@ -1,13 +1,20 @@
 <div class="modal-wrapper">
+  <h2>{{ title }}</h2>
+  @if (message) {
+  <p>{{ message }}</p>
+  } 
+  
+  @if(showInput) {
   <ion-input
-    label="Enter label name"
+    [label]="inputLabel"
     label-placement="floating"
     fill="outline"
-    placeholder="Enter label name"
     [counter]="true"
-    maxlength="3"
-    [(ngModel)]="labelValue"
+    [maxlength]="inputMaxLength"
+    [(ngModel)]="inputValue"
   ></ion-input>
+  }
+
   <ion-button color="medium" (click)="close()">Chiudi</ion-button>
-  <ion-button color="primary" (click)="confirm()">OK</ion-button>
+  <ion-button color="primary" (click)="confirm()">Conferma</ion-button>
 </div>

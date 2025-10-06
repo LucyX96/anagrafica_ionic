@@ -23,7 +23,8 @@
     </ion-fab-list>
   </ion-fab>
 
-  <ion-list>
+  @if ((routines$ | async)!.length > 0) {
+  <ion-list [inset]="true">
     <ion-reorder-group
       [disabled]="false"
       (ionReorderEnd)="handleReorderEnd($any($event))"
@@ -33,13 +34,14 @@
         <ion-reorder slot="start">
           <mat-icon>drag_indicator</mat-icon>
         </ion-reorder>
-        <ion-avatar slot="start">
-          <div
-            class="avatar-cerchio"
-            [style.background-color]="item.color"
-            id="open-modal-{{ item.id }}"
-            expand="block"
-          ></div>
+        <ion-fab-button
+          size="small"
+          slot="start"
+          style="--box-shadow: none"
+          [style.--background]="item.color"
+          id="open-modal-{{ item.id }}"
+        >
+          {{ item.colorLabel }}
           <ion-modal
             trigger="open-modal-{{ item.id }}"
             [initialBreakpoint]="1"
@@ -60,10 +62,11 @@
               </ion-content>
             </ng-template>
           </ion-modal>
-        </ion-avatar>
+        </ion-fab-button>
         <ion-label>{{ item.label }}</ion-label>
       </ion-item>
       }
     </ion-reorder-group>
   </ion-list>
+}
 </ion-content>

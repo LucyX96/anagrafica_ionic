@@ -15,7 +15,6 @@ import {
   IonFabButton,
   IonList,
   IonItem,
-  IonAvatar,
   IonLabel,
   IonIcon,
   Gesture,
@@ -25,8 +24,6 @@ import {
   IonFabList,
   ModalController,
 } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { add, clipboardSharp } from 'ionicons/icons';
 import { RoutineDetailComponent } from './routine-detail/routine-detail.component';
 import { AddItemModalComponent } from './routine-detail/add-item-modal/add-item-modal.component';
 import { Observable, Subscription } from 'rxjs';
@@ -49,7 +46,6 @@ import { DraggablePanelDirective } from 'src/app/core/directive/draggable-panel.
     IonIcon,
     IonList,
     IonItem,
-    IonAvatar,
     IonLabel,
     IonReorderGroup,
     IonReorder,
@@ -59,7 +55,7 @@ import { DraggablePanelDirective } from 'src/app/core/directive/draggable-panel.
     IonFabList,
     AsyncPipe,
     DraggablePanelDirective
-  ],
+],
 })
 export class InlineModalComponent implements OnInit, OnDestroy {
   @ViewChild('header', { read: ElementRef }) headerEl!: ElementRef;

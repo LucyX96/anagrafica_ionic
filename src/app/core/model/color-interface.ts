@@ -2,7 +2,9 @@ export interface DayItem {
   id: number,
   label: string,
   color: any,
-  exercise: Exercise[]
+  colorLabel: string,
+  exercise: Exercise[],
+  selectedExerciseId?: number | null;
 }
 
 export interface ColorPaletteItem {

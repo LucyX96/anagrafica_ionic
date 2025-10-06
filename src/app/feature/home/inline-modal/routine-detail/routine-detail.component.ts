@@ -24,10 +24,15 @@ import {
 import { MaterialModule } from 'src/app/material.module';
 import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
 import { PaletteService } from 'src/app/core/services/color-palette.service';
-import { ColorPaletteItem, DayItem, Exercise } from 'src/app/core/model/color-interface';
+import {
+  ColorPaletteItem,
+  DayItem,
+} from 'src/app/core/model/color-interface';
 import { ToastController } from '@ionic/angular';
 import { LabelInputModalComponent } from './label-input-modal/label-input-modal.component';
 import { RoutineService } from 'src/app/core/services/routine.service';
+import { LongPressDirective } from 'src/app/core/directive/long-press.directive';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-routine-detail',
@@ -45,8 +50,10 @@ import { RoutineService } from 'src/app/core/services/routine.service';
     IonFabButton,
     IonInput,
     IonLabel,
+    LongPressDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   @Input() colors: ColorPaletteItem[] = [];
@@ -59,6 +66,9 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   itemLabel: string = '';
   labelColor: string = '#5b636fff';
   labelInput: string = '';
+
+  selectedLabel: string | null = null;
+  selectedButtonId: number | null = null;
 
   pickerColor: string = '#1A65EB';
 
@@ -73,6 +83,9 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.itemLabel = this.currentItem.label;
     this.inputModel = this.itemLabel;
+
+    this.selectedButtonId = this.currentItem.selectedExerciseId ?? null;
+  this.selectedLabel = this.currentItem.colorLabel ?? null;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -87,7 +100,6 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async openColorPicker() {
-    console.log('🎨 [RoutineDetailComponent] Apro il Color Picker.');
     const availableColors = this.paletteService.getCurrentPalette();
 
     const modal = await this.modalCtrl.create({
@@ -146,6 +158,14 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
     this.currentItem.label = this.itemLabel;
+
+    if (this.selectedLabel !== null) {
+      this.currentItem.colorLabel = this.selectedLabel;
+      this.currentItem.selectedExerciseId = this.selectedButtonId;
+    }
+
+    this.routineService.updateRoutine(this.currentItem);
+
     return this.modalCtrl.dismiss(this.currentItem, 'confirm');
   }
 
@@ -158,25 +178,44 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
     await toast.present();
   }
 
-  async addItem() {
-    await this.openLabelModal();
+  async addItem(itemId: number) {
+    this.openDynamicModal(
+      {
+        title: 'Aggiungi esercizio',
+        showInput: true,
+        inputLabel: 'Nome esercizio',
+        inputMaxLength: 3,
+        action: 'add',
+      },
+      itemId
+    );
 
     if (this.labelInput != '') {
-      console.log(this.currentItem)
+      console.log(this.currentItem);
       this.currentItem.exercise = [
         ...this.currentItem.exercise,
         { id: Date.now(), label: this.labelInput, color: this.labelColor },
       ];
 
-      
       this.cdr.markForCheck();
     }
   }
 
-  async openLabelModal() {
+  async openDynamicModal(
+    config: {
+      title: string;
+      message?: string;
+      showInput?: boolean;
+      inputLabel?: string;
+      inputMaxLength?: number;
+      action: 'add' | 'delete' | 'edit';
+      targetId?: number; // utile per delete/edit
+    },
+    id: number
+  ) {
     const modal = await this.modalCtrl.create({
       component: LabelInputModalComponent,
-      componentProps: {},
+      componentProps: config,
       cssClass: 'custom-modal',
     });
 
@@ -184,26 +223,80 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
 
     const { data, role } = await modal.onWillDismiss();
 
-    if (role === 'confirm') {
-      this.labelInput = data;
-      return this.modalCtrl.dismiss(data, 'confirm');
+    if (role !== 'confirm') return this.openToast();
+
+    switch (config.action) {
+      // Aggiungi nuovo esercizio
+      case 'add':
+        if (data && data.trim() !== '') {
+          this.labelInput = data.trim();
+          this.currentItem.exercise = [
+            ...this.currentItem.exercise,
+            { id: Date.now(), label: this.labelInput, color: this.labelColor },
+          ];
+          this.cdr.markForCheck();
+        } else {
+          await this.openToast();
+        }
+        break;
+
+      // Elimina esercizio o routine
+      case 'delete':
+        if (config.targetId) {
+          this.currentItem.exercise = this.currentItem.exercise.filter(
+            (item) => item.id !== id
+          );
+
+          this.routineService.updateRoutine(this.currentItem);
+
+          this.cdr.markForCheck();
+        } else {
+          this.routineService.removeRoutine(this.currentItem.id);
+        }
+        break;
     }
-    return this.openToast();
+
+    return this.modalCtrl.dismiss(data, 'confirm');
   }
 
-  removeItem(event: Event, idToRemove: number) {
+  selectItem(label: string, id: number) {
+    this.selectedButtonId = id;
+    this.selectedLabel = label;
+    console.log('Selezionato:', label, 'ID:', id);
+  }
+
+  async removeItem(event: Event, idToRemove: number) {
     const col = event.currentTarget as HTMLElement;
-    const id = col.id;
+    const id = col?.id || null;
+
+    // Se è una routine intera
     if (id === 'routinesItem') {
-      this.routineService.removeRoutine(idToRemove);
-      this.modalCtrl.dismiss(idToRemove, 'confirm');
-    } else {
-      this.currentItem.exercise = this.currentItem.exercise.filter((item) => item.id !== idToRemove);
-      this.cdr.markForCheck();
+      await this.openDynamicModal(
+        {
+          title: 'Conferma eliminazione',
+          message: 'Vuoi davvero eliminare questa routine?',
+          showInput: false,
+          action: 'delete',
+          targetId: undefined, // così nel dynamic modal entra nel ramo removeRoutine
+        },
+        idToRemove
+      );
+    }
+    // Se è un etichetta all’interno della routine
+    else {
+      await this.openDynamicModal(
+        {
+          title: 'Conferma eliminazione',
+          message: 'Vuoi davvero eliminare questa etichetta?',
+          showInput: false,
+          action: 'delete',
+          targetId: idToRemove,
+        },
+        idToRemove
+      );
     }
   }
 
   ngOnDestroy() {
-    console.log('❌ [RoutineDetailComponent] Componente distrutto.');
   }
 }

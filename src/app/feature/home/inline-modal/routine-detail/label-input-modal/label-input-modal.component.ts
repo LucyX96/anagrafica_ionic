@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { IonButton, IonInput } from '@ionic/angular/standalone';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-label-input-modal',
@@ -11,19 +11,24 @@ import { IonButton, IonInput } from '@ionic/angular/standalone';
   imports: [IonButton, IonInput, FormsModule],
 })
 export class LabelInputModalComponent {
-  labelValue: string = '';
+  @Input() title!: string;
+  @Input() message?: string;
+  @Input() showInput: boolean = false;
+  @Input() inputLabel?: string;
+  @Input() inputMaxLength: number = 50;
+  @Input() action?: string;
+
+  inputValue: string = '';
 
   constructor(private modalCtrl: ModalController) {}
 
   confirm() {
-    console.log(this.labelValue);
-    if (this.labelValue === '') {
-      return this.close();
-    }
-    return this.modalCtrl.dismiss(this.labelValue, 'confirm');
+    if (this.showInput && !this.inputValue.trim()) return;
+    this.modalCtrl.dismiss(this.inputValue || true, 'confirm');
   }
 
   close() {
     this.modalCtrl.dismiss(null, 'cancel');
   }
 }
+

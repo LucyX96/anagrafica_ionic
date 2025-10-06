@@ -44,14 +44,19 @@
         <ion-fab-button
           [style.--background]="item.color"
           [style.--color]="'#ffffff'"
-          (click)="removeItem($event, item.id)"
-        >
+          [appLongPress]
+          [longPressDuration]="600"
+          (longPress)="removeItem($event, item.id)"
+          (shortPress)="selectItem(item.label, item.id)"
+          [class.selected]="item.id === selectedButtonId"
+          >
+          <ion-ripple-effect></ion-ripple-effect>
           {{ item.label }}
         </ion-fab-button>
       </ion-col>
       }
       <ion-col size="2.4">
-        <ion-fab-button (click)="addItem()">
+        <ion-fab-button (click)="addItem(currentItem.id)">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-col>

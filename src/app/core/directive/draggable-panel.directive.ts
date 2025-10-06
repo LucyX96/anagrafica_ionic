@@ -57,7 +57,7 @@ export class DraggablePanelDirective implements AfterViewInit, OnDestroy {
       el: this.elRef.nativeElement, // il "manico" del pannello (header)
       gestureName: 'panel-drag',
       direction: 'y',
-      threshold: 0,
+      threshold: 10,
       priority: 100,
       onStart: () => {
         this.isDragging = true;
@@ -73,7 +73,6 @@ export class DraggablePanelDirective implements AfterViewInit, OnDestroy {
       },
       onEnd: (ev) => {
         this.isDragging = false;
-        this.draggedDown.emit(); 
         this.renderer.setStyle(this.hostElement, 'transition', 'transform 0.3s ease-out');
         if (ev.deltaY > closeThreshold) {
           this.dragProgress.emit(1);

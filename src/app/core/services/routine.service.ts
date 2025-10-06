@@ -44,6 +44,7 @@ export class RoutineService {
       id: Date.now(),
       label: label,
       color: color,
+      
       exercise: [
         {
           id: 1,
@@ -61,7 +62,10 @@ export class RoutineService {
           color: labelColor,
         },
       ],
+      colorLabel: ''
     };
+
+    newRoutine.colorLabel = newRoutine.exercise[0].label;
     const updatedRoutines = [...currentRoutines, newRoutine];
     this.saveRoutines(updatedRoutines);
   }
