@@ -1,7 +1,3 @@
-ion-content {
-  --background: transparent;
-}
-
 :host {
   display: flex;
   flex-direction: column;
@@ -10,9 +6,8 @@ ion-content {
   left: 0;
   right: 0;
   height: 100%;
-  background: white;
   z-index: 10;
-  
+  background: var(--ion-color-surface) !important;
   transform: translateY(100%);
   transition: transform 0.3s ease-out;
 }
@@ -21,9 +16,8 @@ ion-content {
   transform: translateY(0);
 }
 
-.panel-header {
+ion-header {
   padding: 8px 0;
-  background: var(--ion-color-primary);
   cursor: grab;
   flex-shrink: 0;
 }
@@ -31,23 +25,31 @@ ion-content {
 .panel-handle {
   width: 40px;
   height: 5px;
-  background: rgba(255, 255, 255, 0.5); 
+  // background: rgba(255, 255, 255, 0.5);
+  background: var(--black-40);
   border-radius: 3px;
   margin: 0 auto;
 }
 
-.header-title h6 {
+ion-text {
   margin: 0;
   padding-left: 5%;
   size: 12px;
   font-size: 1.1em;
   font-weight: 600;
-  color: black;
+}
+
+ion-icon {
+  color: black !important;
+}
+
+ion-fab-button::part(close-icon) {
+  color: black !important; /* o un tuo colore */
 }
 
 ion-content {
-  --background: transparent;
   flex-grow: 1;
+  --border-radius: 20px;
 }
 
 ion-modal {
@@ -61,4 +63,28 @@ ion-modal {
   cursor: pointer;
 }
 
+ion-list {
+  --background: transparent !important;
+  --ion-item-background: transparent !important;
+  // background: transparent !important;
+  // box-shadow: none !important;
+  // border: none !important;
+}
 
+ion-item {
+  // --background: transparent !important;
+  // --ion-item-background: transparent !important;
+  // background: transparent !important;
+  // box-shadow: none !important;
+  // border: none !important;
+
+  /* elimina effetti di elevazione tipici del dark theme */
+  --ion-color-base: transparent !important;
+  --ion-color-step-50: transparent !important;
+  --ion-color-step-100: transparent !important;
+}
+
+// ion-reorder {
+//   background: transparent !important;
+//   --background: transparent !important;
+// }

@@ -14,6 +14,7 @@ import { UserLoginService } from './app/core/services/user-login.service';
 import { MockUserLoginService } from './app/core/services/mock-user-service';
 import { environment } from './environments/environment';
 import { JwtInterceptor } from './app/core/interceptors/jwt-interceptor';
+import { CustomRouteReuseStrategy } from './app/core/route-strategy/custom-route-reuse.strategy';
 
 
 addIcons({
@@ -22,11 +23,13 @@ addIcons({
 
 bootstrapApplication(AppComponent, {
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    importProvidersFrom(IonicModule.forRoot({innerHTMLTemplatesEnabled: true})),
-    provideIonicAngular(),
+
     provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideIonicAngular(),
     provideHttpClient(withInterceptorsFromDi()),
+    importProvidersFrom(IonicModule.forRoot({innerHTMLTemplatesEnabled: true})),
+    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: UserLoginService,
       useFactory: (http: HttpClient) => {

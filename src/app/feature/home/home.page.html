@@ -1,19 +1,24 @@
 <ion-content [scrollY]="false">
-  <div>
-    <ion-datetime #datetime [showDefaultTitle]="true" presentation="date" [highlightedDates]="highlightedDates"></ion-datetime>
-  </div>
+  <ion-datetime
+    presentation="date"
+    [multiple]="true"
+    [value]="['2022-06-03', '2022-06-13', '2022-06-29']"
+  ></ion-datetime>
 
   <app-inline-modal
-  (draggedDown)="closeAccordion()"
-  (dragProgress)="onDragUpdate($any($event).detail)"
-  [class.is-open]="accordionGroup.value === 'first'" 
-></app-inline-modal>
+    (draggedDown)="closeAccordion()"
+    (dragProgress)="onDragUpdate($any($event).detail)"
+    [class.is-open]="accordionGroup.value === 'first'"
+  ></app-inline-modal>
 
-  <ion-accordion-group #accordionGroup (ionChange)="accordionStateChanged($event)">
+  <ion-accordion-group
+    #accordionGroup
+    (ionChange)="accordionStateChanged($event)"
+  >
     @if (accordionGroup.value === undefined) {
     <ion-accordion value="first" (click)="openAccordion()">
       <ion-item class="header-icon" slot="header"></ion-item>
-    </ion-accordion> 
-  }
+    </ion-accordion>
+    }
   </ion-accordion-group>
 </ion-content>

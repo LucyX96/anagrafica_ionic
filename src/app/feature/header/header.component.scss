@@ -1,31 +1,31 @@
 .home {
-  color: black;
+  // color: black;
   font-weight: bold;
   cursor: pointer;
 }
 
-.header-separator {
-  height: 8px;
-  background: #593B95;
-  border-radius: 20px;
-}
+// .header-separator {
+//   height: 8px;
+//   background: #593B95;
+//   border-radius: 20px;
+// }
 
 .menu-icon {
   font-size: 32px;
-  color: black;
+  // color: black;
   cursor: pointer;
 }
 
 .login-icon, .logout-icon {
   font-size: 24px;
-  color: black;
+  // color: black;
   cursor: pointer;
   margin-right: 0.5vh;
 }
 
 .login-text, .logout-text {
   font-size: 14px;
-  color: black;
+  // color: black;
   cursor: pointer;
   align-self: right;
   justify-content: right;
@@ -33,5 +33,5 @@
 
 ion-icon, ion-title, ion-text {
   font-size: 20px;
-  color: black;
+  // color: black;
 }

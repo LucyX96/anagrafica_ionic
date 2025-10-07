@@ -3,15 +3,19 @@
 // components according to the Material 3 design spec.
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 html {
-  @include mat.theme((color: (primary: mat.$azure-palette,
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
       typography: Roboto,
       density: 0,
-    ));
+    )
+  );
 }
 
 body {
@@ -67,7 +71,7 @@ body {
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+@import "@ionic/angular/css/palettes/dark.system.css";
 
 html,
 body {
@@ -79,141 +83,115 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-// temi ricorrenti in più pagine
-
-// HEADER
-// .header-container {
-//   background-color: var(--ion-color-primary);
-//   padding-top: 0.5vh
+// ion-header {
+//   --border-width: 0 !important;
+//   --box-shadow: none !important;
+//   border: none !important;
+//   box-shadow: none !important;
 // }
 
-// .header-content {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
+// ion-toolbar {
+//   --background: var(--ion-color-primary); /* colore header */
+//   --color: var(--ion-color-primary-contrast);
+//   --border-width: 0;
+//   --box-shadow: none;
 // }
 
-// .home {
-//   cursor: pointer;
-//   color: var(--ion-color-primary-contrast);
+// :root {
+//   --header-height: 56px; /* Altezza del tuo header */
 // }
 
+// // BODY
+// .hero-bg {
+//   position: absolute;
+//   inset: 0;
+//   background: linear-gradient(
+//     135deg,
+//     var(--ion-color-primary-container),
+//     var(--ion-color-secondary-container)
+//   );
+//   animation: bgShift 30s ease-in-out infinite alternate;
+//   z-index: 0;
+//   border-top-left-radius: 20px;
+//   border-top-right-radius: 20px;
+// }
 
-ion-header {
-  --border-width: 0 !important;     
-  --box-shadow: none !important;    
-  border: none !important;          
-  box-shadow: none !important;
-}
-
-ion-toolbar {
-  --background: var(--ion-color-primary);   /* colore header */
-  --color: var(--ion-color-primary-contrast);
-  --border-width: 0;
-  --box-shadow: none;
-}
-
-:root {
-  --header-height: 56px; /* Altezza del tuo header */
-}
-
-// BODY
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg,
-      var(--ion-color-primary-container),
-      var(--ion-color-secondary-container));
-  animation: bgShift 30s ease-in-out infinite alternate;
-  z-index: 0;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-}
-
-.glass-container {
-  position: relative;
-  z-index: 1;
-  max-width: 500px;
-  padding: 2.5rem;
-  border-radius: 20px;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-
-  background: rgba(var(--ion-color-primary-rgb), 0.3);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 12px 32px rgba(224, 251, 252, 0.07);
-
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-
-  animation: fadeIn 1.2s ease forwards;
-}
-
-// .content {
+// .glass-container {
 //   position: relative;
 //   z-index: 1;
 //   max-width: 500px;
-//   padding: 3rem;
-//   backdrop-filter: blur(12px);
-//   background: rgba(var(--ion-color-primary-container-rgb, 224, 251, 252), 0.3);
+//   padding: 2.5rem;
+//   border-radius: 20px;
+//   height: 100%;
+//   justify-content: center;
+//   align-items: center;
 
-  // border-radius: 20px;
-//   box-shadow: 0 12px 32px rgba(92, 107, 115, 0.15);
-//   animation: fadeIn 1.2s ease forwards;
+//   background: rgba(var(--ion-color-primary-rgb), 0.3);
+//   backdrop-filter: blur(12px);
+//   box-shadow: 0 12px 32px rgba(224, 251, 252, 0.07);
+
 //   display: flex;
 //   flex-direction: column;
 //   gap: 1.5rem;
+
+//   animation: fadeIn 1.2s ease forwards;
 // }
 
-// .hero {
-//   position: relative;
-//   min-height: 100dvh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
+// .btn-animate {
+//   transition: transform 0.3s ease;
+// }
+
+// .btn-animate:hover {
+//   transform: translateY(-5px) scale(1.05);
+// }
+
+// .btn-animate:active {
+//   transform: scale(0.97);
+// }
+
+// ion-button {
+//   --background: var(--ion-color-secondary);
+//   --color: var(--ion-color-secondary-contrast);
+//   font-weight: bold;
 //   text-align: center;
+//   align-items: center;
 // }
 
-.btn-animate {
-  transition: transform 0.3s ease;
-}
+// ion-content {
+//   --offset-top: 0; /* rimuove lo spazio lasciato per l’header */
+//   --offset-bottom: 0; /* rimuove lo spazio lasciato per il footer */
+//   // --background: transparent; /* se vuoi lo stesso colore dell’header */
+//   --background: var(--ion-color-background, var(--ion-background-color));
+//   padding-top: 0 !important;
+//   margin-top: 0 !important;
+// }
 
-.btn-animate:hover {
-  transform: translateY(-5px) scale(1.05);
-}
+// /* Tema chiaro (default) */
+// ion-icon,
+// ion-text,
+// ion-title, ion-label, mat-icon {
+//   color: #000000; /* Nero per tema chiaro */
+// }
 
-.btn-animate:active {
-  transform: scale(0.97);
-}
+// /* Tema scuro */
+// @media (prefers-color-scheme: dark) {
+//   ion-icon,
+//   ion-text,
+//   ion-title, ion-label, mat-icon {
+//     color: #000000;
+//      /* Nero per tema scuro */
+//   }
+// }
 
-ion-button {
-  --background: var(--ion-color-secondary);
-  --color: var(--ion-color-secondary-contrast);
-  font-weight: bold;
-  text-align: center;
-  align-items: center;
-}
-
-ion-content {
-  --offset-top: 0;        /* rimuove lo spazio lasciato per l’header */
-  --offset-bottom: 0;     /* rimuove lo spazio lasciato per il footer */
-  --background: transparent; /* se vuoi lo stesso colore dell’header */
-  padding-top: 0 !important; 
-  margin-top: 0 !important;
-}
-
-
-// FOOTER
-.footer-container {
-  font-size: 0.9rem;
-  text-align: center;
-  padding: 0.9vh;
-  // background-color: var(--ion-color-primary-container);
-  --background: var(--ion-color-primary);
-  color: var(--ion-color-on-primary-container);
-}
+// // FOOTER
+// .footer-container {
+//   font-size: 0.9rem;
+//   text-align: center;
+//   padding: 0.9vh;
+//   // background-color: var(--ion-color-primary-container);
+//   --background: var(--ion-color-primary);
+//   color: var(--ion-color-on-primary-container);
+// }
 
 /* Keyframes */
 @keyframes bgShift {
@@ -260,3 +238,45 @@ ion-modal.color-picker-modal {
 }
 
 // fine temi personalizzati
+
+
+/* Colori di base */
+html, body, ion-content {
+  color: var(--ion-text-color);
+}
+
+ion-content {
+  --background: var(--ion-color-background);
+}
+
+/* Icone, testi, titoli coerenti */
+ion-icon,
+ion-text,
+ion-title,
+ion-label,
+mat-icon {
+  color: var(--ion-text-high);
+}
+
+/* HEADER / TOOLBAR */
+ion-header,
+ion-toolbar {
+  --background: var(--ion-color-surface);
+  --color: var(--ion-text-color);
+  --border-width: 0;
+  box-shadow: none !important;
+}
+
+ion-footer ion-toolbar {
+  --border-width: 0;
+  --box-shadow: none;
+}
+
+/* Footer coerente */
+.footer-container {
+  --background: var(--ion-color-surface);
+  color: var(--ion-text-color);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0.9vh;
+}

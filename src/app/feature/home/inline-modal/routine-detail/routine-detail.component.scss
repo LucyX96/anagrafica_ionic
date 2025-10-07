@@ -1,25 +1,14 @@
 
-ion-icon {
+ion-icon, ion-title, ion-text {
     font-size: 20px;
-    color: black;
 }
 
-ion-title {
-    font-size: 20px;
-    color: black;
-}
-
-ion-text {
-  font-size: 20px;
-  color: black;
-}
-
-ion-fab-button {
-  --background: #b7f399;
-  --background-activated: #87d361;
-  --background-hover: #a3e681;
-  --color: black;
-}
+// ion-fab-button {
+//   --background: #b7f399;
+//   --background-activated: #87d361;
+//   --background-hover: #a3e681;
+//   --color: black;
+// }
 
 ion-fab-button.selected {
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3); /* effetto illuminato */
