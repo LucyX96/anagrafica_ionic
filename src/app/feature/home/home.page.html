@@ -11,6 +11,19 @@
     [class.is-open]="accordionGroup.value === 'first'"
   ></app-inline-modal>
 
+  @if (accordionGroup.value === 'first') {
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="pencil-sharp"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="openAddItemModal()">
+        <ion-icon name="add-circle-sharp"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  }
+
   <ion-accordion-group
     #accordionGroup
     (ionChange)="accordionStateChanged($event)"

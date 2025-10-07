@@ -1,5 +1,4 @@
-<!-- <div   #header
-  class="panel-header"></div> -->
+
  <ion-header
   appDraggablePanel
   (draggedDown)="draggedDown.emit()"
@@ -10,16 +9,6 @@
 </ion-header>
 
 <ion-content fixed-slot-placement="before">
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button>
-      <ion-icon name="pencil-sharp"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button (click)="openAddItemModal()">
-        <ion-icon name="add-circle-sharp"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
 
   @if ((routines$ | async)!.length > 0) {
   <ion-list [inset]="true">

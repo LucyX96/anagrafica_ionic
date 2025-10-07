@@ -1,13 +1,27 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   IonAccordion,
   IonAccordionGroup,
   IonContent,
   IonDatetime,
   IonItem,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonIcon,
+  ModalController,
 } from '@ionic/angular/standalone';
 import { TitleEmitterDirective } from 'src/app/core/directive/title-emitter';
 import { InlineModalComponent } from './inline-modal/inline-modal.component';
+import { RoutineService } from 'src/app/core/services/routine.service';
+import { PaletteService } from 'src/app/core/services/color-palette.service';
+import { AddItemModalComponent } from './inline-modal/routine-detail/add-item-modal/add-item-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -21,10 +35,13 @@ import { InlineModalComponent } from './inline-modal/inline-modal.component';
     IonAccordionGroup,
     IonAccordion,
     IonItem,
+    IonFab,
+    IonFabButton,
+    IonFabList,
+    IonIcon,
   ],
 })
 export class HomePage extends TitleEmitterDirective implements OnInit {
-
   @ViewChild('accordionGroup', { static: true })
   accordionGroup!: IonAccordionGroup;
   @ViewChild('datetime', { read: ElementRef }) datetimeEl!: ElementRef;
@@ -33,7 +50,12 @@ export class HomePage extends TitleEmitterDirective implements OnInit {
 
   override title: string = 'Home';
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private routineService: RoutineService,
+    private paletteService: PaletteService,
+    private modalCtrl: ModalController
+  ) {
     super();
   }
 
@@ -45,6 +67,25 @@ export class HomePage extends TitleEmitterDirective implements OnInit {
 
   override ngOnDestroy(): void {
     super.ngOnDestroy();
+  }
+
+  async openAddItemModal() {
+    const availableColors = this.paletteService.getCurrentPalette();
+
+    const modal = await this.modalCtrl.create({
+      component: AddItemModalComponent,
+      componentProps: { availableColors },
+      initialBreakpoint: 0.65,
+      breakpoints: [0.65],
+      handle: false,
+    });
+
+    await modal.present();
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.routineService.addRoutine(data.label, data.color);
+    }
   }
 
   openAccordion() {

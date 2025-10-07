@@ -68,17 +68,17 @@ ion-modal {
 ion-list {
   --background: transparent !important;
   --ion-item-background: transparent !important;
-  // background: transparent !important;
-  // box-shadow: none !important;
-  // border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 ion-item {
-  // --background: transparent !important;
-  // --ion-item-background: transparent !important;
-  // background: transparent !important;
-  // box-shadow: none !important;
-  // border: none !important;
+  --background: transparent !important;
+  --ion-item-background: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 
   /* elimina effetti di elevazione tipici del dark theme */
   --ion-color-base: transparent !important;
