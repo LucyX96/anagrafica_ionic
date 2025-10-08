@@ -25,7 +25,6 @@ ion-header {
 .panel-handle {
   width: 40px;
   height: 5px;
-  // background: rgba(255, 255, 255, 0.5);
   background: var(--black-40);
   border-radius: 3px;
   margin: 0 auto;
@@ -37,14 +36,6 @@ ion-text {
   size: 12px;
   font-size: 1.1em;
   font-weight: 600;
-}
-
-ion-icon {
-  color: black !important;
-}
-
-ion-fab-button::part(close-icon) {
-  color: black !important; /* o un tuo colore */
 }
 
 ion-content {
@@ -84,9 +75,10 @@ ion-item {
   --ion-color-base: transparent !important;
   --ion-color-step-50: transparent !important;
   --ion-color-step-100: transparent !important;
-}
 
-// ion-reorder {
-//   background: transparent !important;
-//   --background: transparent !important;
-// }
+  ion-fab-button[slot="start"] {
+    margin-inline-start: -2%; 
+    font-weight: bold;
+    --color: var(--ion-text-high);
+  }
+}

@@ -96,7 +96,6 @@ export class HomePage extends TitleEmitterDirective implements OnInit {
 
   closeAccordion() {
     this.accordionGroup.value = undefined;
-    // resetta l'animazione del datetime quando si chiude
     this.onDragUpdate(0);
     if (this.inlineModal) {
       this.inlineModal.resetPosition();

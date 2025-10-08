@@ -24,15 +24,13 @@ import {
 import { MaterialModule } from 'src/app/material.module';
 import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
 import { PaletteService } from 'src/app/core/services/color-palette.service';
-import {
-  ColorPaletteItem,
-  DayItem,
-} from 'src/app/core/model/color-interface';
+import { ColorPaletteItem } from 'src/app/core/model/color-interface';
 import { ToastController } from '@ionic/angular';
 import { LabelInputModalComponent } from './label-input-modal/label-input-modal.component';
 import { RoutineService } from 'src/app/core/services/routine.service';
 import { LongPressDirective } from 'src/app/core/directive/long-press.directive';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { DayItem } from 'src/app/core/model/day-item-exercise-interface';
 
 @Component({
   selector: 'app-routine-detail',
@@ -85,7 +83,7 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
     this.inputModel = this.itemLabel;
 
     this.selectedButtonId = this.currentItem.selectedExerciseId ?? null;
-  this.selectedLabel = this.currentItem.colorLabel ?? null;
+    this.selectedLabel = this.currentItem.colorLabel ?? null;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -122,6 +120,9 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
       this.addColorToPalette(data);
       this.pickerColor = data;
     }
+
+    this.colors = this.paletteService.getCurrentPalette();
+    this.cdr.markForCheck();
   }
 
   addColorToPalette(hexColor: string) {
@@ -297,6 +298,5 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 }

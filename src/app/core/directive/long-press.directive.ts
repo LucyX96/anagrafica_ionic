@@ -35,7 +35,7 @@ export class LongPressDirective {
 
     if (!this.longPressTriggered) {
       console.log('⚡ shortPress triggered', event);
-      this.shortPress.emit(event); // passa sempre l’evento
+      this.shortPress.emit(event);
     } else {
       console.log('✔ longPress already triggered, skipping shortPress');
     }

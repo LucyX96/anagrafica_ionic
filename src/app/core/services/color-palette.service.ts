@@ -7,6 +7,8 @@ import { ColorPaletteItem } from '../model/color-interface';
 })
 export class PaletteService {
 
+  private readonly maxPaletteSize = 10;
+
   // 1. BehaviorSubject per mantenere lo stato corrente della palette.
   //    Inizializza il suo valore caricando i dati dal localStorage.
   private readonly paletteSubject = new BehaviorSubject<ColorPaletteItem[]>(this.loadPaletteFromStorage());
@@ -25,13 +27,22 @@ export class PaletteService {
    */
   private loadPaletteFromStorage(): ColorPaletteItem[] {
     const savedPalette = localStorage.getItem('userColorPalette');
+
     if (savedPalette) {
       return JSON.parse(savedPalette);
     } else {
       // Fornisci qui i colori di default se non c'è nulla di salvato
       return [
-        { id: 1, color: '#f94747ff' },
-        { id: 2, color: '#3366ccff' }
+        { id: 1, color: '#9cfffa' },
+        { id: 2, color: '#acf39d' },
+        { id: 3, color: '#b0c592' },
+        { id: 4, color: '#a97c73' },
+        { id: 5, color: '#af3e4d' },
+        { id: 6, color: '#3e5641' },
+        { id: 7, color: '#a24936' },
+        { id: 8, color: '#d36135' },
+        { id: 9, color: '#83bca9' },
+
       ];
     }
   }
@@ -57,21 +68,41 @@ export class PaletteService {
     return this.paletteSubject.getValue();
   }
 
-  public addNewColor(hexColor: string): void {
+   public addNewColor(hexColor: string): boolean {
     const currentPalette = this.getCurrentPalette();
+    if (currentPalette.length === this.maxPaletteSize) {
+      currentPalette[currentPalette.length-1].color = hexColor;
+      this.savePalette(currentPalette);
+      return true; 
+    }
+
     const newColor: ColorPaletteItem = {
       id: Date.now(),
       color: hexColor,
     };
+
     const updatedPalette = [...currentPalette, newColor];
     this.savePalette(updatedPalette);
+    
+    return true;
   }
 
   public removeColor(idToRemove: number): void {
     const currentPalette = this.getCurrentPalette();
-    // Filtra la palette escludendo l'ID da rimuovere
     const updatedPalette = currentPalette.filter(item => item.id !== idToRemove);
-    // Salva e notifica l'aggiornamento
     this.savePalette(updatedPalette);
   }
+
+
+public updateColor(idToUpdate: number, newHexColor: string): void {
+  const currentPalette = this.getCurrentPalette();
+  
+  const itemIndex = currentPalette.findIndex(item => item.id === idToUpdate);
+
+  if (itemIndex !== -1) {
+    const updatedPalette = [...currentPalette];
+    updatedPalette[itemIndex] = { ...updatedPalette[itemIndex], color: newHexColor };
+    this.savePalette(updatedPalette);
+  }
+}
 }

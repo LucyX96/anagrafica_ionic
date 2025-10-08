@@ -1,75 +1,6 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
 
-// :root {
-//   /* PRIMARY */
-//   --ion-color-primary: #6750A4;
-//   --ion-color-primary-rgb: 103, 80, 164;
-//   --ion-color-primary-contrast: #FFFFFF;
-//   --ion-color-primary-contrast-rgb: 255, 255, 255;
-//   --ion-color-primary-shade: #593B95;
-//   --ion-color-primary-tint: #7C64B2;
-//   --ion-color-primary-container: #EADDFF;
-//   --ion-color-on-primary-container: #21005D;
-
-//   /* SECONDARY */
-//   --ion-color-secondary: #625B71;
-//   --ion-color-secondary-rgb: 98, 91, 113;
-//   --ion-color-secondary-contrast: #FFFFFF;
-//   --ion-color-secondary-container: #E8DEF8;
-//   --ion-color-on-secondary-container: #1D192B;
-
-//   /* TERTIARY */
-//   --ion-color-tertiary: #7D5260;
-//   --ion-color-tertiary-rgb: 125, 82, 96;
-//   --ion-color-tertiary-contrast: #FFFFFF;
-//   --ion-color-tertiary-container: #FFD8E4;
-//   --ion-color-on-tertiary-container: #31111D;
-
-//   /* NEUTRALS */
-//   --ion-color-neutral: #605D5C;
-//   --ion-color-neutral-contrast: #FFFFFF;
-//   --ion-color-neutral-container: #E7E0EC;
-//   --ion-color-on-neutral-container: #1C1B1F;
-
-//   --ion-color-neutral-variant: #79747E;
-//   --ion-color-neutral-variant-contrast: #FFFFFF;
-//   --ion-color-neutral-variant-container: #E6E1E5;
-//   --ion-color-on-neutral-variant-container: #1D1B20;
-
-//   /* ERROR */
-//   --ion-color-danger: #B3261E;
-//   --ion-color-danger-contrast: #FFFFFF;
-//   --ion-color-danger-container: #F9DEDC;
-//   --ion-color-on-danger-container: #410E0B;
-
-//   /* Toolbar e altri componenti globali */
-//   --ion-toolbar-background: var(--ion-color-primary);
-//   --ion-toolbar-color: var(--ion-color-primary-contrast);
-//   --ion-tabbar-background: var(--ion-color-primary-container);
-//   --ion-tabbar-color: var(--ion-color-on-primary-container);
-
-//   color-scheme: light;
-// }
-
-// /* === DARK THEME test === */
-// @media (prefers-color-scheme: dark) {
-//   :root {
-//     --ion-color-primary: #D0BCFF;
-//     --ion-color-primary-contrast: #21005D;
-//     --ion-color-primary-container: #4F378B;
-//     --ion-color-on-primary-container: #EADDFF;
-
-//     --ion-color-background: #121212;
-//     --ion-color-surface: #1E1E1E;
-//     --ion-text-color: #E6E1E5;
-
-//     color-scheme: dark;
-//   }
-// }
-
-/* variables.scss — palette minimalista bianco/nero + accenti per bottoni */
-
 /* --- default (light) --- */
 :root {
   /* neutral tokens (user-defined scale) */
@@ -128,12 +59,6 @@
     --btn-neutral-filled-bg: rgba(255, 255, 255, 0.06);
     --btn-neutral-hover-bg: rgba(255, 255, 255, 0.1);
     --btn-neutral-outline: rgba(255, 255, 255, 0.12);
-
-    /* accenti più chiari per dark mode (uso blu/verde chiaro) */
-    // --ion-color-primary: #90CAF9;   /* blue-200 (leggero) */
-    // --ion-color-primary-contrast: #0D47A1;
-    // --ion-color-secondary: #A5D6A7; /* green-200 */
-    // --ion-color-secondary-contrast: #1B5E20;
 
     --ion-color-primary: #a5d6a7;
     --ion-color-primary-contrast: #1b5e20;
