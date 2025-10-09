@@ -69,6 +69,7 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
   selectedButtonId: number | null = null;
 
   pickerColor: string = '#1A65EB';
+  selectedColorId: number | null = null
 
   constructor(
     private modalCtrl: ModalController,
@@ -84,6 +85,11 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
 
     this.selectedButtonId = this.currentItem.selectedExerciseId ?? null;
     this.selectedLabel = this.currentItem.colorLabel ?? null;
+
+    const initialColor = this.colors.find(c => c.color === this.currentItem.color);
+    if (initialColor) {
+      this.selectedColorId = initialColor.id;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -140,10 +146,12 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  selectNewColorForRoutine(newColor: string) {
+  selectNewColorForRoutine(colorItem: ColorPaletteItem) {
+    this.selectedColorId = colorItem.id;
     if (this.currentItem) {
-      this.currentItem.color = newColor;
+      this.currentItem.color = colorItem.color;
     }
+    this.cdr.markForCheck();
   }
 
   onInput(event: CustomEvent) {

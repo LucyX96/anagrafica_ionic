@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { IonContent, IonFabButton, IonList, IonItem, IonLabel, Gesture, IonReorderGroup, IonReorder, IonModal, IonText } from '@ionic/angular/standalone';
+import { IonContent, IonFabButton, IonList, IonItem, IonLabel, Gesture, IonReorderGroup, IonReorder, IonModal, IonText, IonCol, IonRow, IonGrid } from '@ionic/angular/standalone';
 import { RoutineDetailComponent } from './routine-detail/routine-detail.component';
 import { Observable, Subscription } from 'rxjs';
 import { PaletteService } from 'src/app/core/services/color-palette.service';

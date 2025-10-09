@@ -68,25 +68,6 @@
       </ion-col>
     </ion-row>
 
-    <!-- <ion-row class="ion-align-items-center">
-      <ion-col size="12" class="ion-text-start">
-        <ion-label>Codifica colore</ion-label>
-      </ion-col>
-      @for (colorItem of colors; track colorItem.id) {
-      <ion-col size="2.4">
-        <ion-fab-button
-          [style.--background]="colorItem.color"
-          (click)="selectNewColorForRoutine(colorItem.color)"
-        ></ion-fab-button>
-      </ion-col>
-      }
-      <ion-col size="2.4">
-        <ion-fab-button (click)="openColorPicker()">
-          <ion-icon name="add"></ion-icon>
-        </ion-fab-button>
-      </ion-col>
-    </ion-row> -->
-
     <ion-row class="ion-align-items-center">
       <ion-col size="12" class="ion-text-start">
         <ion-label>Codifica colore</ion-label>
@@ -97,48 +78,22 @@
           [style.--background]="colorItem.color"
           [appLongPress]
           [longPressDuration]="600"
-          (shortPress)="selectNewColorForRoutine(colorItem.color)"
+          (shortPress)="selectNewColorForRoutine(colorItem)"
           (longPress)="openColorPicker()"
-        ></ion-fab-button>
+        >
+          @if (colorItem.id === selectedColorId) {
+          <ion-icon name="checkmark-sharp"></ion-icon>
+          }
+        </ion-fab-button>
       </ion-col>
-      }
-      @if (colors.length < 10 ) {
-        <ion-col size="2.4">
-          <ion-fab-button (click)="openColorPicker()">
-            <ion-icon name="add"></ion-icon>
-          </ion-fab-button>
-        </ion-col>
-      }
-    </ion-row>
-
-   <!-- <ion-row class="ion-align-items-center">
-      <ion-col size="12" class="ion-text-start">
-        <ion-label>Codifica colore</ion-label>
-      </ion-col>
-      @for (colorItem of colors; track colorItem.id; let isLast = $last) {
-      <ion-col size="2.4">
-        @if (colors.length === 10 && isLast) {
-        <ion-fab-button
-          [style.--background]="colorItem.color"
-          [appLongPress]
-          [longPressDuration]="600"
-          (shortPress)="selectNewColorForRoutine(colorItem.color)"
-          (longPress)="openColorPicker(colorItem)"
-        ></ion-fab-button>
-        } @else {
-          <ion-fab-button
-          [style.--background]="colorItem.color"
-          (click)="openColorPicker(colorItem)"
-        ></ion-fab-button>
-        }
-      </ion-col>
-      }
+      } @if (colors.length < 10 ) {
       <ion-col size="2.4">
         <ion-fab-button (click)="openColorPicker()">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-col>
-    </ion-row> -->
-
+      }
+    </ion-row>
+    
   </ion-grid>
 </ion-content>
