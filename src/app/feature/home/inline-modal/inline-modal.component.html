@@ -1,5 +1,4 @@
-
- <ion-header
+<ion-header
   appDraggablePanel
   (draggedDown)="draggedDown.emit()"
   (dragProgress)="dragProgress.emit($event)"
@@ -9,7 +8,6 @@
 </ion-header>
 
 <ion-content fixed-slot-placement="before">
-
   @if ((routines$ | async)!.length > 0) {
   <ion-list [inset]="true">
     <ion-reorder-group
@@ -27,33 +25,14 @@
           style="--box-shadow: none"
           [style.--background]="item.color"
           id="open-modal-{{ item.id }}"
+          (click)="openRoutineDetailModal(item)"
         >
           {{ item.colorLabel }}
-          <ion-modal
-            trigger="open-modal-{{ item.id }}"
-            [initialBreakpoint]="1"
-            [breakpoints]="[1]"
-            handle="false"
-          >
-            <ng-template>
-              <ion-content
-                class="ion-padding"
-                fixed-slot-placement="before"
-                [scrollY]="false"
-                (touchmove)="$event.stopPropagation()"
-              >
-                <app-routine-detail
-                  [colors]="(palette$ | async)!"
-                  [currentItem]="item"
-                ></app-routine-detail>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
         </ion-fab-button>
         <ion-label>{{ item.label }}</ion-label>
       </ion-item>
       }
     </ion-reorder-group>
   </ion-list>
-}
+  }
 </ion-content>

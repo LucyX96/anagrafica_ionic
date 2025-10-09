@@ -1,17 +1,23 @@
-
-ion-icon, ion-title, ion-text {
-    font-size: 20px;
+ion-icon,
+ion-title,
+ion-text {
+  font-size: 20px;
 }
-
-// ion-fab-button {
-//   --background: #b7f399;
-//   --background-activated: #87d361;
-//   --background-hover: #a3e681;
-//   --color: black;
-// }
 
 ion-fab-button.selected {
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3); /* effetto illuminato */
   --background: #b6b6b6 !important; /* per cambiare colore di sfondo */
 }
 
+.contenitore-pagina {
+  display: flex;
+  flex-direction: column; /* Organizza i figli in colonna (verticalmente) */
+  height: 65%; /* Occupa tutta l'altezza della pagina */
+}
+
+.picker-container {
+  flex: 1; /* dice al container di occupare tutto lo spazio verticale rimanente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
