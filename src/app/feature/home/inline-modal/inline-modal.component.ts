@@ -9,7 +9,18 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { IonContent, IonFabButton, IonList, IonItem, IonLabel, Gesture, IonReorderGroup, IonReorder, IonModal, IonText, IonCol, IonRow, IonGrid, ModalController } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonFabButton,
+  IonList,
+  IonItem,
+  IonLabel,
+  Gesture,
+  IonReorderGroup,
+  IonReorder,
+  IonText,
+  ModalController,
+} from '@ionic/angular/standalone';
 import { RoutineDetailComponent } from './routine-detail/routine-detail.component';
 import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { PaletteService } from 'src/app/core/services/color-palette.service';
@@ -36,15 +47,15 @@ import { DayItem } from 'src/app/core/model/day-item-exercise-interface';
     MatIcon,
     AsyncPipe,
     DraggablePanelDirective,
-    IonText
-],
+    IonText,
+  ],
 })
 export class InlineModalComponent implements OnInit, OnDestroy {
   @ViewChild('header', { read: ElementRef }) headerEl!: ElementRef;
   @Output() draggedDown = new EventEmitter<void>();
   @Output() dragProgress = new EventEmitter<number>();
 
-  public routines$ = this.routineService.routines$; 
+  public routines$ = this.routineService.routines$;
   public palette$!: Observable<ColorPaletteItem[]>;
   private paletteSubscription!: Subscription;
   private gesture!: Gesture;
@@ -66,17 +77,16 @@ export class InlineModalComponent implements OnInit, OnDestroy {
 
   async openRoutineDetailModal(item: DayItem) {
     const currentPalette = await firstValueFrom(this.palette$);
+
     const modal = await this.modalCtrl.create({
-      component: RoutineDetailComponent, 
-      
+      component: RoutineDetailComponent,
       componentProps: {
-        colors: currentPalette,
+        mode: 'edit',
+        availableColors: await firstValueFrom(this.paletteService.palette$),
         currentItem: item,
       },
-
       initialBreakpoint: 0.65,
       breakpoints: [0.65],
-      handle: false
     });
 
     await modal.present();

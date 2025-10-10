@@ -2,12 +2,9 @@ import {
   Component,
   Input,
   OnInit,
-  OnChanges,
-  SimpleChanges,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ViewChild,
-  OnDestroy,
 } from '@angular/core';
 import {
   IonIcon,
@@ -53,62 +50,71 @@ import { DayItem } from 'src/app/core/model/day-item-exercise-interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() colors: ColorPaletteItem[] = [];
+export class RoutineDetailComponent implements OnInit {
+  @Input() mode: 'create' | 'edit' = 'create';
+  @Input() availableColors: ColorPaletteItem[] = [];
   @Input() currentItem!: DayItem;
 
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
-  @ViewChild('routinesItem', { static: false }) routinesItem?: IonCol;
 
-  inputModel = '';
-  itemLabel: string = '';
+  label: string = '';
+  selectedColor: string | null = null;
+  selectedColorId: number | null = null;
+  selectedButtonId: number | null = null;
+  selectedLabel: string | null = null;
   labelColor: string = '#5b636fff';
   labelInput: string = '';
 
-  selectedLabel: string | null = null;
-  selectedButtonId: number | null = null;
-
-  pickerColor: string = '#1A65EB';
-  selectedColorId: number | null = null
-
   constructor(
     private modalCtrl: ModalController,
-    private cdr: ChangeDetectorRef,
-    private paletteService: PaletteService,
     private toastController: ToastController,
-    private routineService: RoutineService
+    private cdr: ChangeDetectorRef,
+    private routineService: RoutineService,
+    private paletteService: PaletteService
   ) {}
 
   ngOnInit() {
-    this.itemLabel = this.currentItem.label;
-    this.inputModel = this.itemLabel;
+    if (this.mode === 'edit' && this.currentItem) {
+      this.label = this.currentItem.label;
+      this.selectedColor = this.currentItem.color;
 
-    this.selectedButtonId = this.currentItem.selectedExerciseId ?? null;
-    this.selectedLabel = this.currentItem.colorLabel ?? null;
-
-    const initialColor = this.colors.find(c => c.color === this.currentItem.color);
-    if (initialColor) {
-      this.selectedColorId = initialColor.id;
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // Questo blocco di codice verrà eseguito ogni volta che il componente genitore
-    // passa un nuovo array di colori a questo componente.
-    if (changes['colors']) {
-      console.log(
-        '➡️ [RoutineDetailComponent] Dati ricevuti via @Input [colors]:',
-        this.colors
+      const initialColor = this.availableColors.find(
+        (c) => c.color === this.currentItem.color
       );
+      if (initialColor) this.selectedColorId = initialColor.id;
+
+      this.selectedButtonId = this.currentItem.selectedExerciseId ?? null;
+      this.selectedLabel = this.currentItem.colorLabel ?? null;
+    } else if (this.mode === 'create' && this.availableColors.length > 0) {
+      this.selectedColor = this.availableColors[0].color;
     }
   }
 
-  async openColorPicker() {
+  // --- Input controllo testo
+  onInput(event: CustomEvent) {
+    const value = (event.target as HTMLIonInputElement).value ?? '';
+    const filteredValue = (value as string).replace(/[^a-zA-Z0-9 ]+/g, '');
+    this.ionInputEl.value = this.label = filteredValue;
+  }
+
+  // --- Selezione colore
+  selectColor(color: string) {
+    this.selectedColor = color;
+  }
+
+  // --- Apertura color picker
+  async openColorPicker(color: string) {
+    const colorItemIndex = this.availableColors.findIndex(
+      (c) => c.color === color
+    );
+    if (colorItemIndex != this.availableColors.length - 1) {
+      return;
+    }
     const availableColors = this.paletteService.getCurrentPalette();
 
     const modal = await this.modalCtrl.create({
       component: NewColorPickerComponent,
-      componentProps: { availableColors: availableColors },
+      componentProps: { availableColors },
       initialBreakpoint: 0.65,
       breakpoints: [0.65],
       handle: false,
@@ -117,194 +123,122 @@ export class RoutineDetailComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     await modal.present();
-
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm' && data) {
-      console.log(
-        `📦 [RoutineDetailComponent] Color Picker ha restituito il colore: ${data}`
-      );
       this.addColorToPalette(data);
-      this.pickerColor = data;
+      this.selectedColor = data;
     }
-
-    this.colors = this.paletteService.getCurrentPalette();
+    this.availableColors = this.paletteService.getCurrentPalette();
     this.cdr.markForCheck();
   }
 
   addColorToPalette(hexColor: string) {
     const currentPalette = this.paletteService.getCurrentPalette();
-    const colorExists = currentPalette.some((item) => item.color === hexColor);
-
+    const colorExists = currentPalette.some((c) => c.color === hexColor);
     if (hexColor && !colorExists) {
       this.paletteService.addNewColor(hexColor);
     }
   }
 
-  removeColorFromPalette(idToRemove: number) {
-    if (this.colors.length > 1) {
-      this.paletteService.removeColor(idToRemove);
-    }
+  // --- Gestione pulsanti di azione
+  cancel() {
+    return this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  selectNewColorForRoutine(colorItem: ColorPaletteItem) {
-    this.selectedColorId = colorItem.id;
-    if (this.currentItem) {
-      this.currentItem.color = colorItem.color;
-    }
-    this.cdr.markForCheck();
-  }
-
-  onInput(event: CustomEvent) {
-    const value = (event.target as HTMLIonInputElement).value ?? '';
-    const filteredValue = (value as string).replace(/[^a-zA-Z0-9 ]+/g, '');
-    this.ionInputEl.value = this.inputModel = filteredValue;
-    this.itemLabel = this.ionInputEl.value;
-  }
-
-  saveAndClose() {
-    if (this.itemLabel === '') {
-      this.openToast();
+  async confirm() {
+    if (this.label === '') {
+      await this.openToast();
       return;
     }
-    this.currentItem.label = this.itemLabel;
 
-    if (this.selectedLabel !== null) {
-      this.currentItem.colorLabel = this.selectedLabel;
-      this.currentItem.selectedExerciseId = this.selectedButtonId;
+    if (this.mode === 'create') {
+      if (this.selectedColor) {
+        const data = { label: this.label, color: this.selectedColor };
+        return this.modalCtrl.dismiss(data, 'confirm');
+      }
     }
 
-    this.routineService.updateRoutine(this.currentItem);
+    if (this.mode === 'edit' && this.currentItem) {
+      this.currentItem.label = this.label;
+      if (this.selectedColor) this.currentItem.color = this.selectedColor;
+      if (this.selectedLabel) this.currentItem.colorLabel = this.selectedLabel;
+      if (this.selectedButtonId)
+        this.currentItem.selectedExerciseId = this.selectedButtonId;
 
-    return this.modalCtrl.dismiss(this.currentItem, 'confirm');
+      this.routineService.updateRoutine(this.currentItem);
+      return this.modalCtrl.dismiss(this.currentItem, 'confirm');
+    }
+
+    return;
   }
 
+  // --- Toast
   async openToast() {
     const toast = await this.toastController.create({
       header: 'Error type in Name',
       duration: 3000,
     });
-
     await toast.present();
   }
 
+  // --- Metodi per edit mode
+  selectItem(label: string, id: number) {
+    this.selectedButtonId = id;
+    this.selectedLabel = label;
+  }
+
   async addItem(itemId: number) {
-    this.openDynamicModal(
-      {
+    const modal = await this.modalCtrl.create({
+      component: LabelInputModalComponent,
+      componentProps: {
         title: 'Aggiungi esercizio',
         showInput: true,
         inputLabel: 'Nome esercizio',
         inputMaxLength: 3,
         action: 'add',
       },
-      itemId
-    );
-
-    if (this.labelInput != '') {
-      console.log(this.currentItem);
-      this.currentItem.exercise = [
-        ...this.currentItem.exercise,
-        { id: Date.now(), label: this.labelInput, color: this.labelColor },
-      ];
-
-      this.cdr.markForCheck();
-    }
-  }
-
-  async openDynamicModal(
-    config: {
-      title: string;
-      message?: string;
-      showInput?: boolean;
-      inputLabel?: string;
-      inputMaxLength?: number;
-      action: 'add' | 'delete' | 'edit';
-      targetId?: number; // utile per delete/edit
-    },
-    id: number
-  ) {
-    const modal = await this.modalCtrl.create({
-      component: LabelInputModalComponent,
-      componentProps: config,
       cssClass: 'custom-modal',
     });
-
     await modal.present();
-
     const { data, role } = await modal.onWillDismiss();
 
-    if (role !== 'confirm') return this.openToast();
-
-    switch (config.action) {
-      // Aggiungi nuovo esercizio
-      case 'add':
-        if (data && data.trim() !== '') {
-          this.labelInput = data.trim();
-          this.currentItem.exercise = [
-            ...this.currentItem.exercise,
-            { id: Date.now(), label: this.labelInput, color: this.labelColor },
-          ];
-          this.cdr.markForCheck();
-        } else {
-          await this.openToast();
-        }
-        break;
-
-      // Elimina esercizio o routine
-      case 'delete':
-        if (config.targetId) {
-          this.currentItem.exercise = this.currentItem.exercise.filter(
-            (item) => item.id !== id
-          );
-
-          this.routineService.updateRoutine(this.currentItem);
-
-          this.cdr.markForCheck();
-        } else {
-          this.routineService.removeRoutine(this.currentItem.id);
-        }
-        break;
+    if (role === 'confirm' && data && this.currentItem) {
+      this.currentItem.exercise = [
+        ...this.currentItem.exercise,
+        { id: Date.now(), label: data, color: this.labelColor },
+      ];
+      this.routineService.updateRoutine(this.currentItem);
+      this.cdr.markForCheck();
     }
-
-    return this.modalCtrl.dismiss(data, 'confirm');
-  }
-
-  selectItem(label: string, id: number) {
-    this.selectedButtonId = id;
-    this.selectedLabel = label;
-    console.log('Selezionato:', label, 'ID:', id);
   }
 
   async removeItem(event: Event, idToRemove: number) {
     const col = event.currentTarget as HTMLElement;
     const id = col?.id || null;
 
-    // Se è una routine intera
+    const modal = await this.modalCtrl.create({
+      component: LabelInputModalComponent,
+      componentProps: {
+        title: 'Conferma eliminazione',
+        message: 'Vuoi davvero eliminare questo elemento?',
+        showInput: false,
+        action: 'delete',
+      },
+      cssClass: 'custom-modal',
+    });
+    await modal.present();
+    const { role } = await modal.onWillDismiss();
+
+    if (role !== 'confirm' || !this.currentItem) return;
+
     if (id === 'routinesItem') {
-      await this.openDynamicModal(
-        {
-          title: 'Conferma eliminazione',
-          message: 'Vuoi davvero eliminare questa routine?',
-          showInput: false,
-          action: 'delete',
-          targetId: undefined, // così nel dynamic modal entra nel ramo removeRoutine
-        },
-        idToRemove
+      this.routineService.removeRoutine(this.currentItem.id);
+    } else {
+      this.currentItem.exercise = this.currentItem.exercise.filter(
+        (e) => e.id !== idToRemove
       );
-    }
-    // Se è un etichetta all’interno della routine
-    else {
-      await this.openDynamicModal(
-        {
-          title: 'Conferma eliminazione',
-          message: 'Vuoi davvero eliminare questa etichetta?',
-          showInput: false,
-          action: 'delete',
-          targetId: idToRemove,
-        },
-        idToRemove
-      );
+      this.routineService.updateRoutine(this.currentItem);
+      this.cdr.markForCheck();
     }
   }
-
-  ngOnDestroy() {}
 }

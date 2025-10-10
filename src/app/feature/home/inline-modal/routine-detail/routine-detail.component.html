@@ -1,102 +1,114 @@
-<div class="contenitore-pagina" (touchmove)="$event.stopPropagation()">
-  <ion-header>
-    <ion-grid>
-      <ion-row class="ion-align-items-center">
-        <ion-col size="1" class="ion-text-start" (click)="saveAndClose()">
-          <ion-icon name="checkmark-sharp"></ion-icon>
-        </ion-col>
-        <ion-col size="3">
-          <ion-text>Routine</ion-text>
-        </ion-col>
-        <ion-col size="5" class="ion-text-center"> </ion-col>
-        <ion-col size="1">
-          <ion-icon name="clipboard-sharp"></ion-icon>
-        </ion-col>
-        <ion-col size="1">
-          <ion-icon name="share-social-sharp"></ion-icon>
-        </ion-col>
-        <ion-col
-          size="1"
-          class="ion-text-end"
-          (click)="removeItem($event, currentItem.id)"
-          #routinesItem
-          id="routinesItem"
+
+<ion-header>
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      @if (mode === 'create') {
+      <ion-col size="1" class="ion-text-start" (click)="cancel()">
+        <ion-icon name="close-sharp"></ion-icon>
+      </ion-col>
+      <ion-col size="6" class="ion-text-start">
+        <ion-text>Crea Routine</ion-text>
+      </ion-col>
+      <ion-col size="3"></ion-col>
+      <ion-col size="2" class="ion-text-end" (click)="confirm()">
+        <ion-icon name="checkmark-sharp"></ion-icon>
+      </ion-col>
+      } @else {
+      <ion-col size="1" class="ion-text-start" (click)="confirm()">
+        <ion-icon name="checkmark-sharp"></ion-icon>
+      </ion-col>
+      <ion-col size="3"><ion-text>Routine</ion-text></ion-col>
+      <ion-col size="5"></ion-col>
+      <ion-col size="1">
+        <ion-icon name="clipboard-sharp"></ion-icon>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="share-social-sharp"></ion-icon>
+      </ion-col>
+      <ion-col
+        size="1"
+        class="ion-text-end"
+        (click)="removeItem($event, currentItem!.id!)"
+        id="routinesItem"
+      >
+        <ion-icon name="ellipsis-vertical-sharp"></ion-icon>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+</ion-header>
+
+<ion-content class="ion-padding picker-container" [scrollY]="false">
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-start">
+        <ion-input
+          label="Nome Routine"
+          labelPlacement="stacked"
+          fill="outline"
+          placeholder="Routine name"
+          [value]="label"
+          (ionInput)="onInput($event)"
+          #ionInputEl
+        ></ion-input>
+      </ion-col>
+    </ion-row>
+
+    @if (mode === 'edit' && currentItem) {
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-start">
+        <ion-label>Etichette</ion-label>
+      </ion-col>
+      @for (item of currentItem.exercise; track item.id) {
+      <ion-col size="2.4">
+        <ion-fab-button
+          [style.--background]="item.color"
+          [appLongPress]
+          [longPressDuration]="600"
+          (longPress)="removeItem($event, item.id)"
+          (shortPress)="selectItem(item.label, item.id)"
+          [class.selected]="item.id === selectedButtonId"
         >
-          <ion-icon name="ellipsis-vertical-sharp"></ion-icon>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-header>
+          {{ item.label }}
+        </ion-fab-button>
+      </ion-col>
+      }
+      <ion-col size="2.4">
+        <ion-fab-button (click)="addItem(currentItem.id)">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-col>
+    </ion-row>
+    }
 
-  <ion-content class="ion-padding picker-container" [scrollY]="false">
-    <ion-grid>
-      <ion-row class="ion-align-items-center">
-        <ion-col size="12" class="ion-text-start">
-          <ion-input
-            label="Name"
-            label-placement="stacked"
-            fill="outline"
-            placeholder="Routine name"
-            [value]="inputModel"
-            (ionInput)="onInput($event)"
-            #ionInputEl
-          ></ion-input>
-        </ion-col>
-      </ion-row>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-start">
+        <ion-label>Scegli un colore</ion-label>
+      </ion-col>
 
-      <ion-row class="ion-align-items-center">
-        <ion-col size="12" class="ion-text-start">
-          <ion-label>Etichetta</ion-label>
-        </ion-col>
-        @for (item of currentItem.exercise; track item.id) {
-        <ion-col size="2.4">
-          <ion-fab-button
-            [style.--background]="item.color"
-            [style.--color]="'#ffffff'"
-            [appLongPress]
-            [longPressDuration]="600"
-            (longPress)="removeItem($event, item.id)"
-            (shortPress)="selectItem(item.label, item.id)"
-            [class.selected]="item.id === selectedButtonId"
-          >
-            <ion-ripple-effect></ion-ripple-effect>
-            {{ item.label }}
-          </ion-fab-button>
-        </ion-col>
-        }
-        <ion-col size="2.4">
-          <ion-fab-button (click)="addItem(currentItem.id)">
-            <ion-icon name="add"></ion-icon>
-          </ion-fab-button>
-        </ion-col>
-      </ion-row>
+      @for (colorItem of availableColors; track colorItem.id) {
+      <ion-col size="2.4">
+        <ion-fab-button
+          [style.--background]="colorItem.color"
+          [class.selected]="colorItem.color === selectedColor"
+          [appLongPress]
+          [longPressDuration]="600"
+          (shortPress)="selectColor(colorItem.color)"
+          (longPress)="openColorPicker(colorItem.color)"
+        >
+          @if (colorItem.color === selectedColor) {
+          <ion-icon name="checkmark-sharp"></ion-icon>
+          }
+        </ion-fab-button>
+      </ion-col>
+      } @if (availableColors.length < 10) {
+      <ion-col size="2.4">
+        <ion-fab-button (click)="openColorPicker(availableColors[availableColors.length-1].color)">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-col>
+      }
+    </ion-row>
 
-      <ion-row class="ion-align-items-center">
-        <ion-col size="12" class="ion-text-start">
-          <ion-label>Codifica colore</ion-label>
-        </ion-col>
-        @for (colorItem of colors; track colorItem.id) {
-        <ion-col size="2.4">
-          <ion-fab-button
-            [style.--background]="colorItem.color"
-            [appLongPress]
-            [longPressDuration]="600"
-            (shortPress)="selectNewColorForRoutine(colorItem)"
-            (longPress)="openColorPicker()"
-          >
-            @if (colorItem.id === selectedColorId) {
-            <ion-icon name="checkmark-sharp"></ion-icon>
-            }
-          </ion-fab-button>
-        </ion-col>
-        } @if (colors.length < 10 ) {
-        <ion-col size="2.4">
-          <ion-fab-button (click)="openColorPicker()">
-            <ion-icon name="add"></ion-icon>
-          </ion-fab-button>
-        </ion-col>
-        }
-      </ion-row>
-    </ion-grid>
-  </ion-content>
-</div>
+  </ion-grid>
+</ion-content>

@@ -21,7 +21,7 @@ import { TitleEmitterDirective } from 'src/app/core/directive/title-emitter';
 import { InlineModalComponent } from './inline-modal/inline-modal.component';
 import { RoutineService } from 'src/app/core/services/routine.service';
 import { PaletteService } from 'src/app/core/services/color-palette.service';
-import { AddItemModalComponent } from './inline-modal/routine-detail/add-item-modal/add-item-modal.component';
+import { RoutineDetailComponent } from './inline-modal/routine-detail/routine-detail.component';
 
 @Component({
   selector: 'app-home',
@@ -73,11 +73,13 @@ export class HomePage extends TitleEmitterDirective implements OnInit {
     const availableColors = this.paletteService.getCurrentPalette();
 
     const modal = await this.modalCtrl.create({
-      component: AddItemModalComponent,
-      componentProps: { availableColors },
+      component: RoutineDetailComponent,
+      componentProps: {
+        mode: 'create',
+        availableColors: this.paletteService.getCurrentPalette(),
+      },
       initialBreakpoint: 0.65,
       breakpoints: [0.65],
-      handle: false,
     });
 
     await modal.present();
