@@ -1,4 +1,3 @@
-
 <ion-header>
   <ion-grid>
     <ion-row class="ion-align-items-center">
@@ -28,7 +27,7 @@
       <ion-col
         size="1"
         class="ion-text-end"
-        (click)="removeItem($event, currentItem!.id!)"
+        (click)="openPopover($event, currentItem!.id!)"
         id="routinesItem"
       >
         <ion-icon name="ellipsis-vertical-sharp"></ion-icon>
@@ -103,12 +102,13 @@
       </ion-col>
       } @if (availableColors.length < 10) {
       <ion-col size="2.4">
-        <ion-fab-button (click)="openColorPicker(availableColors[availableColors.length-1].color)">
+        <ion-fab-button
+          (click)="openColorPicker(availableColors[availableColors.length - 1].color)"
+        >
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-col>
       }
     </ion-row>
-
   </ion-grid>
 </ion-content>

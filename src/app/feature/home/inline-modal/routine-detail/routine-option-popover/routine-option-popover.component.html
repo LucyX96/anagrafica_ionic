@@ -1,0 +1,28 @@
+<!-- <ion-list>
+  <ion-item button (click)="delete()"> 
+    <ion-icon slot="start" name="trash-sharp" color="danger"></ion-icon>
+    <ion-label>Elimina</ion-label>
+  </ion-item>
+</ion-list> -->
+
+<ion-content>
+  <ion-list>
+    <ion-item
+      button
+      detail="false"
+      (click)="delete()"
+    >
+      <ion-icon slot="start" name="trash-bin-sharp"></ion-icon>
+      <ion-label>Delete Routine</ion-label>
+    </ion-item>
+
+    <ion-item
+      button
+      detail="false"
+      (click)="copy()"
+    >
+      <ion-icon slot="start" name="copy-sharp"></ion-icon>
+      <ion-label>Copy Routine</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

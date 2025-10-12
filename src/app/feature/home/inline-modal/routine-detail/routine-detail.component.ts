@@ -22,12 +22,13 @@ import { MaterialModule } from 'src/app/material.module';
 import { NewColorPickerComponent } from './new-color-picker/new-color-picker.component';
 import { PaletteService } from 'src/app/core/services/color-palette.service';
 import { ColorPaletteItem } from 'src/app/core/model/color-interface';
-import { ToastController } from '@ionic/angular';
+import { PopoverController, ToastController } from '@ionic/angular';
 import { LabelInputModalComponent } from './label-input-modal/label-input-modal.component';
 import { RoutineService } from 'src/app/core/services/routine.service';
 import { LongPressDirective } from 'src/app/core/directive/long-press.directive';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DayItem } from 'src/app/core/model/day-item-exercise-interface';
+import { RoutineOptionPopoverComponent } from './routine-option-popover/routine-option-popover.component';
 
 @Component({
   selector: 'app-routine-detail',
@@ -70,7 +71,8 @@ export class RoutineDetailComponent implements OnInit {
     private toastController: ToastController,
     private cdr: ChangeDetectorRef,
     private routineService: RoutineService,
-    private paletteService: PaletteService
+    private paletteService: PaletteService,
+    private popoverCtrl: PopoverController
   ) {}
 
   ngOnInit() {
@@ -241,4 +243,25 @@ export class RoutineDetailComponent implements OnInit {
       this.cdr.markForCheck();
     }
   }
+
+  async openPopover(ev: Event, itemId: number) {
+  const popover = await this.popoverCtrl.create({
+    component: RoutineOptionPopoverComponent,
+    event: ev,
+    translucent: true,
+    showBackdrop: true,
+    dismissOnSelect: true,      // ✅ chiusura automatica alla selezione
+    animated: true,
+    mode: 'ios',                // ✅ stile iOS, più pulito graficamente
+    cssClass: 'routine-popover',// ✅ classe personalizzabile via SCSS
+    componentProps: { itemId },
+  });
+
+  await popover.present();
+
+  const { data } = await popover.onDidDismiss();
+  if (data?.action === 'delete') {
+    this.removeItem(ev, itemId);
+  }
+}
 }
